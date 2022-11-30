@@ -84,15 +84,9 @@ public class EmployeeDaoImpl implements EmployeeDao {
      */
     @Override
     public void deleteEmployees() {
-        String sqlGr = "DELETE FROM grade";
         String sqlDep = "DELETE FROM department";
-        String sqlP = "DELETE FROM position";
-        String sqlW = "DELETE FROM work_schedule";
         String sqlEmp = "DELETE FROM employee";
-        jdbcTemplate.update(sqlGr);
         jdbcTemplate.update(sqlDep);
-        jdbcTemplate.update(sqlP);
-        jdbcTemplate.update(sqlW);
         jdbcTemplate.update(sqlEmp);
         log.info("Удалены все сотрудники из БД");
     }
@@ -121,7 +115,7 @@ public class EmployeeDaoImpl implements EmployeeDao {
      * Получение сотрудника по id
      */
     @Override
-    public Employee getEmployeeById(String id) {
+    public Employee findEmployeeById(String id) {
         String sql = "SELECT * FROM employee WHERE id=?";
         try {
             return jdbcTemplate.queryForObject(sql, (rs, rowNum) -> makeEmployee(rs), id);
@@ -137,7 +131,7 @@ public class EmployeeDaoImpl implements EmployeeDao {
                 .firstname(rs.getString("firstname"))
                 .lastname(rs.getString("lastname"))
                 .gender(rs.getString(""))
-                .department(departmentDao.findDepartmentById(rs.getInt("department_id")))
+                .department(departmentDao.findDepartmentById(rs.getString("department_id")))
                 .phone(rs.getString("phone"))
                 .email(rs.getString("email"))
                 .position(positionDao.findPositionById(rs.getInt("position_id")))

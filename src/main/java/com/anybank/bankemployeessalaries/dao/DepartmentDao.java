@@ -2,6 +2,37 @@ package com.anybank.bankemployeessalaries.dao;
 
 import com.anybank.bankemployeessalaries.model.Department;
 
+import java.util.List;
+
 public interface DepartmentDao {
-    Department findDepartmentById(int department_id);
+
+    /**
+     * Добавление департамента в БД
+     */
+    Department addDepartment(Department department);
+
+    /**
+     * Обновление департамента в БД
+     */
+    Department updateDepartment(Department department);
+
+    /**
+     * Удаление всех департаментов из БД
+     */
+    void deleteDepartment();
+
+    /**
+     * Удаление департамента по id из БД
+     */
+    void deleteDepartmentById(String id);
+
+    /**
+     * Получение списка департаментов из БД
+     */
+    List<Department> getDepartment();
+
+    /**
+     * Получение департамента по id
+     */
+    Department findDepartmentById(String id);
 }
