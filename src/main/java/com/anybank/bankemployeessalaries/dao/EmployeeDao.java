@@ -3,7 +3,6 @@ package com.anybank.bankemployeessalaries.dao;
 import com.anybank.bankemployeessalaries.model.Employee;
 
 import java.util.List;
-import java.util.Optional;
 
 public interface EmployeeDao {
 
@@ -35,5 +34,5 @@ public interface EmployeeDao {
     /**
      * Получение сотрудника по id
      */
-    Employee getEmployeeById(String id);
+    Employee findEmployeeById(String id);
 }
