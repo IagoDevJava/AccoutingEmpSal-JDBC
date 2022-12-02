@@ -1,4 +1,5 @@
 # Accouting employees & salaries (AES)
+#### "No one is forgotten!"
 Pet-project № 1
 
 ## Это репозиторий проекта "AES"  
