@@ -83,3 +83,5 @@ JOIN friendly_status AS fs u.user_id=fs.user_id
 JOIN friend AS f ON fs.user_id=f.friend_id
 WHERE user_name='Vasya'
 ``` -->
+------
+О том, как научиться создавать такие приложения, можно узнать в [Яндекс-Практикуме](https://practicum.yandex.ru/java-developer/ "Тут учат Java!") 
