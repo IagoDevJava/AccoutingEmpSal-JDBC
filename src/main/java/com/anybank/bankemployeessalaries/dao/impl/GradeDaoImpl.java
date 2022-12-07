@@ -1,9 +1,7 @@
 package com.anybank.bankemployeessalaries.dao.impl;
 
 import com.anybank.bankemployeessalaries.dao.GradeDao;
-import com.anybank.bankemployeessalaries.exception.DepartmentNotFoundException;
 import com.anybank.bankemployeessalaries.exception.GradeNotFoundException;
-import com.anybank.bankemployeessalaries.model.Department;
 import com.anybank.bankemployeessalaries.model.Grade;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -97,7 +95,7 @@ public class GradeDaoImpl implements GradeDao {
      * Получение грейда по id
      */
     @Override
-    public Grade getGradeById(String id) {
+    public Grade findGradeById(String id) {
         String sql = "SELECT * FROM grade WHERE id=?";
         try {
             return jdbcTemplate.queryForObject(sql, (rs, rowNum) -> makeGrade(rs), id);
