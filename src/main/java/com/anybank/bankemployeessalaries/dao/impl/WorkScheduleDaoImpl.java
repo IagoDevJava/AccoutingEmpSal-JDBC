@@ -6,6 +6,6 @@ import com.anybank.bankemployeessalaries.model.WorkSchedule;
 public class WorkScheduleDaoImpl implements WorkScheduleDao {
     @Override
     public WorkSchedule findWorkScheduleById(int work_schedule_id) {
-        return ;
+        return null;
     }
 }
