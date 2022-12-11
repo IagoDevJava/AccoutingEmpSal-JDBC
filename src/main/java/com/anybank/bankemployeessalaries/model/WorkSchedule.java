@@ -9,6 +9,7 @@ import lombok.extern.slf4j.Slf4j;
 @Builder
 public class WorkSchedule {
     private int id;
-    private int numberOfDays;
+    private int numberOfWorkDays;
+    private int numberOfWeekDays;
     private int numberOfHours;
 }

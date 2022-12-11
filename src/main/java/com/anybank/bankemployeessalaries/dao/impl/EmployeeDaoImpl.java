@@ -52,7 +52,7 @@ public class EmployeeDaoImpl implements EmployeeDao {
     }
 
     /**
-     * Обновление сотрудника в БД
+     * Замена сотрудника в БД
      */
     @Override
     public Employee updateEmployee(Employee employee) {
@@ -135,7 +135,7 @@ public class EmployeeDaoImpl implements EmployeeDao {
                 .phone(rs.getString("phone"))
                 .email(rs.getString("email"))
                 .position(positionDao.findPositionById(rs.getString("position_id")))
-                .workSchedule(workscheduleDao.findWorkScheduleById(rs.getInt("work_schedule_id")))
+                .workSchedule(workscheduleDao.getScheduleById(rs.getInt("work_schedule_id")))
                 .dateOfAdmission(LocalDate.parse(rs.getString("date_of_admission")))
                 .dateOfDismissal(LocalDate.parse(rs.getString("date_of_dismissal")))
                 .build();
