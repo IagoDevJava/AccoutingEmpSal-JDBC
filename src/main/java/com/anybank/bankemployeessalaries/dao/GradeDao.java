@@ -33,5 +33,5 @@ public interface GradeDao {
     /**
      * Получение грейда по id
      */
-    Grade findGradeById(String id);
+    Grade getGradeById(int id);
 }

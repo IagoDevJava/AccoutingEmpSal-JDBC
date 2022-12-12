@@ -53,14 +53,14 @@ VALUES ('Генеральный директор', '1', '9'),
        ('HR-специалист', '2', '3'),
        ('Старший бухгалтер', '3', '6'),
        ('Mладший бухгалтер', '3', '2'),
-       ('Team Leed', '4', '5'),
+       ('Team Lead', '4', '5'),
        ('Middle developer', '4', '3');
 
 INSERT INTO work_schedule(work_day, week_day, HOURS)
 VALUES ('5', '2', '8'),
        ('2', '2', '12');
 
-INSERT INTO salary(grade_id, wage, personal_kpi, team_kpi, common_kpi)
+INSERT INTO salaries_data(grade_id, wage, personal_kpi, team_kpi, common_kpi)
 VALUES ('1', '18000', '0', '0', '0'),
        ('2', '22500', '0.7', '0.2', '0.1'),
        ('3', '45000', '0.6', '0.25', '0.15'),

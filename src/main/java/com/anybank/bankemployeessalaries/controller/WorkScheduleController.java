@@ -10,7 +10,7 @@ import java.util.List;
 
 @Slf4j
 @RestController
-@RequestMapping("/work-schedule")
+@RequestMapping("/work-schedules")
 public class WorkScheduleController {
     private final WorkScheduleService workScheduleService;
 
