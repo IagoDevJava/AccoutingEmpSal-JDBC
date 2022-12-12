@@ -70,14 +70,15 @@ public class DepartmentDaoImpl implements DepartmentDao {
      */
     @Override
     public void deleteDepartment() {
-        String updateColumnPosition = "UPDATE position SET department_id = 0";
-        String sqlDelFk = "ALTER TABLE department DROP CONSTRAINT fk_dephead_to_employee";
+        String delFkEmp = "ALTER TABLE employee DROP CONSTRAINT employee_department_id_fkey";
         String sql = "DELETE FROM department";
-        String sqlAddFk = "ALTER TABLE department ADD CONSTRAINT fk_dephead_to_employee";
-        jdbcTemplate.update(updateColumnPosition);
-        jdbcTemplate.update(sqlDelFk);
+        String addFkEmp =
+                "ALTER TABLE employee " +
+                        "ADD CONSTRAINT employee_department_id_fkey FOREIGN KEY (department_id) " +
+                        "REFERENCES department(id)";
+        jdbcTemplate.update(delFkEmp);
         jdbcTemplate.update(sql);
-        jdbcTemplate.update(sqlAddFk);
+        jdbcTemplate.update(addFkEmp);
         log.info("Удалены все департаменты из БД");
     }
 
@@ -86,12 +87,14 @@ public class DepartmentDaoImpl implements DepartmentDao {
      */
     @Override
     public void deleteDepartmentById(String id) {
-        String updateColumnPosition = "UPDATE position SET department_id = 0 WHERE department_id=?";
-        String updateEmp = "UPDATE employee SET department_id = 0 WHERE department_id=?";
+        String delFkEmp = "ALTER TABLE employee DROP CONSTRAINT employee_position_id_fkey";
         String sql = "DELETE FROM department WHERE id=?";
-        jdbcTemplate.update(updateColumnPosition);
-        jdbcTemplate.update(updateEmp, id);
+        String addFkEmp =
+                "ALTER TABLE employee " +
+                        "ADD CONSTRAINT employee_position_id_fkey FOREIGN KEY (position_id) REFERENCES position(id)";
+        jdbcTemplate.update(delFkEmp);
         jdbcTemplate.update(sql, id);
+        jdbcTemplate.update(addFkEmp);
     }
 
     /**

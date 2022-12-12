@@ -61,9 +61,16 @@ public class WorkScheduleDaoImpl implements WorkScheduleDao {
      */
     @Override
     public void deleteSchedules() {
+        String delFkEmp = "ALTER TABLE employee DROP CONSTRAINT employee_work_schedule_id_fkey";
         String sql = "DELETE FROM work_schedule";
-        log.info("Все графики из БД удалили");
+        String addFkEmp =
+                "ALTER TABLE employee " +
+                        "ADD CONSTRAINT employee_work_schedule_id_fkey FOREIGN KEY (work_schedule_id) " +
+                        "REFERENCES work_schedule(id)";
+        jdbcTemplate.update(delFkEmp);
         jdbcTemplate.update(sql);
+        jdbcTemplate.update(addFkEmp);
+        log.info("Все графики из БД удалили");
     }
 
     /**
@@ -71,9 +78,15 @@ public class WorkScheduleDaoImpl implements WorkScheduleDao {
      */
     @Override
     public void deleteScheduleById(int id) {
+        String delFkEmp = "ALTER TABLE employee DROP CONSTRAINT employee_position_id_fkey";
         String sql = "DELETE FROM work_schedule WHERE id=?";
-        log.info("График № {} из БД удалили", id);
+        String addFkEmp =
+                "ALTER TABLE employee " +
+                        "ADD CONSTRAINT employee_position_id_fkey FOREIGN KEY (position_id) REFERENCES position(id)";
+        jdbcTemplate.update(delFkEmp);
         jdbcTemplate.update(sql, id);
+        jdbcTemplate.update(addFkEmp);
+        log.info("График № {} из БД удалили", id);
     }
 
     /**

@@ -69,7 +69,7 @@ public class GradeController {
      * Получение грейда по id
      */
     @GetMapping("/{id}")
-    public Grade getGradeById(@PathVariable String id) {
+    public Grade getGradeById(@PathVariable int id) {
         log.info("Получаем грейд № {}", id);
         return gradeService.getGradeById(id);
     }

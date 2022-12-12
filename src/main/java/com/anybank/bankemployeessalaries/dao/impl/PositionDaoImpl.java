@@ -69,8 +69,14 @@ public class PositionDaoImpl implements PositionDao {
      */
     @Override
     public void deletePositions() {
+        String delFkEmp = "ALTER TABLE employee DROP CONSTRAINT employee_position_id_fkey";
         String sql = "DELETE FROM position";
+        String addFkEmp =
+                "ALTER TABLE employee " +
+                        "ADD CONSTRAINT employee_position_id_fkey FOREIGN KEY (position_id) REFERENCES position(id)";
+        jdbcTemplate.update(delFkEmp);
         jdbcTemplate.update(sql);
+        jdbcTemplate.update(addFkEmp);
     }
 
     /**
@@ -78,8 +84,14 @@ public class PositionDaoImpl implements PositionDao {
      */
     @Override
     public void deletePositionById(String id) {
+        String delFkEmp = "ALTER TABLE employee DROP CONSTRAINT employee_position_id_fkey";
         String sql = "DELETE FROM position WHERE id=?";
+        String addFkEmp =
+                "ALTER TABLE employee " +
+                        "ADD CONSTRAINT employee_position_id_fkey FOREIGN KEY (position_id) REFERENCES position(id)";
+        jdbcTemplate.update(delFkEmp);
         jdbcTemplate.update(sql, id);
+        jdbcTemplate.update(addFkEmp);
     }
 
     /**
@@ -109,7 +121,7 @@ public class PositionDaoImpl implements PositionDao {
                 .id(rs.getInt("id"))
                 .post(rs.getString("post"))
                 .department(departmentDao.findDepartmentById(rs.getString("department_id")))
-                .grade(gradeDao.findGradeById(rs.getString("department_id")))
+                .grade(gradeDao.getGradeById(rs.getInt("department_id")))
                 .build();
         if (position.getPost() == null) {
             position = null;

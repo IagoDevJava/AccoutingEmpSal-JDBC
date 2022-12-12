@@ -61,12 +61,20 @@ public class GradeDaoImpl implements GradeDao {
      */
     @Override
     public void deleteGrades() {
-        String updateColumnPosition = "UPDATE position SET grade_id = 0";
-        String updateSalary = "UPDATE salary SET grade_id = 0";
+        String delFKSalary = "ALTER TABLE salaries_data DROP CONSTRAINT salaries_data_grade_id_fkey";
+        String delFKPosition = "ALTER TABLE position DROP CONSTRAINT position_grade_id_fkey";
         String sql = "DELETE FROM grade";
-        jdbcTemplate.update(updateColumnPosition);
-        jdbcTemplate.update(updateSalary);
+        String addFkSalary =
+                "ALTER TABLE salaries_data " +
+                        "ADD CONSTRAINT salaries_data_grade_id_fkey FOREIGN KEY (grade_id) REFERENCES grade(id)";
+        String addFkPosition =
+                "ALTER TABLE position " +
+                        "ADD CONSTRAINT position_grade_id_fkey FOREIGN KEY (grade_id) REFERENCES grade(id)";
+        jdbcTemplate.update(delFKPosition);
+        jdbcTemplate.update(delFKSalary);
         jdbcTemplate.update(sql);
+        jdbcTemplate.update(addFkSalary);
+        jdbcTemplate.update(addFkPosition);
     }
 
     /**
@@ -74,12 +82,20 @@ public class GradeDaoImpl implements GradeDao {
      */
     @Override
     public void deleteGradeById(String id) {
-        String updateColumnPosition = "UPDATE position SET grade_id = 0 WHERE grade_id=?";
-        String updateSalary = "UPDATE salary SET grade_id = 0 WHERE grade_id=?";
+        String delFKSalary = "ALTER TABLE salaries_data DROP CONSTRAINT salaries_data_grade_id_fkey";
+        String delFKPosition = "ALTER TABLE position DROP CONSTRAINT position_grade_id_fkey";
         String sql = "DELETE FROM grade WHERE id=?";
-        jdbcTemplate.update(updateColumnPosition, id);
-        jdbcTemplate.update(updateSalary, id);
+        String addFkSalary =
+                "ALTER TABLE salaries_data " +
+                        "ADD CONSTRAINT salaries_data_grade_id_fkey FOREIGN KEY (grade_id) REFERENCES grade(id)";
+        String addFkPosition =
+                "ALTER TABLE position " +
+                        "ADD CONSTRAINT position_grade_id_fkey FOREIGN KEY (grade_id) REFERENCES grade(id)";
+        jdbcTemplate.update(delFKPosition);
+        jdbcTemplate.update(delFKSalary);
         jdbcTemplate.update(sql, id);
+        jdbcTemplate.update(addFkSalary);
+        jdbcTemplate.update(addFkPosition);
     }
 
     /**
@@ -95,12 +111,12 @@ public class GradeDaoImpl implements GradeDao {
      * Получение грейда по id
      */
     @Override
-    public Grade findGradeById(String id) {
+    public Grade getGradeById(int id) {
         String sql = "SELECT * FROM grade WHERE id=?";
         try {
             return jdbcTemplate.queryForObject(sql, (rs, rowNum) -> makeGrade(rs), id);
         } catch (Exception e) {
-            throw new GradeNotFoundException(String.format("Грейд с id %d не найден", Integer.parseInt(id)));
+            throw new GradeNotFoundException(String.format("Грейд с id %d не найден", id));
         }
     }
 

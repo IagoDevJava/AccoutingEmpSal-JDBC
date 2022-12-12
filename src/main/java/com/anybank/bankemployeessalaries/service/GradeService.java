@@ -56,7 +56,7 @@ public class GradeService {
     /**
      * Получение грейда по id
      */
-    public Grade getGradeById(String id) {
-        return gradeDao.findGradeById(id);
+    public Grade getGradeById(int id) {
+        return gradeDao.getGradeById(id);
     }
 }

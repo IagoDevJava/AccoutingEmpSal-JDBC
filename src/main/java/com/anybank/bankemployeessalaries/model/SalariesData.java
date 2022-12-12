@@ -7,7 +7,11 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @Data
 @Builder
-public class Salary {
+public class SalariesData {
     private int id;
-    private int salary;
+    private Grade grade;
+    private int wage;
+    private double personalKpi;
+    private double teamKpi;
+    private double commonKpi;
 }

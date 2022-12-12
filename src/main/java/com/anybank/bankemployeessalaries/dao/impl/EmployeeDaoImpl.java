@@ -38,9 +38,17 @@ public class EmployeeDaoImpl implements EmployeeDao {
         String sql = "INSERT INTO employee(surname, firstname, lastname, gender, department_id, phone, email," +
                 "position_id, work_schedule_id, date_of_admission) " +
                 "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-        jdbcTemplate.update(sql, employee.getSurname(), employee.getFirstname(), employee.getLastname(),
-                employee.getGender(), employee.getDepartment().getId(), employee.getPhone(), employee.getEmail(),
-                employee.getPosition().getId(), employee.getWorkSchedule().getId(), employee.getDateOfAdmission());
+        jdbcTemplate.update(sql,
+                employee.getSurname(),
+                employee.getFirstname(),
+                employee.getLastname(),
+                employee.getGender(),
+                employee.getDepartment().getId(),
+                employee.getPhone(),
+                employee.getEmail(),
+                employee.getPosition().getId(),
+                employee.getWorkSchedule().getId(),
+                employee.getDateOfAdmission());
         SqlRowSet employeeRows = jdbcTemplate.queryForRowSet(
                 "SELECT * FROM employee WHERE surname=? AND firstname=? AND lastname=?",
                 employee.getSurname(), employee.getFirstname(), employee.getLastname());
@@ -71,10 +79,18 @@ public class EmployeeDaoImpl implements EmployeeDao {
                 " WHERE id = ?";
 
         jdbcTemplate.update(sql,
-                employee.getSurname(), employee.getFirstname(), employee.getLastname(), employee.getGender(),
-                employee.getDepartment().getId(), employee.getPhone(), employee.getEmail(),
-                employee.getPosition().getId(), employee.getWorkSchedule().getId(),
-                employee.getDateOfAdmission(), employee.getDateOfDismissal(), employee.getId());
+                employee.getSurname(),
+                employee.getFirstname(),
+                employee.getLastname(),
+                employee.getGender(),
+                employee.getDepartment().getId(),
+                employee.getPhone(),
+                employee.getEmail(),
+                employee.getPosition().getId(),
+                employee.getWorkSchedule().getId(),
+                employee.getDateOfAdmission(),
+                employee.getDateOfDismissal(),
+                employee.getId());
         log.info("Сотрудник {} обновлен.", employee.getId());
         return employee;
     }
@@ -84,10 +100,14 @@ public class EmployeeDaoImpl implements EmployeeDao {
      */
     @Override
     public void deleteEmployees() {
-        String sqlDep = "DELETE FROM department";
-        String sqlEmp = "DELETE FROM employee";
-        jdbcTemplate.update(sqlDep);
-        jdbcTemplate.update(sqlEmp);
+        String delFkDep = "ALTER TABLE department DROP CONSTRAINT fk_dephead_to_employee";
+        String sql = "DELETE FROM employee";
+        String addFkDep =
+                "ALTER TABLE department " +
+                        "ADD CONSTRAINT fk_dephead_to_employee FOREIGN KEY (head_id) REFERENCES employee(id)";
+        jdbcTemplate.update(delFkDep);
+        jdbcTemplate.update(sql);
+        jdbcTemplate.update(addFkDep);
         log.info("Удалены все сотрудники из БД");
     }
 
@@ -96,10 +116,14 @@ public class EmployeeDaoImpl implements EmployeeDao {
      */
     @Override
     public void deleteEmployeeById(String id) {
-        String sqlDep = "DELETE FROM department WHERE head_id=?";
-        String sqlEmp = "DELETE FROM employee WHERE id=?";
-        jdbcTemplate.update(sqlDep, id);
-        jdbcTemplate.update(sqlEmp, id);
+        String delFkDep = "ALTER TABLE department DROP CONSTRAINT fk_dephead_to_employee";
+        String sql = "DELETE FROM employee WHERE id=?";
+        String addFkDep =
+                "ALTER TABLE department " +
+                        "ADD CONSTRAINT fk_dephead_to_employee FOREIGN KEY (head_id) REFERENCES employee(id)";
+        jdbcTemplate.update(delFkDep);
+        jdbcTemplate.update(sql, id);
+        jdbcTemplate.update(addFkDep);
     }
 
     /**
