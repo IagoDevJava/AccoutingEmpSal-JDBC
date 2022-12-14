@@ -101,13 +101,18 @@ public class EmployeeDaoImpl implements EmployeeDao {
     @Override
     public void deleteEmployees() {
         String delFkDep = "ALTER TABLE department DROP CONSTRAINT fk_dephead_to_employee";
+        String delFkAtt = "ALTER TABLE attendance_data DROP CONSTRAINT attendance_data_employee_id_fkey";
         String sql = "DELETE FROM employee";
         String addFkDep =
                 "ALTER TABLE department " +
                         "ADD CONSTRAINT fk_dephead_to_employee FOREIGN KEY (head_id) REFERENCES employee(id)";
+        String addFkAtt = "ALTER TABLE attendance_data ADD CONSTRAINT attendance_data_employee_id_fkey " +
+                "FOREIGN KEY (employee_id) REFERENCES employee(id)";
         jdbcTemplate.update(delFkDep);
+        jdbcTemplate.update(delFkAtt);
         jdbcTemplate.update(sql);
         jdbcTemplate.update(addFkDep);
+        jdbcTemplate.update(addFkAtt);
         log.info("Удалены все сотрудники из БД");
     }
 
@@ -117,13 +122,18 @@ public class EmployeeDaoImpl implements EmployeeDao {
     @Override
     public void deleteEmployeeById(String id) {
         String delFkDep = "ALTER TABLE department DROP CONSTRAINT fk_dephead_to_employee";
+        String delFkAtt = "ALTER TABLE attendance_data DROP CONSTRAINT attendance_data_employee_id_fkey";
         String sql = "DELETE FROM employee WHERE id=?";
         String addFkDep =
                 "ALTER TABLE department " +
                         "ADD CONSTRAINT fk_dephead_to_employee FOREIGN KEY (head_id) REFERENCES employee(id)";
+        String addFkAtt = "ALTER TABLE attendance_data ADD CONSTRAINT attendance_data_employee_id_fkey " +
+                "FOREIGN KEY (employee_id) REFERENCES employee(id)";
         jdbcTemplate.update(delFkDep);
+        jdbcTemplate.update(delFkAtt);
         jdbcTemplate.update(sql, id);
         jdbcTemplate.update(addFkDep);
+        jdbcTemplate.update(addFkAtt);
     }
 
     /**
