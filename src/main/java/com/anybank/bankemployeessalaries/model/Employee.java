@@ -19,7 +19,6 @@ public class Employee {
     private String phone;
     private String email;
     private Position position;
-    private Salary salary;
     private WorkSchedule workSchedule;
     private LocalDate dateOfAdmission;
     private LocalDate dateOfDismissal;
