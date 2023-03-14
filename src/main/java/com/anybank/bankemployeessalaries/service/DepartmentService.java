@@ -42,7 +42,7 @@ public class DepartmentService {
     /**
      * Удаление департамента по id из БД
      */
-    public void deleteDepartmentById(String id) {
+    public void deleteDepartmentById(Integer id) {
         departmentDao.deleteDepartmentById(id);
     }
 
@@ -56,7 +56,7 @@ public class DepartmentService {
     /**
      * Получение департамента по id
      */
-    public Department findDepartmentById(String id) {
+    public Department findDepartmentById(Integer id) {
         return departmentDao.findDepartmentById(id);
     }
 }

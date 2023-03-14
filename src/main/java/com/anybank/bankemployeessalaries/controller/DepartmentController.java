@@ -3,13 +3,18 @@ package com.anybank.bankemployeessalaries.controller;
 import com.anybank.bankemployeessalaries.model.Department;
 import com.anybank.bankemployeessalaries.service.DepartmentService;
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.PositiveOrZero;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @Slf4j
 @RestController
+@Validated
 @RequestMapping("/departments")
 public class DepartmentController {
     private final DepartmentService departmentService;
@@ -22,53 +27,55 @@ public class DepartmentController {
      * Добавление департамента в БД
      */
     @PostMapping
-    public Department addDepartment(@Valid @RequestBody Department department) {
+    public ResponseEntity<Department> addDepartment(@Valid @RequestBody Department department) {
         log.info("Добавляем департамент № {} в БД", department.getId());
-        return departmentService.addDepartment(department);
+        return ResponseEntity.ok(departmentService.addDepartment(department));
     }
 
     /**
      * Обновление департамента в БД
      */
     @PutMapping
-    public Department updateDepartment(@Valid @RequestBody Department department) {
+    public ResponseEntity<Department> updateDepartment(@RequestBody Department department) {
         log.info("Обновляем департамент № {} в БД", department.getId());
-        return departmentService.updateDepartment(department);
+        return ResponseEntity.ok(departmentService.updateDepartment(department));
     }
 
     /**
      * Удаление всех департаментов из БД
      */
     @DeleteMapping
-    public void deleteDepartment() {
+    public ResponseEntity<Void> deleteDepartment() {
         log.info("Очищаем департаменты БД");
         departmentService.deleteDepartment();
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
     /**
      * Удаление департамента по id из БД
      */
     @DeleteMapping("/{id}")
-    public void deleteDepartmentById(String id) {
+    public ResponseEntity<Void> deleteDepartmentById(@PositiveOrZero @PathVariable Integer id) {
         log.info("Удаляем департамент № {} в БД", id);
         departmentService.deleteDepartmentById(id);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
     /**
      * Получение списка департаментов из БД
      */
     @GetMapping
-    public List<Department> getDepartment() {
+    public ResponseEntity<List<Department>> getDepartment() {
         log.info("Получаем список департаментов БД");
-        return departmentService.getDepartment();
+        return ResponseEntity.ok(departmentService.getDepartment());
     }
 
     /**
      * Получение департамента по id
      */
     @GetMapping("/{id}")
-    public Department findDepartmentById(String id) {
+    public ResponseEntity<Department> findDepartmentById(@PositiveOrZero @PathVariable Integer id) {
         log.info("Получаем департамент № {} в БД", id);
-        return departmentService.findDepartmentById(id);
+        return ResponseEntity.ok(departmentService.findDepartmentById(id));
     }
 }

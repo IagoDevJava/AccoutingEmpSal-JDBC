@@ -23,7 +23,7 @@ public interface GradeDao {
     /**
      * Удаление грейда по id из БД
      */
-    void deleteGradeById(String id);
+    void deleteGradeById(Integer id);
 
     /**
      * Получение списка грейдов из БД
@@ -33,5 +33,5 @@ public interface GradeDao {
     /**
      * Получение грейда по id
      */
-    Grade getGradeById(int id);
+    Grade getGradeById(Integer id);
 }

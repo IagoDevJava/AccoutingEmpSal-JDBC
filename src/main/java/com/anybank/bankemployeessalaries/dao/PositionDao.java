@@ -23,7 +23,7 @@ public interface PositionDao {
     /**
      * Удаление должности по id из БД
      */
-    void deletePositionById(String id);
+    void deletePositionById(Integer id);
 
     /**
      * Получение списка должностей из БД
@@ -33,5 +33,5 @@ public interface PositionDao {
     /**
      * Получение должности по id
      */
-    Position findPositionById(String position_id);
+    Position findPositionById(Integer id);
 }

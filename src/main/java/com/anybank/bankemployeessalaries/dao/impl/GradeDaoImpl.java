@@ -81,7 +81,7 @@ public class GradeDaoImpl implements GradeDao {
      * Удаление грейда по id из БД
      */
     @Override
-    public void deleteGradeById(String id) {
+    public void deleteGradeById(Integer id) {
         String delFKSalary = "ALTER TABLE salaries_data DROP CONSTRAINT salaries_data_grade_id_fkey";
         String delFKPosition = "ALTER TABLE position DROP CONSTRAINT position_grade_id_fkey";
         String sql = "DELETE FROM grade WHERE id=?";
@@ -111,7 +111,7 @@ public class GradeDaoImpl implements GradeDao {
      * Получение грейда по id
      */
     @Override
-    public Grade getGradeById(int id) {
+    public Grade getGradeById(Integer id) {
         String sql = "SELECT * FROM grade WHERE id=?";
         try {
             return jdbcTemplate.queryForObject(sql, (rs, rowNum) -> makeGrade(rs), id);

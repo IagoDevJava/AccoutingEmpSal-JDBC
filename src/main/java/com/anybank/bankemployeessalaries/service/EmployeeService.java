@@ -2,6 +2,7 @@ package com.anybank.bankemployeessalaries.service;
 
 import com.anybank.bankemployeessalaries.dao.EmployeeDao;
 import com.anybank.bankemployeessalaries.model.Employee;
+import jakarta.validation.constraints.PositiveOrZero;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -42,7 +43,7 @@ public class EmployeeService {
     /**
      * Удаление сотрудника по id из БД
      */
-    public void deleteEmployeeById(String id) {
+    public void deleteEmployeeById(@PositiveOrZero Integer id) {
         employeeDao.deleteEmployeeById(id);
     }
 
@@ -56,7 +57,7 @@ public class EmployeeService {
     /**
      * Получение сотрудника по id
      */
-    public Employee getEmployeeById(String id) {
+    public Employee getEmployeeById(Integer id) {
         return employeeDao.findEmployeeById(id);
     }
 }

@@ -24,7 +24,7 @@ public interface DepartmentDao {
     /**
      * Удаление департамента по id из БД
      */
-    void deleteDepartmentById(String id);
+    void deleteDepartmentById(Integer id);
 
     /**
      * Получение списка департаментов из БД
@@ -34,5 +34,5 @@ public interface DepartmentDao {
     /**
      * Получение департамента по id
      */
-    Department findDepartmentById(String id);
+    Department findDepartmentById(Integer id);
 }
