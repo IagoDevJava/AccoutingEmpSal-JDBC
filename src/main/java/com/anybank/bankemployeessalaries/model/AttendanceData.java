@@ -2,16 +2,14 @@ package com.anybank.bankemployeessalaries.model;
 
 import lombok.Builder;
 import lombok.Data;
-import lombok.extern.slf4j.Slf4j;
 
 import java.time.LocalDate;
 
-@Slf4j
 @Data
 @Builder
-public class Salary {
+public class AttendanceData {
     private long id;
+    private LocalDate dateAtt;
     private int employeeId;
-    private LocalDate monthYear;
-    private int salary;
+    private Status status;
 }
