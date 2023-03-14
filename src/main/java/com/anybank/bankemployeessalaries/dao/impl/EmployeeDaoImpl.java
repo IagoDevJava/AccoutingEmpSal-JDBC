@@ -120,7 +120,7 @@ public class EmployeeDaoImpl implements EmployeeDao {
      * Удаление сотрудника по id из БД
      */
     @Override
-    public void deleteEmployeeById(String id) {
+    public void deleteEmployeeById(Integer id) {
         String delFkDep = "ALTER TABLE department DROP CONSTRAINT fk_dephead_to_employee";
         String delFkAtt = "ALTER TABLE attendance_data DROP CONSTRAINT attendance_data_employee_id_fkey";
         String sql = "DELETE FROM employee WHERE id=?";
@@ -149,12 +149,12 @@ public class EmployeeDaoImpl implements EmployeeDao {
      * Получение сотрудника по id
      */
     @Override
-    public Employee findEmployeeById(String id) {
+    public Employee findEmployeeById(Integer id) {
         String sql = "SELECT * FROM employee WHERE id=?";
         try {
             return jdbcTemplate.queryForObject(sql, (rs, rowNum) -> makeEmployee(rs), id);
         } catch (Exception e) {
-            throw new EmployeeNotFoundException(String.format("Сотрудник с id %d не найден", Integer.parseInt(id)));
+            throw new EmployeeNotFoundException(String.format("Сотрудник с id %d не найден", id));
         }
     }
 
@@ -165,10 +165,10 @@ public class EmployeeDaoImpl implements EmployeeDao {
                 .firstname(rs.getString("firstname"))
                 .lastname(rs.getString("lastname"))
                 .gender(rs.getString(""))
-                .department(departmentDao.findDepartmentById(rs.getString("department_id")))
+                .department(departmentDao.findDepartmentById(rs.getInt("department_id")))
                 .phone(rs.getString("phone"))
                 .email(rs.getString("email"))
-                .position(positionDao.findPositionById(rs.getString("position_id")))
+                .position(positionDao.findPositionById(rs.getInt("position_id")))
                 .workSchedule(workscheduleDao.getScheduleById(rs.getInt("work_schedule_id")))
                 .dateOfAdmission(LocalDate.parse(rs.getString("date_of_admission")))
                 .dateOfDismissal(LocalDate.parse(rs.getString("date_of_dismissal")))

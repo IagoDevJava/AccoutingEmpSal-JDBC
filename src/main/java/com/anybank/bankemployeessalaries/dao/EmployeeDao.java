@@ -24,7 +24,7 @@ public interface EmployeeDao {
     /**
      * Удаление сотрудника по id из БД
      */
-    void deleteEmployeeById(String id);
+    void deleteEmployeeById(Integer id);
 
     /**
      * Получение списка сотрудников из БД
@@ -34,5 +34,5 @@ public interface EmployeeDao {
     /**
      * Получение сотрудника по id
      */
-    Employee findEmployeeById(String id);
+    Employee findEmployeeById(Integer id);
 }

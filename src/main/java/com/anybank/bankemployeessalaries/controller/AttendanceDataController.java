@@ -2,14 +2,21 @@ package com.anybank.bankemployeessalaries.controller;
 
 import com.anybank.bankemployeessalaries.model.AttendanceData;
 import com.anybank.bankemployeessalaries.service.AttendanceDataService;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.PositiveOrZero;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @Slf4j
 @RestController
+@Validated
 @RequestMapping("/attendance-data")
 public class AttendanceDataController {
     private final AttendanceDataService attendanceDataService;
@@ -23,92 +30,113 @@ public class AttendanceDataController {
      * Ввести данные за день
      */
     @PostMapping()
-    public AttendanceData addAttendanceData(@RequestBody AttendanceData attendanceData) {
-        return attendanceDataService.addAttendanceData(attendanceData);
+    public ResponseEntity<AttendanceData> addAttendanceData(
+            @Valid @RequestBody AttendanceData attendanceData
+    ) {
+        return ResponseEntity.ok(attendanceDataService.addAttendanceData(attendanceData));
     }
 
     /**
      * Изменить данные за день
      */
     @PatchMapping()
-    public AttendanceData updateAttendanceData(@RequestBody AttendanceData attendanceData) {
-        return attendanceDataService.updateAttendanceData(attendanceData);
+    public ResponseEntity<AttendanceData> updateAttendanceData(
+            @RequestBody AttendanceData attendanceData
+    ) {
+        return ResponseEntity.ok(attendanceDataService.updateAttendanceData(attendanceData));
     }
 
     /**
      * Удалить данные за день
      */
     @DeleteMapping("/{date}")
-    public void deleteAttendanceDataByDay(@PathVariable String date) {
+    public ResponseEntity<Void> deleteAttendanceDataByDay(
+            @DateTimeFormat @PathVariable String date
+    ) {
         attendanceDataService.deleteAttendanceDataByDay(date);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
     /**
      * Удалить все данные
      */
     @DeleteMapping
-    public void deleteAttendanceData() {
+    public ResponseEntity<Void> deleteAttendanceData() {
         attendanceDataService.deleteAttendanceData();
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
     /**
      * Удалить данные по сотруднику
      */
     @DeleteMapping("/{employeeId}")
-    public void deleteAttendanceDataByEmployee(@PathVariable Integer employeeId) {
+    public ResponseEntity<Void> deleteAttendanceDataByEmployee(
+            @PositiveOrZero @PathVariable Integer employeeId
+    ) {
         attendanceDataService.deleteAttendanceDataByEmployee(employeeId);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
     /**
      * получить данные за период
      */
     @GetMapping
-    public List<AttendanceData> getAttendanceDataByPeriod(@RequestParam String start,
-                                                          @RequestParam String end) {
-        return attendanceDataService.getAttendanceDataByPeriod(start, end);
+    public ResponseEntity<List<AttendanceData>> getAttendanceDataByPeriod(
+            @RequestParam String start,
+            @RequestParam String end
+    ) {
+        return ResponseEntity.ok(attendanceDataService.getAttendanceDataByPeriod(start, end));
     }
 
     /**
      * получить данные по сотруднику за период
      */
     @GetMapping("/{employeeId}")
-    public List<AttendanceData> getAttendanceDataByPeriodByEmployee(@PathVariable Integer employeeId,
-                                                                    @RequestParam String start,
-                                                                    @RequestParam String end) {
-        return attendanceDataService.getAttendanceDataByPeriodByEmployee(employeeId, start, end);
+    public ResponseEntity<List<AttendanceData>> getAttendanceDataByPeriodByEmployee(
+            @PositiveOrZero @PathVariable Integer employeeId,
+            @RequestParam String start,
+            @RequestParam String end
+    ) {
+        return ResponseEntity.ok(attendanceDataService.getAttendanceDataByPeriodByEmployee(employeeId, start, end));
     }
 
     /**
      * получить данные по отделу за период
      */
     @GetMapping("/{departmentId}")
-    public List<AttendanceData> getAttendanceDataByPeriodByDepartment(@PathVariable Integer departmentId,
-                                                                      @RequestParam String start,
-                                                                      @RequestParam String end) {
-        return attendanceDataService.getAttendanceDataByPeriodByDepartment(departmentId, start, end);
+    public ResponseEntity<List<AttendanceData>> getAttendanceDataByPeriodByDepartment(
+            @PositiveOrZero @PathVariable Integer departmentId,
+            @RequestParam String start,
+            @RequestParam String end
+    ) {
+        return ResponseEntity.ok(attendanceDataService.getAttendanceDataByPeriodByDepartment(departmentId, start, end));
     }
 
     /**
      * получить данные
      */
     @GetMapping
-    public List<AttendanceData> getAttendanceData() {
-        return attendanceDataService.getAttendanceData();
+    public ResponseEntity<List<AttendanceData>> getAttendanceData() {
+        return ResponseEntity.ok(attendanceDataService.getAttendanceData());
     }
 
     /**
      * получить данные по сотруднику
      */
     @GetMapping("/{employeeId}")
-    public List<AttendanceData> getAttendanceDataByEmployee(@PathVariable Integer employeeId) {
-        return attendanceDataService.getAttendanceDataByEmployee(employeeId);
+    public ResponseEntity<List<AttendanceData>> getAttendanceDataByEmployee(
+            @PositiveOrZero @PathVariable Integer employeeId
+    ) {
+        return ResponseEntity.ok(attendanceDataService.getAttendanceDataByEmployee(employeeId));
     }
 
     /**
      * получить данные по отделу
      */
     @GetMapping("/{departmentId}")
-    public List<AttendanceData> getAttendanceDataByDepartment(@PathVariable Integer departmentId) {
-        return attendanceDataService.getAttendanceDataByDepartment(departmentId);
+    public ResponseEntity<List<AttendanceData>> getAttendanceDataByDepartment(
+            @PositiveOrZero @PathVariable Integer departmentId
+    ) {
+        return ResponseEntity.ok(attendanceDataService.getAttendanceDataByDepartment(departmentId));
     }
 }

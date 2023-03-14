@@ -83,7 +83,7 @@ public class PositionDaoImpl implements PositionDao {
      * Удаление должности по id из БД
      */
     @Override
-    public void deletePositionById(String id) {
+    public void deletePositionById(Integer id) {
         String delFkEmp = "ALTER TABLE employee DROP CONSTRAINT employee_position_id_fkey";
         String sql = "DELETE FROM position WHERE id=?";
         String addFkEmp =
@@ -107,12 +107,12 @@ public class PositionDaoImpl implements PositionDao {
      * Получение должности по id
      */
     @Override
-    public Position findPositionById(String id) {
+    public Position findPositionById(Integer id) {
         String sql = "SELECT * FROM position WHERE id=?";
         try {
             return jdbcTemplate.queryForObject(sql, (rs, rowNum) -> makePosition(rs), id);
         } catch (Exception e) {
-            throw new PositionNotFoundException(String.format("Должность с id %d не найден", Integer.parseInt(id)));
+            throw new PositionNotFoundException(String.format("Должность с id %d не найден", id));
         }
     }
 
@@ -120,7 +120,7 @@ public class PositionDaoImpl implements PositionDao {
         Position position = Position.builder()
                 .id(rs.getInt("id"))
                 .post(rs.getString("post"))
-                .department(departmentDao.findDepartmentById(rs.getString("department_id")))
+                .department(departmentDao.findDepartmentById(rs.getInt("department_id")))
                 .grade(gradeDao.getGradeById(rs.getInt("department_id")))
                 .build();
         if (position.getPost() == null) {

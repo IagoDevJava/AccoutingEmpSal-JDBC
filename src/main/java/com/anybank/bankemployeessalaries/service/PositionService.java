@@ -2,6 +2,7 @@ package com.anybank.bankemployeessalaries.service;
 
 import com.anybank.bankemployeessalaries.dao.PositionDao;
 import com.anybank.bankemployeessalaries.model.Position;
+import jakarta.validation.constraints.PositiveOrZero;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -40,7 +41,7 @@ public class PositionService {
     /**
      * Удаление должности по id из БД
      */
-    public void deletePositionById(String id) {
+    public void deletePositionById(@PositiveOrZero Integer id) {
         positionDao.deletePositionById(id);
     }
 
@@ -54,7 +55,7 @@ public class PositionService {
     /**
      * Получение должности по id
      */
-    public Position getPositionById(String id) {
+    public Position getPositionById(@PositiveOrZero Integer id) {
         return positionDao.findPositionById(id);
     }
 }

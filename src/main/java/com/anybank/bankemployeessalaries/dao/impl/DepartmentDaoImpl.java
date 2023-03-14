@@ -86,7 +86,7 @@ public class DepartmentDaoImpl implements DepartmentDao {
      * Удаление департамента по id из БД
      */
     @Override
-    public void deleteDepartmentById(String id) {
+    public void deleteDepartmentById(Integer id) {
         String delFkEmp = "ALTER TABLE employee DROP CONSTRAINT employee_position_id_fkey";
         String sql = "DELETE FROM department WHERE id=?";
         String addFkEmp =
@@ -110,12 +110,12 @@ public class DepartmentDaoImpl implements DepartmentDao {
      * Получение департамента по id
      */
     @Override
-    public Department findDepartmentById(String id) {
+    public Department findDepartmentById(Integer id) {
         String sql = "SELECT * FROM department WHERE id=?";
         try {
             return jdbcTemplate.queryForObject(sql, (rs, rowNum) -> makeDepartment(rs), id);
         } catch (Exception e) {
-            throw new DepartmentNotFoundException(String.format("Департамент с id %d не найден", Integer.parseInt(id)));
+            throw new DepartmentNotFoundException(String.format("Департамент с id %d не найден", id));
         }
     }
 

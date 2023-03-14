@@ -85,7 +85,7 @@ public class SalariesDataDaoImpl implements SalariesDataDao {
      * Удалить данные зарплаты в БД по id
      */
     @Override
-    public void deleteSalariesDataById(int id) {
+    public void deleteSalariesDataById(Integer id) {
         String sqlDelSal = "DELETE FROM salaries_data WHERE id=?";
         jdbcTemplate.update(sqlDelSal, id);
         log.info("Удаляем данные зарплаты с № {}", id);
@@ -105,7 +105,7 @@ public class SalariesDataDaoImpl implements SalariesDataDao {
      * Получить данные зарплаты в БД по id
      */
     @Override
-    public SalariesData getSalariesDataById(int id) {
+    public SalariesData getSalariesDataById(Integer id) {
         String sql = "SELECT * FROM salaries_data WHERE id=?";
         log.info("Запросили данные зарплаты с № {}", id);
         return jdbcTemplate.queryForObject(sql, (rs, rowNum) -> makeSalariesData(rs), id);

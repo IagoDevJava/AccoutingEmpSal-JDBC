@@ -23,7 +23,7 @@ public interface SalariesDataDao {
     /**
      * Удалить данные зарплаты в БД по id
      */
-    void deleteSalariesDataById(int id);
+    void deleteSalariesDataById(Integer id);
 
     /**
      * Получить все данные зарплат в БД
@@ -33,5 +33,5 @@ public interface SalariesDataDao {
     /**
      * Получить данные зарплаты в БД по id
      */
-    SalariesData getSalariesDataById(int id);
+    SalariesData getSalariesDataById(Integer id);
 }

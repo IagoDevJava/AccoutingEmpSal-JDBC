@@ -40,7 +40,7 @@ public class SalariesDataService {
     /**
      * Удалить данные зарплаты в БД по id
      */
-    public void deleteSalariesDataById(int id) {
+    public void deleteSalariesDataById(Integer id) {
         salariesDataDao.deleteSalariesDataById(id);
     }
 
@@ -54,7 +54,7 @@ public class SalariesDataService {
     /**
      * Получить данные зарплаты в БД по id
      */
-    public SalariesData getSalariesDataById(int id) {
+    public SalariesData getSalariesDataById(Integer id) {
         return salariesDataDao.getSalariesDataById(id);
     }
 }

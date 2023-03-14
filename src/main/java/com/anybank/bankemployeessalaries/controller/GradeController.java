@@ -3,14 +3,19 @@ package com.anybank.bankemployeessalaries.controller;
 import com.anybank.bankemployeessalaries.model.Grade;
 import com.anybank.bankemployeessalaries.service.GradeService;
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.PositiveOrZero;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @Slf4j
 @RestController
+@Validated
 @RequestMapping("/grades")
 public class GradeController {
     private final GradeService gradeService;
@@ -24,53 +29,55 @@ public class GradeController {
      * Добавление грейда в БД
      */
     @PostMapping
-    public Grade addGrade(@Valid @RequestBody Grade grade) {
+    public ResponseEntity<Grade> addGrade(@Valid @RequestBody Grade grade) {
         log.info("Добавлем грейд № {} в БД", grade.getId());
-        return gradeService.addGrade(grade);
+        return ResponseEntity.ok(gradeService.addGrade(grade));
     }
 
     /**
      * Обновление грейда в БД
      */
     @PutMapping
-    public Grade updateGrade(@Valid @RequestBody Grade grade) {
+    public ResponseEntity<Grade> updateGrade(@Valid @RequestBody Grade grade) {
         log.info("Обновляем грейд №{} в БД", grade.getId());
-        return gradeService.updateGrade(grade);
+        return ResponseEntity.ok(gradeService.updateGrade(grade));
     }
 
     /**
      * Удаление всех грейдов из БД
      */
     @DeleteMapping
-    public void deleteGrades() {
+    public ResponseEntity<Void> deleteGrades() {
         log.info("Очищаем таблицу грейдов");
         gradeService.deleteGrades();
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
     /**
      * Удаление грейда по id из БД
      */
     @DeleteMapping("/{id}")
-    public void deleteGradeById(@PathVariable String id) {
+    public ResponseEntity<Void> deleteGradeById(@PositiveOrZero @PathVariable Integer id) {
         log.info("Удаляем грейд № {} из БД", id);
         gradeService.deleteGradeById(id);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
     /**
      * Получение списка грейдов из БД
      */
     @GetMapping
-    public List<Grade> getGrades() {
+    public ResponseEntity<List<Grade>> getGrades() {
         log.info("Получаем список всех грейдов");
-        return gradeService.getGrades();
+        return ResponseEntity.ok(gradeService.getGrades());
     }
 
     /**
      * Получение грейда по id
      */
     @GetMapping("/{id}")
-    public Grade getGradeById(@PathVariable int id) {
+    public ResponseEntity<Grade> getGradeById(@PositiveOrZero @PathVariable Integer id) {
         log.info("Получаем грейд № {}", id);
-        return gradeService.getGradeById(id);
+        return ResponseEntity.ok(gradeService.getGradeById(id));
     }
 }
