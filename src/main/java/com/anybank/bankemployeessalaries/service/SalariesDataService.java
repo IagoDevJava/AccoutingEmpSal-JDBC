@@ -57,4 +57,11 @@ public class SalariesDataService {
     public SalariesData getSalariesDataById(Integer id) {
         return salariesDataDao.getSalariesDataById(id);
     }
+
+    /**
+     * Обновить значения KPI
+     */
+    public SalariesData updateKpiSalariesData(SalariesData salariesData) {
+        return salariesDataDao.updateKpiSalariesData(salariesData);
+    }
 }

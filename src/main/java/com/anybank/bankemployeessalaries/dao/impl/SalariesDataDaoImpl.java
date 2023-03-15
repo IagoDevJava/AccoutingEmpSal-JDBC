@@ -71,6 +71,27 @@ public class SalariesDataDaoImpl implements SalariesDataDao {
         return salariesData;
     }
 
+
+    /**
+     * Обновить значения KPI
+     */
+    @Override
+    public SalariesData updateKpiSalariesData(SalariesData salariesData) {
+        String sql = "UPDATE salaries_data " +
+                "SET personal_kpi=?, " +
+                "team_kpi=?, " +
+                "common_kpi=?" +
+                "WHERE id=?";
+        jdbcTemplate.update(sql,
+                salariesData.getPersonalKpi(),
+                salariesData.getTeamKpi(),
+                salariesData.getCommonKpi(),
+                salariesData.getId()
+        );
+
+        return salariesData;
+    }
+
     /**
      * Удалить все данные зарплат из БД
      */

@@ -37,10 +37,18 @@ public class SalariesDataController {
     /**
      * Заменить данные о зарплате в БД
      */
-    @PutMapping
+    @PatchMapping
     public ResponseEntity<SalariesData> updateSalariesData(@RequestBody SalariesData salariesData) {
         log.info("Заменяем данные о зарплате № {}", salariesData.getId());
         return ResponseEntity.ok(salariesDataService.updateSalariesData(salariesData));
+    }
+
+    /**
+     * Обновить значения KPI
+     */
+    @PatchMapping
+    public ResponseEntity<SalariesData> updateKpiSalariesData(@RequestBody SalariesData salariesData) {
+        return ResponseEntity.ok(salariesDataService.updateKpiSalariesData(salariesData));
     }
 
     /**

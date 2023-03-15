@@ -34,4 +34,9 @@ public interface SalariesDataDao {
      * Получить данные зарплаты в БД по id
      */
     SalariesData getSalariesDataById(Integer id);
+
+    /**
+     * Обновить значения KPI
+     */
+    SalariesData updateKpiSalariesData(SalariesData salariesData);
 }
