@@ -33,7 +33,7 @@ public class BankEmployeesSalariesApplication {
 
 #### ER-диаграмма базы данных для приложения:
 
-![This is ER-diagramme](database_AES_v2.png)
+![This is ER-diagramme](AnyBankV1.png)
 
 <!-- #### Примеры запросов к базе данных:
 

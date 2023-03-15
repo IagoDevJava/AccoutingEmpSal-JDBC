@@ -144,7 +144,7 @@ public class DepartmentDaoImpl implements DepartmentDao {
         Department department = Department.builder()
                 .id(rs.getInt("id"))
                 .name(rs.getString("name"))
-                .head(employeeDao.findEmployeeById(rs.getString("head_id")))
+                .head(employeeDao.findEmployeeById(rs.getInt("head_id")))
                 .phone(rs.getString("phone"))
                 .email(rs.getString("email"))
                 .address(rs.getString("address"))
