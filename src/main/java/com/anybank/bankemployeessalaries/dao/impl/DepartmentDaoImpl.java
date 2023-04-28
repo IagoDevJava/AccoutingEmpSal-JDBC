@@ -6,6 +6,7 @@ import com.anybank.bankemployeessalaries.exception.DepartmentNotFoundException;
 import com.anybank.bankemployeessalaries.model.Department;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.rowset.SqlRowSet;
 import org.springframework.stereotype.Component;
@@ -21,7 +22,7 @@ public class DepartmentDaoImpl implements DepartmentDao {
     private final EmployeeDao employeeDao;
 
     @Autowired
-    public DepartmentDaoImpl(JdbcTemplate jdbcTemplate, EmployeeDao employeeDao) {
+    public DepartmentDaoImpl(@Lazy JdbcTemplate jdbcTemplate, EmployeeDao employeeDao) {
         this.jdbcTemplate = jdbcTemplate;
         this.employeeDao = employeeDao;
     }

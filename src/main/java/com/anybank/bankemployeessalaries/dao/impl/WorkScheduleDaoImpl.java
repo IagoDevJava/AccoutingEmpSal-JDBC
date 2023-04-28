@@ -4,6 +4,7 @@ import com.anybank.bankemployeessalaries.dao.WorkScheduleDao;
 import com.anybank.bankemployeessalaries.exception.ScheduleNotFoundException;
 import com.anybank.bankemployeessalaries.model.WorkSchedule;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.rowset.SqlRowSet;
 import org.springframework.stereotype.Component;
@@ -17,7 +18,7 @@ import java.util.List;
 public class WorkScheduleDaoImpl implements WorkScheduleDao {
     private final JdbcTemplate jdbcTemplate;
 
-    public WorkScheduleDaoImpl(JdbcTemplate jdbcTemplate) {
+    public WorkScheduleDaoImpl(@Lazy JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
     }
 

@@ -8,6 +8,7 @@ import com.anybank.bankemployeessalaries.exception.EmployeeNotFoundException;
 import com.anybank.bankemployeessalaries.model.Employee;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.rowset.SqlRowSet;
 import org.springframework.stereotype.Component;
@@ -26,7 +27,7 @@ public class EmployeeDaoImpl implements EmployeeDao {
     private PositionDao positionDao;
 
     @Autowired
-    public EmployeeDaoImpl(JdbcTemplate jdbcTemplate) {
+    public EmployeeDaoImpl(@Lazy JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
     }
 

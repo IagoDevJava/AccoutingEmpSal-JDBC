@@ -5,6 +5,7 @@ import com.anybank.bankemployeessalaries.model.Salary;
 import com.anybank.bankemployeessalaries.model.Status;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.rowset.SqlRowSet;
 import org.springframework.stereotype.Component;
@@ -21,7 +22,7 @@ public class SalaryDaoImpl implements SalaryDao {
     private final JdbcTemplate jdbcTemplate;
 
     @Autowired
-    public SalaryDaoImpl(JdbcTemplate jdbcTemplate) {
+    public SalaryDaoImpl(@Lazy JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
     }
 

@@ -5,6 +5,7 @@ import com.anybank.bankemployeessalaries.dao.SalariesDataDao;
 import com.anybank.bankemployeessalaries.model.SalariesData;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.rowset.SqlRowSet;
 import org.springframework.stereotype.Component;
@@ -20,7 +21,7 @@ public class SalariesDataDaoImpl implements SalariesDataDao {
     private GradeDao gradeDao;
 
     @Autowired
-    public SalariesDataDaoImpl(JdbcTemplate jdbcTemplate) {
+    public SalariesDataDaoImpl(@Lazy JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
     }
 
@@ -68,27 +69,6 @@ public class SalariesDataDaoImpl implements SalariesDataDao {
         );
 
         log.info("Заменили данные о зарплате № {}", salariesData.getId());
-        return salariesData;
-    }
-
-
-    /**
-     * Обновить значения KPI
-     */
-    @Override
-    public SalariesData updateKpiSalariesData(SalariesData salariesData) {
-        String sql = "UPDATE salaries_data " +
-                "SET personal_kpi=?, " +
-                "team_kpi=?, " +
-                "common_kpi=?" +
-                "WHERE id=?";
-        jdbcTemplate.update(sql,
-                salariesData.getPersonalKpi(),
-                salariesData.getTeamKpi(),
-                salariesData.getCommonKpi(),
-                salariesData.getId()
-        );
-
         return salariesData;
     }
 
