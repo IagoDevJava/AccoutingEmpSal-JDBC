@@ -5,6 +5,7 @@ import com.anybank.bankemployeessalaries.model.AttendanceData;
 import com.anybank.bankemployeessalaries.model.Status;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.rowset.SqlRowSet;
 import org.springframework.stereotype.Component;
@@ -21,7 +22,7 @@ public class AttendanceDataDaoImpl implements AttendanceDataDao {
     private final JdbcTemplate jdbcTemplate;
 
     @Autowired
-    public AttendanceDataDaoImpl(JdbcTemplate jdbcTemplate) {
+    public AttendanceDataDaoImpl(@Lazy JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
     }
 

@@ -5,6 +5,7 @@ import com.anybank.bankemployeessalaries.exception.GradeNotFoundException;
 import com.anybank.bankemployeessalaries.model.Grade;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.rowset.SqlRowSet;
 import org.springframework.stereotype.Component;
@@ -19,7 +20,7 @@ public class GradeDaoImpl implements GradeDao {
     private final JdbcTemplate jdbcTemplate;
 
     @Autowired
-    public GradeDaoImpl(JdbcTemplate jdbcTemplate) {
+    public GradeDaoImpl(@Lazy JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
     }
 
