@@ -3,6 +3,7 @@ package com.anybank.bankemployeessalaries.dao.impl;
 import com.anybank.bankemployeessalaries.dao.DepartmentDao;
 import com.anybank.bankemployeessalaries.dao.EmployeeDao;
 import com.anybank.bankemployeessalaries.exception.DepartmentNotFoundException;
+import com.anybank.bankemployeessalaries.exception.DoubleDepartmentException;
 import com.anybank.bankemployeessalaries.model.Department;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,18 +33,24 @@ public class DepartmentDaoImpl implements DepartmentDao {
      */
     @Override
     public Department addDepartment(Department department) {
-        String sql = "INSERT INTO department(name, head_id, phone, email, address) " +
-                "VALUES (?, ?, ?, ?, ?)";
-        jdbcTemplate.update(sql, department.getName(), department.getHead().getId(), department.getPhone(),
+        for (Department findDep : getDepartment()) {
+            if (findDep.getName().equals(department.getName())) {
+                throw new DoubleDepartmentException("департамент уже есть в бд");
+            }
+        }
+
+        String sql = "INSERT INTO department(name, phone, email, address) " +
+                "VALUES (?, ?, ?, ?)";
+        jdbcTemplate.update(sql, department.getName(), department.getPhone(),
                 department.getEmail(), department.getAddress());
+
         SqlRowSet departmentRows = jdbcTemplate.queryForRowSet(
                 "SELECT * FROM department WHERE name=?", department.getName());
         if (departmentRows.next()) {
             department.setId(departmentRows.getInt("id"));
         }
-
+        
         log.info("Добавили департамент № {} в БД", department.getId());
-
         return department;
     }
 
@@ -60,7 +67,13 @@ public class DepartmentDaoImpl implements DepartmentDao {
                 " address=?" +
                 " WHERE id = ?";
 
-        jdbcTemplate.update(sql, department.getName(), department.getHead().getId(), department.getPhone(),
+//        if (department.getHeadId() == null) {
+//            department.setHeadId(0);
+//        }
+//        if (department.getAddress() == null) {
+//            department.setAddress("");
+//        }
+        jdbcTemplate.update(sql, department.getName(), department.getHeadId(), department.getPhone(),
                 department.getEmail(), department.getAddress(), department.getId());
         log.info("Департамент {} обновлен.", department.getId());
         return department;
@@ -145,7 +158,7 @@ public class DepartmentDaoImpl implements DepartmentDao {
         Department department = Department.builder()
                 .id(rs.getInt("id"))
                 .name(rs.getString("name"))
-                .head(employeeDao.findEmployeeById(rs.getInt("head_id")))
+//                .headId(employeeDao.findEmployeeById(rs.getInt("head_id")).getId())
                 .phone(rs.getString("phone"))
                 .email(rs.getString("email"))
                 .address(rs.getString("address"))

@@ -2,8 +2,6 @@ package com.anybank.bankemployeessalaries.controller;
 
 import com.anybank.bankemployeessalaries.model.Salary;
 import com.anybank.bankemployeessalaries.service.SalaryService;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.PositiveOrZero;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -11,6 +9,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.PositiveOrZero;
 import java.util.List;
 
 @Slf4j
