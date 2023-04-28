@@ -44,14 +44,6 @@ public class SalariesDataController {
     }
 
     /**
-     * Обновить значения KPI
-     */
-    @PatchMapping
-    public ResponseEntity<SalariesData> updateKpiSalariesData(@RequestBody SalariesData salariesData) {
-        return ResponseEntity.ok(salariesDataService.updateKpiSalariesData(salariesData));
-    }
-
-    /**
      * Удалить все данные зарплат из БД
      */
     @DeleteMapping
@@ -83,7 +75,7 @@ public class SalariesDataController {
     /**
      * Получить данные зарплаты в БД по id
      */
-    @DeleteMapping("/{id}")
+    @GetMapping("/{id}")
     public ResponseEntity<SalariesData> getSalariesDataById(@PositiveOrZero @PathVariable Integer id) {
         log.info("Запросили данные зарплаты с № {}", id);
         return ResponseEntity.ok(salariesDataService.getSalariesDataById(id));

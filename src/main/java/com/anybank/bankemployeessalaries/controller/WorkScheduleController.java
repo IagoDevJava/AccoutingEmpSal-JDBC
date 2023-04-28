@@ -37,7 +37,7 @@ public class WorkScheduleController {
     /**
      * Изменить график в БД
      */
-    @PutMapping
+    @PatchMapping
     public ResponseEntity<WorkSchedule> updateSchedule(@RequestBody WorkSchedule workSchedule) {
         log.info("Обновляем график работы с {} рабочими днями", workSchedule.getNumberOfWorkDays());
         return ResponseEntity.ok(workScheduleService.updateSchedule(workSchedule));
@@ -75,7 +75,7 @@ public class WorkScheduleController {
     /**
      * Получить график в БД по id
      */
-    @DeleteMapping("/{id}")
+    @GetMapping("/{id}")
     public ResponseEntity<WorkSchedule> getScheduleById(@PositiveOrZero @PathVariable Integer id) {
         log.info("Запросили график работы с № {}", id);
         return ResponseEntity.ok(workScheduleService.getScheduleById(id));

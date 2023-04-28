@@ -12,7 +12,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
 import java.util.List;
+import java.util.Objects;
 
 @Slf4j
 @RestController
@@ -82,10 +84,13 @@ public class AttendanceDataController {
      */
     @GetMapping
     public ResponseEntity<List<AttendanceData>> getAttendanceDataByPeriod(
-            @RequestParam String start,
-            @RequestParam String end
+            @RequestParam(required = false) String start,
+            @RequestParam(required = false) String end
     ) {
-        return ResponseEntity.ok(attendanceDataService.getAttendanceDataByPeriod(start, end));
+        return ResponseEntity.ok(attendanceDataService.getAttendanceDataByPeriod(
+                Objects.requireNonNullElse(start, String.valueOf(LocalDate.now().minusYears(1))),
+                Objects.requireNonNullElse(end, String.valueOf(LocalDate.now())))
+        );
     }
 
     /**
@@ -94,10 +99,14 @@ public class AttendanceDataController {
     @GetMapping("/{employeeId}")
     public ResponseEntity<List<AttendanceData>> getAttendanceDataByPeriodByEmployee(
             @PositiveOrZero @PathVariable Integer employeeId,
-            @RequestParam String start,
-            @RequestParam String end
+            @RequestParam(required = false) String start,
+            @RequestParam(required = false) String end
     ) {
-        return ResponseEntity.ok(attendanceDataService.getAttendanceDataByPeriodByEmployee(employeeId, start, end));
+        return ResponseEntity.ok(attendanceDataService.getAttendanceDataByPeriodByEmployee(
+                employeeId,
+                Objects.requireNonNullElse(start, String.valueOf(LocalDate.now().minusYears(1))),
+                Objects.requireNonNullElse(end, String.valueOf(LocalDate.now())))
+        );
     }
 
     /**
@@ -106,37 +115,13 @@ public class AttendanceDataController {
     @GetMapping("/{departmentId}")
     public ResponseEntity<List<AttendanceData>> getAttendanceDataByPeriodByDepartment(
             @PositiveOrZero @PathVariable Integer departmentId,
-            @RequestParam String start,
-            @RequestParam String end
+            @RequestParam(required = false) String start,
+            @RequestParam(required = false) String end
     ) {
-        return ResponseEntity.ok(attendanceDataService.getAttendanceDataByPeriodByDepartment(departmentId, start, end));
-    }
-
-    /**
-     * получить данные
-     */
-    @GetMapping
-    public ResponseEntity<List<AttendanceData>> getAttendanceData() {
-        return ResponseEntity.ok(attendanceDataService.getAttendanceData());
-    }
-
-    /**
-     * получить данные по сотруднику
-     */
-    @GetMapping("/{employeeId}")
-    public ResponseEntity<List<AttendanceData>> getAttendanceDataByEmployee(
-            @PositiveOrZero @PathVariable Integer employeeId
-    ) {
-        return ResponseEntity.ok(attendanceDataService.getAttendanceDataByEmployee(employeeId));
-    }
-
-    /**
-     * получить данные по отделу
-     */
-    @GetMapping("/{departmentId}")
-    public ResponseEntity<List<AttendanceData>> getAttendanceDataByDepartment(
-            @PositiveOrZero @PathVariable Integer departmentId
-    ) {
-        return ResponseEntity.ok(attendanceDataService.getAttendanceDataByDepartment(departmentId));
+        return ResponseEntity.ok(attendanceDataService.getAttendanceDataByPeriodByDepartment(
+                departmentId,
+                Objects.requireNonNullElse(start, String.valueOf(LocalDate.now().minusYears(1))),
+                Objects.requireNonNullElse(end, String.valueOf(LocalDate.now())))
+        );
     }
 }
