@@ -49,7 +49,7 @@ public class DepartmentDaoImpl implements DepartmentDao {
         if (departmentRows.next()) {
             department.setId(departmentRows.getInt("id"));
         }
-        
+
         log.info("Добавили департамент № {} в БД", department.getId());
         return department;
     }

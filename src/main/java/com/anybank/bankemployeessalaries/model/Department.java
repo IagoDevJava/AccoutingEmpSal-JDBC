@@ -20,7 +20,6 @@ public class Department {
     @NotBlank
     String name;
     String address;
-    @NotBlank
     @Pattern(regexp = "^[1-9]-\\d\\d\\d$")
     String phone;
     @Email
