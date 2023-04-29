@@ -3,6 +3,7 @@ package com.anybank.bankemployeessalaries.dao.impl;
 import com.anybank.bankemployeessalaries.dao.DepartmentDao;
 import com.anybank.bankemployeessalaries.dao.EmployeeDao;
 import com.anybank.bankemployeessalaries.exception.DepartmentNotFoundException;
+import com.anybank.bankemployeessalaries.exception.DoubleDepartmentException;
 import com.anybank.bankemployeessalaries.model.Department;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,12 +20,10 @@ import java.util.List;
 @Component
 public class DepartmentDaoImpl implements DepartmentDao {
     private final JdbcTemplate jdbcTemplate;
-    private final EmployeeDao employeeDao;
 
     @Autowired
-    public DepartmentDaoImpl(@Lazy JdbcTemplate jdbcTemplate, EmployeeDao employeeDao) {
+    public DepartmentDaoImpl(@Lazy JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
-        this.employeeDao = employeeDao;
     }
 
     /**
@@ -32,10 +31,20 @@ public class DepartmentDaoImpl implements DepartmentDao {
      */
     @Override
     public Department addDepartment(Department department) {
-        String sql = "INSERT INTO department(name, head_id, phone, email, address) " +
-                "VALUES (?, ?, ?, ?, ?)";
-        jdbcTemplate.update(sql, department.getName(), department.getHead().getId(), department.getPhone(),
-                department.getEmail(), department.getAddress());
+        for (Department findDep : getDepartment()) {
+            if (findDep.getName().equals(department.getName())) {
+                throw new DoubleDepartmentException("департамент уже есть в бд");
+            }
+        }
+
+        String sql = "INSERT INTO department(name, phone, email, address) " +
+                "VALUES (?, ?, ?, ?)";
+        jdbcTemplate.update(sql,
+                department.getName(),
+                department.getPhone(),
+                department.getEmail(),
+                department.getAddress());
+
         SqlRowSet departmentRows = jdbcTemplate.queryForRowSet(
                 "SELECT * FROM department WHERE name=?", department.getName());
         if (departmentRows.next()) {
@@ -43,12 +52,12 @@ public class DepartmentDaoImpl implements DepartmentDao {
         }
 
         log.info("Добавили департамент № {} в БД", department.getId());
-
         return department;
     }
 
     /**
      * Обновление департамента в БД
+     * TODO Как обновить частично???? =D
      */
     @Override
     public Department updateDepartment(Department department) {
@@ -60,7 +69,7 @@ public class DepartmentDaoImpl implements DepartmentDao {
                 " address=?" +
                 " WHERE id = ?";
 
-        jdbcTemplate.update(sql, department.getName(), department.getHead().getId(), department.getPhone(),
+        jdbcTemplate.update(sql, department.getName(), department.getHeadId(), department.getPhone(),
                 department.getEmail(), department.getAddress(), department.getId());
         log.info("Департамент {} обновлен.", department.getId());
         return department;
@@ -145,7 +154,6 @@ public class DepartmentDaoImpl implements DepartmentDao {
         Department department = Department.builder()
                 .id(rs.getInt("id"))
                 .name(rs.getString("name"))
-                .head(employeeDao.findEmployeeById(rs.getInt("head_id")))
                 .phone(rs.getString("phone"))
                 .email(rs.getString("email"))
                 .address(rs.getString("address"))

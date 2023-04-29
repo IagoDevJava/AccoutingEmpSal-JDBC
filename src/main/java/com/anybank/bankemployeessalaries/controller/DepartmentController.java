@@ -2,20 +2,20 @@ package com.anybank.bankemployeessalaries.controller;
 
 import com.anybank.bankemployeessalaries.model.Department;
 import com.anybank.bankemployeessalaries.service.DepartmentService;
-import jakarta.validation.Valid;
-import jakarta.validation.constraints.PositiveOrZero;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
+import javax.validation.constraints.PositiveOrZero;
 import java.util.List;
 
 @Slf4j
 @RestController
 @Validated
-@RequestMapping("/departments")
+@RequestMapping("/department")
 public class DepartmentController {
     private final DepartmentService departmentService;
 

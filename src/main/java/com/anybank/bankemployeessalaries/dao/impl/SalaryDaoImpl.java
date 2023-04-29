@@ -2,7 +2,7 @@ package com.anybank.bankemployeessalaries.dao.impl;
 
 import com.anybank.bankemployeessalaries.dao.SalaryDao;
 import com.anybank.bankemployeessalaries.model.Salary;
-import com.anybank.bankemployeessalaries.model.Status;
+import com.anybank.bankemployeessalaries.model.JobStatus;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
@@ -57,7 +57,7 @@ public class SalaryDaoImpl implements SalaryDao {
                 sqlCountDayAttendance,
                 (rs, rowNum) -> makeCountDayAttendance(rs),
                 employeeId,
-                Status.WORKED.toString().toLowerCase(),
+                JobStatus.WORKING.toString().toLowerCase(),
                 startDate,
                 endDate.minusDays(1)
         );

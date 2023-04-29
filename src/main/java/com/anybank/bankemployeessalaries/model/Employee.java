@@ -1,39 +1,47 @@
 package com.anybank.bankemployeessalaries.model;
 
-import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.NotBlank;
-import lombok.Builder;
-import lombok.Data;
+import lombok.*;
+import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.format.annotation.DateTimeFormat;
 
-import java.time.LocalDate;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
+import java.time.LocalDateTime;
 
 @Slf4j
-@Data
+@Getter
+@Setter
+@ToString
+@AllArgsConstructor
+@NoArgsConstructor
+@FieldDefaults(level = AccessLevel.PRIVATE)
 @Builder
 public class Employee {
-    private int id;
+    int id;
     @NotBlank
-    private String surname;
+    String surname;
     @NotBlank
-    private String firstname;
+    String firstname;
     @NotBlank
-    private String lastname;
+    String lastname;
     @NotBlank
-    private String gender;
-    private Department department;
-    private String phone;
+    String gender;
+    Integer departmentId;
+    @NotBlank
+    @Pattern(regexp = "^[1-9]-\\d\\d\\d$")
+    String phone;
     @NotBlank
     @Email
-    private String email;
-    @NotBlank
-    private Position position;
-    @NotBlank
-    private WorkSchedule workSchedule;
-    @NotBlank
+    String email;
+    Integer positionId;
+    Integer workScheduleId;
+    @NotNull
     @DateTimeFormat
-    private LocalDate dateOfAdmission;
+    LocalDateTime dateOfAdmission;
     @DateTimeFormat
-    private LocalDate dateOfDismissal;
+    LocalDateTime dateOfDismissal;
+    JobStatus jobStatus;
 }
