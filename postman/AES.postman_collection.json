@@ -1,0 +1,1689 @@
+{
+	"info": {
+		"_postman_id": "e3a36936-2bb5-459e-a077-01c06cc7e1db",
+		"name": "AES",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "23450789"
+	},
+	"item": [
+		{
+			"name": "Admin-API",
+			"item": [
+				{
+					"name": "Employee",
+					"item": [
+						{
+							"name": "ok: добавить сотрудника №1",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Ответ должен содержать код статуса 200\", function() {\r",
+											"    pm.response.to.be.ok;\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Ответ должен содержать тело в формате json\", function() {\r",
+											"    pm.response.to.be.withBody;\r",
+											"    pm.response.to.be.json;\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Ответ содержит актуальный id\", function () {\r",
+											"    var jsonData = pm.response.json();\r",
+											"    pm.expect(jsonData.id, 'result[0]: \"id\" field').to.eql(1);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"surname\":\"Иванов\",\r\n    \"firstname\":\"Иван\",\r\n    \"lastname\":\"Иванович\",\r\n    \"gender\":\"мужской\",\r\n    \"email\":\"ivanov@mail.ru\",\r\n    \"dateOfAdmission\":\"2023-05-29T10:00:00\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8080/admin/employee",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"admin",
+										"employee"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "ok: изменить имя сотрудника №1",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Ответ должен содержать код статуса 200\", function() {\r",
+											"    pm.response.to.be.ok;\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Ответ должен содержать тело в формате json\", function() {\r",
+											"    pm.response.to.be.withBody;\r",
+											"    pm.response.to.be.json;\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Ответ содержит актуальный id\", function () {\r",
+											"    var jsonData = pm.response.json();\r",
+											"    pm.expect(jsonData.id, 'result[0]: \"id\" field').to.eql(1);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "PATCH",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"firstname\":\"Сергей\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8080/admin/employee/1",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"admin",
+										"employee",
+										"1"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "failed: изменить несуществующего сотрудника",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Ответ должен содержать код статуса 404\", function() {\r",
+											"    pm.response.to.be.badRequest;\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "PATCH",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"surname\":\"Веселова\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8080/admin/employee/-99",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"admin",
+										"employee",
+										"-99"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "ok: добавить сотрудника №2",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Ответ должен содержать код статуса 200\", function() {\r",
+											"    pm.response.to.be.ok;\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Ответ должен содержать тело в формате json\", function() {\r",
+											"    pm.response.to.be.withBody;\r",
+											"    pm.response.to.be.json;\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Ответ содержит актуальный id\", function () {\r",
+											"    var jsonData = pm.response.json();\r",
+											"    pm.expect(jsonData.id, 'result[0]: \"id\" field').to.eql(2);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"surname\":\"Смирнова\",\r\n    \"firstname\":\"Елена\",\r\n    \"lastname\":\"Владимировна\",\r\n    \"gender\":\"женский\",\r\n    \"email\":\"smirnova@mail.ru\",\r\n    \"dateOfAdmission\":\"2023-05-29T10:00:00\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8080/admin/employee",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"admin",
+										"employee"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "failed: добавить сотрудника без имени",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Ответ должен содержать код статуса 404\", function() {\r",
+											"    pm.response.to.be.badRequest;\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"surname\":\"Смирнова\",\r\n    \"lastname\":\"Владимировна\",\r\n    \"gender\":\"женский\",\r\n    \"email\":\"smirnova@mail.ru\",\r\n    \"dateOfAdmission\":\"2023-04-29T10:00:00\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8080/admin/employee",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"admin",
+										"employee"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "failed: добавить сотрудника без фамилии",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Ответ должен содержать код статуса 404\", function() {\r",
+											"    pm.response.to.be.badRequest;\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"firstname\":\"Елена\",\r\n    \"lastname\":\"Владимировна\",\r\n    \"gender\":\"женский\",\r\n    \"email\":\"smirnova@mail.ru\",\r\n    \"dateOfAdmission\":\"2023-04-29T10:00:00\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8080/admin/employee",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"admin",
+										"employee"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "failed: добавить сотрудника с длинным именем",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Ответ должен содержать код статуса 404\", function() {\r",
+											"    pm.response.to.be.badRequest;\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"surname\":\"Смирнова\",\r\n    \"firstname\":\"Нечаянно закопипастил какую то пургу и вставил в это блок по ошибке\",\r\n    \"lastname\":\"Владимировна\",\r\n    \"gender\":\"женский\",\r\n    \"email\":\"smirnova@mail.ru\",\r\n    \"dateOfAdmission\":\"2023-04-29T10:00:00\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8080/admin/employee",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"admin",
+										"employee"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "failed: добавить сотрудника с длинной фамилией",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Ответ должен содержать код статуса 404\", function() {\r",
+											"    pm.response.to.be.badRequest;\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"surname\":\"Нечаянно закопипастил какую то пургу и вставил в это блок по ошибке\",\r\n    \"firstname\":\"Елена\",\r\n    \"lastname\":\"Владимировна\",\r\n    \"gender\":\"женский\",\r\n    \"email\":\"smirnova@mail.ru\",\r\n    \"dateOfAdmission\":\"2023-04-29T10:00:00\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8080/admin/employee",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"admin",
+										"employee"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "failed: добавить сотрудника с длинным отчеством",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Ответ должен содержать код статуса 404\", function() {\r",
+											"    pm.response.to.be.badRequest;\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"surname\":\"Смирнова\",\r\n    \"firstname\":\"Елена\",\r\n    \"lastname\":\"Нечаянно закопипастил какую то пургу и вставил в это блок по ошибке\",\r\n    \"gender\":\"женский\",\r\n    \"email\":\"smirnova@mail.ru\",\r\n    \"dateOfAdmission\":\"2023-04-29T10:00:00\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8080/admin/employee",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"admin",
+										"employee"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "failed: добавить бесполого сотрудника",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Ответ должен содержать код статуса 404\", function() {\r",
+											"    pm.response.to.be.badRequest;\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"surname\":\"Смирнова\",\r\n    \"firstname\":\"Елена\",\r\n    \"lastname\":\"Владимировна\",\r\n    \"email\":\"smirnova@mail.ru\",\r\n    \"dateOfAdmission\":\"2023-04-29T10:00:00\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8080/admin/employee",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"admin",
+										"employee"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "failed: добавить сотрудника с неверным телефоном",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Ответ должен содержать код статуса 404\", function() {\r",
+											"    pm.response.to.be.badRequest;\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"surname\":\"Смирнова\",\r\n    \"firstname\":\"Елена\",\r\n    \"lastname\":\"Владимировна\",\r\n    \"phone\":\"111111\",\r\n    \"gender\":\"женский\",\r\n    \"email\":\"smirnova@mail.ru\",\r\n    \"dateOfAdmission\":\"2023-04-29T10:00:00\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8080/admin/employee",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"admin",
+										"employee"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "ok: добавить сотрудника #3 с верным телефоном",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Ответ должен содержать код статуса 200\", function() {\r",
+											"    pm.response.to.be.ok;\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Ответ должен содержать тело в формате json\", function() {\r",
+											"    pm.response.to.be.withBody;\r",
+											"    pm.response.to.be.json;\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Ответ содержит актуальный id\", function () {\r",
+											"    var jsonData = pm.response.json();\r",
+											"    pm.expect(jsonData.id, 'result[0]: \"id\" field').to.eql(3);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"surname\":\"Петров\",\r\n    \"firstname\":\"Петр\",\r\n    \"lastname\":\"Владимирович\",\r\n    \"gender\":\"мужской\",\r\n    \"phone\":\"1-111\",\r\n    \"email\":\"petrov@mail.ru\",\r\n    \"dateOfAdmission\":\"2023-05-29T10:00:00\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8080/admin/employee",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"admin",
+										"employee"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "failed: добавить сотрудника с неверным email",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Ответ должен содержать код статуса 404\", function() {\r",
+											"    pm.response.to.be.badRequest;\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"surname\":\"Смирнова\",\r\n    \"firstname\":\"Елена\",\r\n    \"lastname\":\"Владимировна\",\r\n    \"phone\":\"111111\",\r\n    \"gender\":\"женский\",\r\n    \"email\":\"smirnovamail.ru\",\r\n    \"dateOfAdmission\":\"2023-04-29T10:00:00\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8080/admin/employee",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"admin",
+										"employee"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "failed: добавить сотрудника с пустым email",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Ответ должен содержать код статуса 404\", function() {\r",
+											"    pm.response.to.be.badRequest;\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"surname\":\"Смирнова\",\r\n    \"firstname\":\"Елена\",\r\n    \"lastname\":\"Владимировна\",\r\n    \"phone\":\"111111\",\r\n    \"gender\":\"женский\",\r\n    \"dateOfAdmission\":\"2023-04-29T10:00:00\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8080/admin/employee",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"admin",
+										"employee"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "failed: добавить сотрудника задним числом",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Ответ должен содержать код статуса 404\", function() {\r",
+											"    pm.response.to.be.badRequest;\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"surname\":\"Смирнова\",\r\n    \"firstname\":\"Елена\",\r\n    \"lastname\":\"Владимировна\",\r\n    \"gender\":\"женский\",\r\n    \"email\":\"smirnova@mail.ru\",\r\n    \"dateOfAdmission\":\"2023-04-28T10:00:00\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8080/admin/employee",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"admin",
+										"employee"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "ok: удалить сотрудника №1",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Ответ должен содержать код статуса успеха\", function() {\r",
+											"    pm.response.to.be.success;\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8080/admin/employee/1",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"admin",
+										"employee",
+										"1"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "ok: получить сотрудника №2",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Ответ должен содержать код статуса 200\", function() {\r",
+											"    pm.response.to.be.ok;\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Ответ должен содержать тело в формате json\", function() {\r",
+											"    pm.response.to.be.withBody;\r",
+											"    pm.response.to.be.json;\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Ответ содержит актуальный id\", function () {\r",
+											"    var jsonData = pm.response.json();\r",
+											"    pm.expect(jsonData.id, 'result[0]: \"id\" field').to.eql(2);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8080/admin/employee/2",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"admin",
+										"employee",
+										"2"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "failed: получить сотрудника №1",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Ответ должен содержать код статуса 404\", function() {\r",
+											"    pm.response.to.be.notFound;\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8080/admin/employee/1",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"admin",
+										"employee",
+										"1"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "ok: получить список всех сотрудников",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const body = pm.response.json();\r",
+											"\r",
+											"pm.test(\"Ответ должен содержать код статуса 200 и тело в формате json\", function() {\r",
+											"    pm.response.to.be.ok;\r",
+											"    pm.response.to.be.withBody;\r",
+											"    pm.response.to.be.json;\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Тело является массивом\", () => {\r",
+											"    pm.expect(body).is.an('array');\r",
+											"});\r",
+											"pm.test(\"Длина массива = 100\", function() {\r",
+											"    pm.expect(body.length).to.eql(2);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8080/admin/employee",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"admin",
+										"employee"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "ok: удалить всех сотрудников",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Ответ должен содержать код статуса успеха\", function() {\r",
+											"    pm.response.to.be.success;\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8080/admin/employee",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"admin",
+										"employee"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "failed: получить список всех сотрудников",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const body = pm.response.json();\r",
+											"\r",
+											"pm.test(\"Ответ должен содержать код статуса 200 и тело в формате json\", function() {\r",
+											"    pm.response.to.be.ok;\r",
+											"    pm.response.to.be.withBody;\r",
+											"    pm.response.to.be.json;\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Тело является массивом\", () => {\r",
+											"    pm.expect(body).is.an('array');\r",
+											"});\r",
+											"pm.test(\"Длина массива = 100\", function() {\r",
+											"    pm.expect(body.length).to.eql(0);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8080/admin/employee",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"admin",
+										"employee"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Добавить департаменты",
+					"item": [
+						{
+							"name": "добавить департамент №1",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Ответ должен содержать код статуса 200\", function() {\r",
+											"    pm.response.to.be.ok;\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Ответ должен содержать тело в формате json\", function() {\r",
+											"    pm.response.to.be.withBody;\r",
+											"    pm.response.to.be.json;\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Ответ содержит актуальный id\", function () {\r",
+											"    var jsonData = pm.response.json();\r",
+											"    pm.expect(jsonData.id, 'result[0]: \"id\" field').to.eql(1);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"name\":\"Управление\",\r\n    \"email\":\"head@mail.ru\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8080/department",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"department"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "добавить дубликат департамента",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Ответ должен содержать код статуса 400\", function() {\r",
+											"    pm.response.to.be.badRequest;\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"name\":\"Управление\",\r\n    \"phone\":\"1-111\",\r\n    \"email\":\"head@mail.ru\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8080/department",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"department"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "добавить департамент №2",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Ответ должен содержать код статуса 200\", function() {\r",
+											"    pm.response.to.be.ok;\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Ответ должен содержать тело в формате json\", function() {\r",
+											"    pm.response.to.be.withBody;\r",
+											"    pm.response.to.be.json;\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Ответ содержит актуальный id\", function () {\r",
+											"    var jsonData = pm.response.json();\r",
+											"    pm.expect(jsonData.id, 'result[0]: \"id\" field').to.eql(2);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"name\":\"Отдел кадров\",\r\n    \"email\":\"hr@mail.ru\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8080/department",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"department"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "добавить пустой департамент",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Ответ должен содержать код статуса 400\", function() {\r",
+											"    pm.response.to.be.badRequest;\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8080/department",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"department"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "добавить департамент без имени",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Ответ должен содержать код статуса 400\", function() {\r",
+											"    pm.response.to.be.badRequest;\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"name\":\"\",\r\n    \"phone\":\"1-111\",\r\n    \"email\":\"head@mail.ru\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8080/department",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"department"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "добавить департамент с неверным телефоном",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Ответ должен содержать код статуса 400\", function() {\r",
+											"    pm.response.to.be.badRequest;\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"name\":\"Управление\",\r\n    \"phone\":\"1-111111\",\r\n    \"email\":\"head@mail.ru\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8080/department",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"department"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "добавить департамент с неверным email",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Ответ должен содержать код статуса 400\", function() {\r",
+											"    pm.response.to.be.badRequest;\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"name\":\"Управление\",\r\n    \"phone\":\"1-111\",\r\n    \"email\":\"@mail.ru\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8080/department",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"department"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "добавить департамент с пустым email",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Ответ должен содержать код статуса 400\", function() {\r",
+											"    pm.response.to.be.badRequest;\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"name\":\"Управление\",\r\n    \"phone\":\"1-111\",\r\n    \"email\":\" \"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8080/department",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"department"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "добавить адрес в департамент",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Ответ должен содержать код статуса 200\", function() {\r",
+											"    pm.response.to.be.ok;\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Ответ должен содержать тело в формате json\", function() {\r",
+											"    pm.response.to.be.withBody;\r",
+											"    pm.response.to.be.json;\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Ответ содержит актуальный id\", function () {\r",
+											"    var jsonData = pm.response.json();\r",
+											"    pm.expect(jsonData.id, 'result[0]: \"id\" field').to.eql(1);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "PATCH",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"address\":\"Управление\",\r\n    \"email\":\"head@mail.ru\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8080/department",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"department"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "добавить неверный адрес в департамент",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Ответ должен содержать код статуса 200\", function() {\r",
+											"    pm.response.to.be.ok;\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Ответ должен содержать тело в формате json\", function() {\r",
+											"    pm.response.to.be.withBody;\r",
+											"    pm.response.to.be.json;\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Ответ содержит актуальный id\", function () {\r",
+											"    var jsonData = pm.response.json();\r",
+											"    pm.expect(jsonData.id, 'result[0]: \"id\" field').to.eql(1);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "PATCH",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"name\":\"Управление\",\r\n    \"email\":\"head@mail.ru\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8080/department",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"department"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "добавить пустой адрес в департамент",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Ответ должен содержать код статуса 200\", function() {\r",
+											"    pm.response.to.be.ok;\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Ответ должен содержать тело в формате json\", function() {\r",
+											"    pm.response.to.be.withBody;\r",
+											"    pm.response.to.be.json;\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Ответ содержит актуальный id\", function () {\r",
+											"    var jsonData = pm.response.json();\r",
+											"    pm.expect(jsonData.id, 'result[0]: \"id\" field').to.eql(1);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "PATCH",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"name\":\"Управление\",\r\n    \"email\":\"head@mail.ru\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8080/department",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"department"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "добавить неверный телефон в департамент",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Ответ должен содержать код статуса 200\", function() {\r",
+											"    pm.response.to.be.ok;\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Ответ должен содержать тело в формате json\", function() {\r",
+											"    pm.response.to.be.withBody;\r",
+											"    pm.response.to.be.json;\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Ответ содержит актуальный id\", function () {\r",
+											"    var jsonData = pm.response.json();\r",
+											"    pm.expect(jsonData.id, 'result[0]: \"id\" field').to.eql(1);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "PATCH",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"name\":\"Управление\",\r\n    \"email\":\"head@mail.ru\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8080/department",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"department"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "добавить руководителя в департамент №1",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Ответ должен содержать код статуса 200\", function() {\r",
+											"    pm.response.to.be.ok;\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Ответ должен содержать тело в формате json\", function() {\r",
+											"    pm.response.to.be.withBody;\r",
+											"    pm.response.to.be.json;\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Ответ содержит актуальный id\", function () {\r",
+											"    var jsonData = pm.response.json();\r",
+											"    pm.expect(jsonData.id, 'result[0]: \"id\" field').to.eql(1);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "PATCH",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"name\":\"Управление\",\r\n    \"email\":\"head@mail.ru\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8080/department",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"department"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "добавить несуществующего сотрудника руководителем",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Ответ должен содержать код статуса 200\", function() {\r",
+											"    pm.response.to.be.ok;\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Ответ должен содержать тело в формате json\", function() {\r",
+											"    pm.response.to.be.withBody;\r",
+											"    pm.response.to.be.json;\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Ответ содержит актуальный id\", function () {\r",
+											"    var jsonData = pm.response.json();\r",
+											"    pm.expect(jsonData.id, 'result[0]: \"id\" field').to.eql(1);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "PATCH",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"name\":\"Управление\",\r\n    \"email\":\"head@mail.ru\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8080/department",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"department"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Получить все департаменты",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const body = pm.response.json();\r",
+											"\r",
+											"pm.test(\"Ответ должен содержать код статуса 200\", function() {\r",
+											"    pm.response.to.be.ok;\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Тело является массивом с двумя элементами\", () => {\r",
+											"    pm.expect(body).is.an('array');\r",
+											"    pm.expect(body.length).to.be.gte(2);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8080/department",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"department"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		}
+	]
+}
