@@ -1,7 +1,9 @@
 package com.anybank.bankemployeessalaries.model;
 
-public enum Status {
-    WORKED,
+public enum JobStatus {
+    NEW,
+    WORKING,
+    FIRED,
     ABSENT,
     MEDICAL,
     VACATION,

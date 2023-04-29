@@ -15,20 +15,26 @@ import org.springframework.stereotype.Component;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Slf4j
 @Component
 public class EmployeeDaoImpl implements EmployeeDao {
     private final JdbcTemplate jdbcTemplate;
-    private DepartmentDao departmentDao;
-    private WorkScheduleDao workscheduleDao;
-    private PositionDao positionDao;
+    private final DepartmentDao departmentDao;
+    private final WorkScheduleDao workscheduleDao;
+    private final PositionDao positionDao;
 
     @Autowired
-    public EmployeeDaoImpl(@Lazy JdbcTemplate jdbcTemplate) {
+    public EmployeeDaoImpl(@Lazy JdbcTemplate jdbcTemplate,
+                           DepartmentDao departmentDao,
+                           WorkScheduleDao workscheduleDao,
+                           PositionDao positionDao) {
         this.jdbcTemplate = jdbcTemplate;
+        this.departmentDao = departmentDao;
+        this.workscheduleDao = workscheduleDao;
+        this.positionDao = positionDao;
     }
 
     /**
@@ -36,20 +42,18 @@ public class EmployeeDaoImpl implements EmployeeDao {
      */
     @Override
     public Employee addEmployee(Employee employee) {
-        String sql = "INSERT INTO employee(surname, firstname, lastname, gender, department_id, phone, email," +
-                "position_id, work_schedule_id, date_of_admission) " +
-                "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO employee(surname, firstname, lastname, gender, phone, email, " +
+                "date_of_admission, job_status) " +
+                "VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
         jdbcTemplate.update(sql,
                 employee.getSurname(),
                 employee.getFirstname(),
                 employee.getLastname(),
                 employee.getGender(),
-                employee.getDepartment().getId(),
                 employee.getPhone(),
                 employee.getEmail(),
-                employee.getPosition().getId(),
-                employee.getWorkSchedule().getId(),
-                employee.getDateOfAdmission());
+                employee.getDateOfAdmission(),
+                employee.getJobStatus());
         SqlRowSet employeeRows = jdbcTemplate.queryForRowSet(
                 "SELECT * FROM employee WHERE surname=? AND firstname=? AND lastname=?",
                 employee.getSurname(), employee.getFirstname(), employee.getLastname());
@@ -84,11 +88,11 @@ public class EmployeeDaoImpl implements EmployeeDao {
                 employee.getFirstname(),
                 employee.getLastname(),
                 employee.getGender(),
-                employee.getDepartment().getId(),
+                employee.getDepartmentId(),
                 employee.getPhone(),
                 employee.getEmail(),
-                employee.getPosition().getId(),
-                employee.getWorkSchedule().getId(),
+                employee.getPositionId(),
+                employee.getWorkScheduleId(),
                 employee.getDateOfAdmission(),
                 employee.getDateOfDismissal(),
                 employee.getId());
@@ -166,13 +170,13 @@ public class EmployeeDaoImpl implements EmployeeDao {
                 .firstname(rs.getString("firstname"))
                 .lastname(rs.getString("lastname"))
                 .gender(rs.getString(""))
-                .department(departmentDao.findDepartmentById(rs.getInt("department_id")))
+                .departmentId(departmentDao.findDepartmentById(rs.getInt("department_id")).getId())
                 .phone(rs.getString("phone"))
                 .email(rs.getString("email"))
-                .position(positionDao.findPositionById(rs.getInt("position_id")))
-                .workSchedule(workscheduleDao.getScheduleById(rs.getInt("work_schedule_id")))
-                .dateOfAdmission(LocalDate.parse(rs.getString("date_of_admission")))
-                .dateOfDismissal(LocalDate.parse(rs.getString("date_of_dismissal")))
+                .positionId(positionDao.findPositionById(rs.getInt("position_id")).getId())
+                .workScheduleId(workscheduleDao.getScheduleById(rs.getInt("work_schedule_id")).getId())
+                .dateOfAdmission(LocalDateTime.parse(rs.getString("date_of_admission")))
+                .dateOfDismissal(LocalDateTime.parse(rs.getString("date_of_dismissal")))
                 .build();
 
         if (employee.getSurname() == null) {

@@ -17,5 +17,5 @@ public class AttendanceData {
     @PositiveOrZero
     private int employeeId;
     @NotBlank
-    private Status status;
+    private JobStatus jobStatus;
 }

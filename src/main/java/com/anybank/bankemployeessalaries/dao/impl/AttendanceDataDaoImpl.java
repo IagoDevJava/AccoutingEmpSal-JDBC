@@ -2,7 +2,7 @@ package com.anybank.bankemployeessalaries.dao.impl;
 
 import com.anybank.bankemployeessalaries.dao.AttendanceDataDao;
 import com.anybank.bankemployeessalaries.model.AttendanceData;
-import com.anybank.bankemployeessalaries.model.Status;
+import com.anybank.bankemployeessalaries.model.JobStatus;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
@@ -34,7 +34,7 @@ public class AttendanceDataDaoImpl implements AttendanceDataDao {
         String sql = "INSERT INTO attendance_data(date_att, employee_id, status) " +
                 "VALUES (?, ?, ?)";
         jdbcTemplate.update(
-                sql, attendanceData.getDateAtt(), attendanceData.getEmployeeId(), attendanceData.getStatus()
+                sql, attendanceData.getDateAtt(), attendanceData.getEmployeeId(), attendanceData.getJobStatus()
         );
         SqlRowSet attRows = jdbcTemplate.queryForRowSet(
                 "SELECT * FROM attendance_data WHERE date_att=? AND employee_id=?",
@@ -61,7 +61,7 @@ public class AttendanceDataDaoImpl implements AttendanceDataDao {
                 " WHERE id = ?";
 
         jdbcTemplate.update(
-                sql, attendanceData.getDateAtt(), attendanceData.getEmployeeId(), attendanceData.getStatus()
+                sql, attendanceData.getDateAtt(), attendanceData.getEmployeeId(), attendanceData.getJobStatus()
         );
         log.info("Данные о посещении обновлены {}", attendanceData.getId());
         return attendanceData;
@@ -172,7 +172,7 @@ public class AttendanceDataDaoImpl implements AttendanceDataDao {
                 .id(rs.getInt("id"))
                 .dateAtt(rs.getDate("date_att").toLocalDate())
                 .employeeId(rs.getInt("employee_id"))
-                .status(Status.valueOf(rs.getString("status").toUpperCase()))
+                .jobStatus(JobStatus.valueOf(rs.getString("status").toUpperCase()))
                 .build();
         if (attendanceData.getDateAtt() == null) {
             attendanceData = null;
