@@ -1,83 +1,70 @@
-//package com.anybank.bankemployeessalaries.controller;
-//
-//import com.anybank.bankemployeessalaries.model.WorkSchedule;
-//import com.anybank.bankemployeessalaries.service.WorkScheduleService;
-//import lombok.extern.slf4j.Slf4j;
-//import org.springframework.beans.factory.annotation.Autowired;
-//import org.springframework.http.HttpStatus;
-//import org.springframework.http.ResponseEntity;
-//import org.springframework.validation.annotation.Validated;
-//import org.springframework.web.bind.annotation.*;
-//
-//import javax.validation.Valid;
-//import javax.validation.constraints.PositiveOrZero;
-//import java.util.List;
-//
-//@Slf4j
-//@Validated
-//@RestController
-//@RequestMapping("/work-schedules")
-//public class WorkScheduleController {
-//    private final WorkScheduleService workScheduleService;
-//
-//    @Autowired
-//    public WorkScheduleController(WorkScheduleService workScheduleService) {
-//        this.workScheduleService = workScheduleService;
-//    }
-//
-//    /**
-//     * Добавить график в БД
-//     */
-//    @PostMapping()
-//    public ResponseEntity<WorkSchedule> addSchedule(@Valid @RequestBody WorkSchedule workSchedule) {
-//        log.info("Добавляем график работы с {} рабочими днями", workSchedule.getNumberOfWorkDays());
-//        return ResponseEntity.ok(workScheduleService.addSchedule(workSchedule));
-//    }
-//
-//    /**
-//     * Изменить график в БД
-//     */
-//    @PatchMapping
-//    public ResponseEntity<WorkSchedule> updateSchedule(@RequestBody WorkSchedule workSchedule) {
-//        log.info("Обновляем график работы с {} рабочими днями", workSchedule.getNumberOfWorkDays());
-//        return ResponseEntity.ok(workScheduleService.updateSchedule(workSchedule));
-//    }
-//
-//    /**
-//     * Удалить графики из БД
-//     */
-//    @DeleteMapping
-//    public ResponseEntity<Void> deleteSchedules() {
-//        log.info("Удаляем все графики из БД");
-//        workScheduleService.deleteSchedules();
-//        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-//    }
-//
-//    /**
-//     * Удалить график в БД по id
-//     */
-//    @DeleteMapping("/{id}")
-//    public ResponseEntity<Void> deleteScheduleById(@PositiveOrZero @PathVariable Integer id) {
-//        log.info("Удаляем график работы с № {}", id);
-//        workScheduleService.deleteScheduleById(id);
-//        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-//    }
-//
-//    /**
-//     * Получить все графики в БД
-//     */
-//    @GetMapping
-//    public ResponseEntity<List<WorkSchedule>> getSchedules() {
-//        log.info("Запросили все графики из БД");
-//        return ResponseEntity.ok(workScheduleService.getSchedules());
-//    }
-//
-//    /**
-//     * Получить график в БД по id
-//     */
-//    @GetMapping("/{id}")
-//    public ResponseEntity<WorkSchedule> getScheduleById(@PositiveOrZero @PathVariable Integer id) {
-//        log.info("Запросили график работы с № {}", id);
-//        return ResponseEntity.ok(workScheduleService.getScheduleById(id));
-//    }
-//}
+package com.anybank.bankemployeessalaries.api_admin.controller;
+
+import com.anybank.bankemployeessalaries.api_admin.service.WorkScheduleService;
+import com.anybank.bankemployeessalaries.dto.WorkScheduleDto;
+import com.anybank.bankemployeessalaries.model.WorkSchedule;
+import lombok.AllArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+import javax.validation.Valid;
+import java.util.List;
+
+@RestController
+@AllArgsConstructor
+@RequestMapping("/admin/work-schedule")
+public class WorkScheduleController {
+    private final WorkScheduleService workScheduleService;
+
+    /**
+     * Добавить график в БД
+     */
+    @PostMapping()
+    public ResponseEntity<WorkScheduleDto> addSchedule(@RequestBody WorkSchedule workSchedule) {
+        return ResponseEntity.ok(workScheduleService.addSchedule(workSchedule));
+    }
+
+    /**
+     * Изменить график в БД
+     */
+    @PatchMapping("/{scheduleId}")
+    public ResponseEntity<WorkScheduleDto> updateSchedule(@RequestBody WorkSchedule workSchedule,
+                                                          @PathVariable Integer scheduleId) {
+        return ResponseEntity.ok(workScheduleService.updateSchedule(workSchedule, scheduleId));
+    }
+
+    /**
+     * Удалить графики из БД
+     */
+    @DeleteMapping
+    public ResponseEntity<Void> deleteSchedules() {
+        workScheduleService.deleteSchedules();
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
+
+    /**
+     * Удалить график в БД по id
+     */
+    @DeleteMapping("/{scheduleId}")
+    public ResponseEntity<Void> deleteScheduleById(@PathVariable Integer scheduleId) {
+        workScheduleService.deleteScheduleById(scheduleId);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
+
+    /**
+     * Получить все графики в БД
+     */
+    @GetMapping
+    public ResponseEntity<List<WorkScheduleDto>> getSchedules() {
+        return ResponseEntity.ok(workScheduleService.getSchedules());
+    }
+
+    /**
+     * Получить график в БД по id
+     */
+    @GetMapping("/{scheduleId}")
+    public ResponseEntity<WorkScheduleDto> getScheduleById(@PathVariable Integer scheduleId) {
+        return ResponseEntity.ok(workScheduleService.getScheduleById(scheduleId));
+    }
+}
