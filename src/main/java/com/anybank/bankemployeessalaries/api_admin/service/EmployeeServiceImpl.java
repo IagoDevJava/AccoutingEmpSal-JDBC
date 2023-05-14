@@ -3,6 +3,7 @@ package com.anybank.bankemployeessalaries.api_admin.service;
 import com.anybank.bankemployeessalaries.dto.EmployeeDto;
 import com.anybank.bankemployeessalaries.enum_model.JobStatus;
 import com.anybank.bankemployeessalaries.exception.EmployeeNotFoundException;
+import com.anybank.bankemployeessalaries.mapper.EmployeeMapper;
 import com.anybank.bankemployeessalaries.model.Employee;
 import com.anybank.bankemployeessalaries.repository.EmployeeRepository;
 import lombok.AllArgsConstructor;
@@ -11,9 +12,6 @@ import org.springframework.stereotype.Service;
 import javax.validation.Valid;
 import javax.validation.constraints.PositiveOrZero;
 import java.util.List;
-
-import static com.anybank.bankemployeessalaries.mapper.EmployeeMapper.toEmployeeDto;
-import static com.anybank.bankemployeessalaries.mapper.EmployeeMapper.toEmployeeDtoList;
 
 @Service
 @AllArgsConstructor
@@ -27,7 +25,7 @@ public class EmployeeServiceImpl implements EmployeeService {
     @Override
     public EmployeeDto addEmployee(@Valid Employee employee) {
         employee.setJobStatus(JobStatus.NEW);
-        return toEmployeeDto(employeeRepository.save(employee));
+        return EmployeeMapper.toEmployeeDto(employeeRepository.save(employee));
     }
 
     /**
@@ -52,7 +50,7 @@ public class EmployeeServiceImpl implements EmployeeService {
         employeeById.setDateOfDismissal(employee.getDateOfDismissal());
         employeeById.setJobStatus(employee.getJobStatus());
 
-        return toEmployeeDto(employeeRepository.save(employeeById));
+        return EmployeeMapper.toEmployeeDto(employeeRepository.save(employeeById));
     }
 
     /**
@@ -78,7 +76,7 @@ public class EmployeeServiceImpl implements EmployeeService {
      */
     @Override
     public List<EmployeeDto> getEmployees() {
-        return toEmployeeDtoList(employeeRepository.findAll());
+        return EmployeeMapper.toEmployeeDtoList(employeeRepository.findAll());
     }
 
     /**
@@ -86,7 +84,7 @@ public class EmployeeServiceImpl implements EmployeeService {
      */
     @Override
     public EmployeeDto getEmployeeById(@PositiveOrZero Integer employeeId) {
-        return toEmployeeDto(employeeRepository.findById(employeeId)
+        return EmployeeMapper.toEmployeeDto(employeeRepository.findById(employeeId)
                 .orElseThrow(() -> new EmployeeNotFoundException("Employee not found")));
     }
 }

@@ -5,4 +5,4 @@ DROP TABLE grade CASCADE;
 DROP TABLE position CASCADE;
 DROP TABLE salary CASCADE;
 DROP TABLE salaries_data CASCADE;
-DROP TABLE work_schedule CASCADE;
+DROP TABLE work_schedules CASCADE;
