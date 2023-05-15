@@ -4,6 +4,7 @@ import lombok.*;
 import lombok.experimental.FieldDefaults;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 
 @Getter
 @ToString
@@ -16,11 +17,15 @@ public class WorkSchedule {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Integer id;
-    @Column(nullable = false, name = "work_days")
+
+    @NotNull
+    @Column(name = "work_days")
     Integer workDay;
-    @Column(nullable = false, name = "Week_days")
+    @NotNull
+    @Column(name = "Week_days")
     Integer weekDay;
-    @Column(nullable = false, name = "hours")
+    @NotNull
+    @Column(name = "hours")
     Integer workHour;
 
     public void setId(Integer id) {

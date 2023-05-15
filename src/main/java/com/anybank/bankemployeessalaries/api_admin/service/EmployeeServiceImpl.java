@@ -9,8 +9,6 @@ import com.anybank.bankemployeessalaries.repository.EmployeeRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import javax.validation.Valid;
-import javax.validation.constraints.PositiveOrZero;
 import java.util.List;
 
 @Service
@@ -23,7 +21,7 @@ public class EmployeeServiceImpl implements EmployeeService {
      * Добавление сотрудника в БД
      */
     @Override
-    public EmployeeDto addEmployee(@Valid Employee employee) {
+    public EmployeeDto addEmployee(Employee employee) {
         employee.setJobStatus(JobStatus.NEW);
         return EmployeeMapper.toEmployeeDto(employeeRepository.save(employee));
     }
@@ -32,7 +30,7 @@ public class EmployeeServiceImpl implements EmployeeService {
      * Обновление сотрудника в БД
      */
     @Override
-    public EmployeeDto updateEmployee(Employee employee, @PositiveOrZero Integer employeeId) {
+    public EmployeeDto updateEmployee(Employee employee, Integer employeeId) {
         Employee employeeById = employeeRepository.findById(employeeId)
                 .orElseThrow(() -> new EmployeeNotFoundException("Employee not found"));
 
@@ -65,7 +63,7 @@ public class EmployeeServiceImpl implements EmployeeService {
      * Удаление сотрудника по id из БД
      */
     @Override
-    public void deleteEmployeeById(@PositiveOrZero Integer employeeId) {
+    public void deleteEmployeeById(Integer employeeId) {
         employeeRepository.findById(employeeId)
                 .orElseThrow(() -> new EmployeeNotFoundException("Employee not found"));
         employeeRepository.deleteById(employeeId);
@@ -83,7 +81,7 @@ public class EmployeeServiceImpl implements EmployeeService {
      * Получение сотрудника по id
      */
     @Override
-    public EmployeeDto getEmployeeById(@PositiveOrZero Integer employeeId) {
+    public EmployeeDto getEmployeeById(Integer employeeId) {
         return EmployeeMapper.toEmployeeDto(employeeRepository.findById(employeeId)
                 .orElseThrow(() -> new EmployeeNotFoundException("Employee not found")));
     }

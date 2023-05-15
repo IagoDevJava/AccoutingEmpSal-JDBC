@@ -7,10 +7,12 @@ import com.anybank.bankemployeessalaries.model.WorkSchedule;
 import com.anybank.bankemployeessalaries.repository.WorkScheduleRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
 @Service
+@Transactional(readOnly = true)
 @AllArgsConstructor
 public class WorkScheduleServiceImpl implements WorkScheduleService {
     private final WorkScheduleRepository workScheduleRepository;
@@ -19,6 +21,7 @@ public class WorkScheduleServiceImpl implements WorkScheduleService {
      * Добавить график в БД
      */
     @Override
+    @Transactional
     public WorkScheduleDto addSchedule(WorkSchedule workSchedule) {
         return WorkScheduleMapper.toWorkScheduleDto(workScheduleRepository.save(workSchedule));
     }
@@ -27,6 +30,7 @@ public class WorkScheduleServiceImpl implements WorkScheduleService {
      * Заменить график в БД
      */
     @Override
+    @Transactional
     public WorkScheduleDto updateSchedule(WorkSchedule workSchedule, Integer scheduleId) {
         WorkSchedule scheduleById = workScheduleRepository.findById(scheduleId)
                 .orElseThrow(() -> new ScheduleNotFoundException("Schedule not found"));
@@ -43,6 +47,7 @@ public class WorkScheduleServiceImpl implements WorkScheduleService {
      * Удалить графики из БД
      */
     @Override
+    @Transactional
     public void deleteSchedules() {
         workScheduleRepository.deleteAll();
     }
@@ -51,6 +56,7 @@ public class WorkScheduleServiceImpl implements WorkScheduleService {
      * Удалить график в БД по id
      */
     @Override
+    @Transactional
     public void deleteScheduleById(Integer scheduleId) {
         workScheduleRepository.findById(scheduleId)
                 .orElseThrow(() -> new ScheduleNotFoundException("Schedule not found"));
@@ -61,6 +67,7 @@ public class WorkScheduleServiceImpl implements WorkScheduleService {
      * Получить все графики в БД
      */
     @Override
+    @Transactional
     public List<WorkScheduleDto> getSchedules() {
         return WorkScheduleMapper.toWorkScheduleDtoList(workScheduleRepository.findAll());
     }
@@ -69,6 +76,7 @@ public class WorkScheduleServiceImpl implements WorkScheduleService {
      * Получить график в БД по id
      */
     @Override
+    @Transactional
     public WorkScheduleDto getScheduleById(Integer scheduleId) {
         return WorkScheduleMapper.toWorkScheduleDto(workScheduleRepository.findById(scheduleId)
                 .orElseThrow(() -> new ScheduleNotFoundException("Schedule not found")));
