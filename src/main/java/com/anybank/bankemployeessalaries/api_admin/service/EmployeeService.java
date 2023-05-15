@@ -2,24 +2,20 @@ package com.anybank.bankemployeessalaries.api_admin.service;
 
 import com.anybank.bankemployeessalaries.dto.EmployeeDto;
 import com.anybank.bankemployeessalaries.model.Employee;
-import org.springframework.validation.annotation.Validated;
 
-import javax.validation.Valid;
-import javax.validation.constraints.PositiveOrZero;
 import java.util.List;
 
-@Validated
 public interface EmployeeService {
 
     /**
      * Добавление сотрудника в БД
      */
-    EmployeeDto addEmployee(@Valid Employee employee);
+    EmployeeDto addEmployee(Employee employee);
 
     /**
      * Обновление сотрудника в БД
      */
-    EmployeeDto updateEmployee(Employee employee, @PositiveOrZero Integer employeeId);
+    EmployeeDto updateEmployee(Employee employee, Integer employeeId);
 
     /**
      * Удаление всех сотрудников из БД
@@ -29,7 +25,7 @@ public interface EmployeeService {
     /**
      * Удаление сотрудника по id из БД
      */
-    void deleteEmployeeById(@PositiveOrZero Integer employeeId);
+    void deleteEmployeeById(Integer employeeId);
 
     /**
      * Получение списка сотрудников из БД
@@ -39,5 +35,5 @@ public interface EmployeeService {
     /**
      * Получение сотрудника по id
      */
-    EmployeeDto getEmployeeById(@PositiveOrZero Integer employeeId);
+    EmployeeDto getEmployeeById(Integer employeeId);
 }

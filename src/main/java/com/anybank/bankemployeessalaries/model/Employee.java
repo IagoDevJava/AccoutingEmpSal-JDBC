@@ -6,10 +6,7 @@ import lombok.experimental.FieldDefaults;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
-import javax.validation.constraints.Email;
-import javax.validation.constraints.FutureOrPresent;
-import javax.validation.constraints.PastOrPresent;
-import javax.validation.constraints.Pattern;
+import javax.validation.constraints.*;
 import java.time.LocalDateTime;
 import java.util.Objects;
 
@@ -24,27 +21,32 @@ public class Employee {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Integer id;
-    @Column(nullable = false, length = 30)
+    @NotBlank
+    @Column(length = 30)
     String surname;
-    @Column(nullable = false, length = 30)
+    @NotBlank
+    @Column(length = 30)
     String firstname;
     @Column(length = 30)
     String lastname;
-    @Column(nullable = false, length = 30)
+    @NotBlank
+    @Column(length = 30)
     String gender;
     @Column(name = "department_id")
     Integer departmentId;
     @Column
     @Pattern(regexp = "^[1-9]-\\d\\d\\d$")
     String phone;
-    @Column(nullable = false)
+    @NotBlank
+    @Column
     @Email
     String email;
     @Column(name = "position_id")
     Integer positionId;
     @Column(name = "work_schedule_id")
     Integer workScheduleId;
-    @Column(nullable = false, name = "date_of_admission")
+    @NotNull
+    @Column(name = "date_of_admission")
     @DateTimeFormat
     @FutureOrPresent
     LocalDateTime dateOfAdmission;
