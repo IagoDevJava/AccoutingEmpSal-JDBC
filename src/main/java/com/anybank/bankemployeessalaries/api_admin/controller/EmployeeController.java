@@ -6,11 +6,15 @@ import com.anybank.bankemployeessalaries.model.Employee;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
+import javax.validation.constraints.PositiveOrZero;
 import java.util.List;
 
 @RestController
+@Transactional(readOnly = true)
 @AllArgsConstructor
 @RequestMapping("/admin/employee")
 public class EmployeeController {
@@ -19,23 +23,26 @@ public class EmployeeController {
     /**
      * Добавление сотрудника в БД
      */
+    @Transactional
     @PostMapping
-    public ResponseEntity<EmployeeDto> addEmployee(@RequestBody Employee employee) {
+    public ResponseEntity<EmployeeDto> addEmployee(@Valid @RequestBody Employee employee) {
         return ResponseEntity.ok(employeeService.addEmployee(employee));
     }
 
     /**
      * Обновление сотрудника в БД
      */
+    @Transactional
     @PatchMapping("/{employeeId}")
     public ResponseEntity<EmployeeDto> updateEmployee(@RequestBody Employee employee,
-                                                      @PathVariable Integer employeeId) {
+                                                      @PositiveOrZero @PathVariable Integer employeeId) {
         return ResponseEntity.ok(employeeService.updateEmployee(employee, employeeId));
     }
 
     /**
      * Удаление всех сотрудников из БД
      */
+    @Transactional
     @DeleteMapping
     public ResponseEntity<Void> deleteEmployees() {
         employeeService.deleteEmployees();
@@ -45,8 +52,9 @@ public class EmployeeController {
     /**
      * Удаление сотрудника по id из БД
      */
+    @Transactional
     @DeleteMapping("/{employeeId}")
-    public ResponseEntity<Void> deleteEmployeeById(@PathVariable Integer employeeId) {
+    public ResponseEntity<Void> deleteEmployeeById(@PositiveOrZero @PathVariable Integer employeeId) {
         employeeService.deleteEmployeeById(employeeId);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
@@ -54,6 +62,7 @@ public class EmployeeController {
     /**
      * Получение списка сотрудников из БД
      */
+    @Transactional
     @GetMapping
     public ResponseEntity<List<EmployeeDto>> getEmployees() {
         return ResponseEntity.ok(employeeService.getEmployees());
@@ -62,8 +71,9 @@ public class EmployeeController {
     /**
      * Получение сотрудника по id
      */
+    @Transactional
     @GetMapping("/{employeeId}")
-    public ResponseEntity<EmployeeDto> getEmployeeById(@PathVariable Integer employeeId) {
+    public ResponseEntity<EmployeeDto> getEmployeeById(@PositiveOrZero @PathVariable Integer employeeId) {
         return ResponseEntity.ok(employeeService.getEmployeeById(employeeId));
     }
 }

@@ -6,12 +6,15 @@ import com.anybank.bankemployeessalaries.model.WorkSchedule;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import javax.validation.constraints.PositiveOrZero;
 import java.util.List;
 
 @RestController
+@Validated
 @AllArgsConstructor
 @RequestMapping("/admin/work-schedule")
 public class WorkScheduleController {
@@ -21,7 +24,7 @@ public class WorkScheduleController {
      * Добавить график в БД
      */
     @PostMapping()
-    public ResponseEntity<WorkScheduleDto> addSchedule(@RequestBody WorkSchedule workSchedule) {
+    public ResponseEntity<WorkScheduleDto> addSchedule(@Valid @RequestBody WorkSchedule workSchedule) {
         return ResponseEntity.ok(workScheduleService.addSchedule(workSchedule));
     }
 
@@ -30,7 +33,7 @@ public class WorkScheduleController {
      */
     @PatchMapping("/{scheduleId}")
     public ResponseEntity<WorkScheduleDto> updateSchedule(@RequestBody WorkSchedule workSchedule,
-                                                          @PathVariable Integer scheduleId) {
+                                                          @PositiveOrZero @PathVariable Integer scheduleId) {
         return ResponseEntity.ok(workScheduleService.updateSchedule(workSchedule, scheduleId));
     }
 
@@ -47,7 +50,7 @@ public class WorkScheduleController {
      * Удалить график в БД по id
      */
     @DeleteMapping("/{scheduleId}")
-    public ResponseEntity<Void> deleteScheduleById(@PathVariable Integer scheduleId) {
+    public ResponseEntity<Void> deleteScheduleById(@PositiveOrZero @PathVariable Integer scheduleId) {
         workScheduleService.deleteScheduleById(scheduleId);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
@@ -64,7 +67,7 @@ public class WorkScheduleController {
      * Получить график в БД по id
      */
     @GetMapping("/{scheduleId}")
-    public ResponseEntity<WorkScheduleDto> getScheduleById(@PathVariable Integer scheduleId) {
+    public ResponseEntity<WorkScheduleDto> getScheduleById(@PositiveOrZero @PathVariable Integer scheduleId) {
         return ResponseEntity.ok(workScheduleService.getScheduleById(scheduleId));
     }
 }
