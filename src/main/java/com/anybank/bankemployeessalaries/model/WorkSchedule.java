@@ -5,6 +5,7 @@ import lombok.experimental.FieldDefaults;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import java.util.Objects;
 
 @Getter
 @ToString
@@ -42,5 +43,21 @@ public class WorkSchedule {
 
     public void setWorkHour(Integer workHour) {
         if (workHour != null) this.workHour = workHour;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        WorkSchedule that = (WorkSchedule) o;
+        return Objects.equals(id, that.id)
+                && Objects.equals(workDay, that.workDay)
+                && Objects.equals(weekDay, that.weekDay)
+                && Objects.equals(workHour, that.workHour);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, workDay, weekDay, workHour);
     }
 }

@@ -1,6 +1,6 @@
-package com.anybank.bankemployeessalaries.api_admin.controller;
+package com.anybank.bankemployeessalaries.controller;
 
-import com.anybank.bankemployeessalaries.api_admin.service.EmployeeService;
+import com.anybank.bankemployeessalaries.service.EmployeeService;
 import com.anybank.bankemployeessalaries.dto.EmployeeDto;
 import com.anybank.bankemployeessalaries.model.Employee;
 import lombok.AllArgsConstructor;
@@ -16,7 +16,7 @@ import java.util.List;
 @RestController
 @Transactional(readOnly = true)
 @AllArgsConstructor
-@RequestMapping("/admin/employee")
+@RequestMapping("/employees")
 public class EmployeeController {
     private final EmployeeService employeeService;
 
