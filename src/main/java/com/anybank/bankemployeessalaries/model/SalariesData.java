@@ -35,27 +35,31 @@ public class SalariesData {
     Double commonKpi;
 
     public void setId(Integer id) {
-        this.id = id;
+        if (id != null) this.id = id;
     }
 
     public void setGradeId(Integer gradeId) {
-        this.gradeId = gradeId;
+        if (gradeId != null) this.gradeId = gradeId;
     }
 
     public void setWage(Integer wage) {
-        this.wage = wage;
+        if (wage != null) this.wage = wage;
+    }
+
+    public void setBonus(Integer bonus) {
+        if (bonus != null) this.bonus = bonus;
     }
 
     public void setPersonalKpi(Double personalKpi) {
-        this.personalKpi = personalKpi;
+        if (personalKpi != null) this.personalKpi = personalKpi;
     }
 
     public void setTeamKpi(Double teamKpi) {
-        this.teamKpi = teamKpi;
+        if (teamKpi != null) this.teamKpi = teamKpi;
     }
 
     public void setCommonKpi(Double commonKpi) {
-        this.commonKpi = commonKpi;
+        if (commonKpi != null) this.commonKpi = commonKpi;
     }
 
     @Override
@@ -63,16 +67,11 @@ public class SalariesData {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         SalariesData that = (SalariesData) o;
-        return Objects.equals(id, that.id)
-                && Objects.equals(gradeId, that.gradeId)
-                && Objects.equals(wage, that.wage)
-                && Objects.equals(personalKpi, that.personalKpi)
-                && Objects.equals(teamKpi, that.teamKpi)
-                && Objects.equals(commonKpi, that.commonKpi);
+        return Objects.equals(id, that.id) && Objects.equals(gradeId, that.gradeId) && Objects.equals(wage, that.wage) && Objects.equals(bonus, that.bonus) && Objects.equals(personalKpi, that.personalKpi) && Objects.equals(teamKpi, that.teamKpi) && Objects.equals(commonKpi, that.commonKpi);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, gradeId, wage, personalKpi, teamKpi, commonKpi);
+        return Objects.hash(id, gradeId, wage, bonus, personalKpi, teamKpi, commonKpi);
     }
 }

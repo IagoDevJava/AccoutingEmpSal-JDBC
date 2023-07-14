@@ -36,4 +36,10 @@ public class ErrorHandler {
     public ErrorResponse handlePositionNotFoundException(final PositionNotFoundException e) {
         return new ErrorResponse(e.getMessage());
     }
+
+    @ExceptionHandler
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    public ErrorResponse handleSalariesDataNotFoundException(final SalariesDataNotFoundException e) {
+        return new ErrorResponse(e.getMessage());
+    }
 }
