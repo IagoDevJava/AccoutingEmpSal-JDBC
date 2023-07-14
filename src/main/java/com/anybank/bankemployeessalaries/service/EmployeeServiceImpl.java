@@ -1,4 +1,4 @@
-package com.anybank.bankemployeessalaries.api_admin.service;
+package com.anybank.bankemployeessalaries.service;
 
 import com.anybank.bankemployeessalaries.dto.EmployeeDto;
 import com.anybank.bankemployeessalaries.enum_model.JobStatus;
@@ -39,7 +39,7 @@ public class EmployeeServiceImpl implements EmployeeService {
         employeeById.setFirstname(employee.getFirstname());
         employeeById.setLastname(employee.getLastname());
         employeeById.setGender(employee.getGender());
-        employeeById.setDepartmentId(employee.getDepartmentId());
+        employeeById.setDepartment(employee.getDepartment());
         employeeById.setPhone(employee.getPhone());
         employeeById.setEmail(employee.getEmail());
         employeeById.setPositionId(employee.getPositionId());

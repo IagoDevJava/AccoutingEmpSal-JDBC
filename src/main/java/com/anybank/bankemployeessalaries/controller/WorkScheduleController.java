@@ -1,12 +1,12 @@
-package com.anybank.bankemployeessalaries.api_admin.controller;
+package com.anybank.bankemployeessalaries.controller;
 
-import com.anybank.bankemployeessalaries.api_admin.service.WorkScheduleService;
 import com.anybank.bankemployeessalaries.dto.WorkScheduleDto;
 import com.anybank.bankemployeessalaries.model.WorkSchedule;
+import com.anybank.bankemployeessalaries.service.WorkScheduleService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.validation.annotation.Validated;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -14,15 +14,16 @@ import javax.validation.constraints.PositiveOrZero;
 import java.util.List;
 
 @RestController
-@Validated
+@Transactional(readOnly = true)
 @AllArgsConstructor
-@RequestMapping("/admin/work-schedule")
+@RequestMapping("/work-schedules")
 public class WorkScheduleController {
     private final WorkScheduleService workScheduleService;
 
     /**
      * Добавить график в БД
      */
+    @Transactional
     @PostMapping()
     public ResponseEntity<WorkScheduleDto> addSchedule(@Valid @RequestBody WorkSchedule workSchedule) {
         return ResponseEntity.ok(workScheduleService.addSchedule(workSchedule));
@@ -31,6 +32,7 @@ public class WorkScheduleController {
     /**
      * Изменить график в БД
      */
+    @Transactional
     @PatchMapping("/{scheduleId}")
     public ResponseEntity<WorkScheduleDto> updateSchedule(@RequestBody WorkSchedule workSchedule,
                                                           @PositiveOrZero @PathVariable Integer scheduleId) {
@@ -40,6 +42,7 @@ public class WorkScheduleController {
     /**
      * Удалить графики из БД
      */
+    @Transactional
     @DeleteMapping
     public ResponseEntity<Void> deleteSchedules() {
         workScheduleService.deleteSchedules();
@@ -49,6 +52,7 @@ public class WorkScheduleController {
     /**
      * Удалить график в БД по id
      */
+    @Transactional
     @DeleteMapping("/{scheduleId}")
     public ResponseEntity<Void> deleteScheduleById(@PositiveOrZero @PathVariable Integer scheduleId) {
         workScheduleService.deleteScheduleById(scheduleId);
@@ -58,6 +62,7 @@ public class WorkScheduleController {
     /**
      * Получить все графики в БД
      */
+    @Transactional
     @GetMapping
     public ResponseEntity<List<WorkScheduleDto>> getSchedules() {
         return ResponseEntity.ok(workScheduleService.getSchedules());
@@ -66,6 +71,7 @@ public class WorkScheduleController {
     /**
      * Получить график в БД по id
      */
+    @Transactional
     @GetMapping("/{scheduleId}")
     public ResponseEntity<WorkScheduleDto> getScheduleById(@PositiveOrZero @PathVariable Integer scheduleId) {
         return ResponseEntity.ok(workScheduleService.getScheduleById(scheduleId));

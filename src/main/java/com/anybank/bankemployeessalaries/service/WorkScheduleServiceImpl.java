@@ -1,4 +1,4 @@
-package com.anybank.bankemployeessalaries.api_admin.service;
+package com.anybank.bankemployeessalaries.service;
 
 import com.anybank.bankemployeessalaries.dto.WorkScheduleDto;
 import com.anybank.bankemployeessalaries.exception.ScheduleNotFoundException;

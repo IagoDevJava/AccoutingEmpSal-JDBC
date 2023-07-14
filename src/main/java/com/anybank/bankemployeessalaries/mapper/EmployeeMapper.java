@@ -16,7 +16,7 @@ public class EmployeeMapper {
                 .lastname(employee.getLastname())
                 .positionId(employee.getPositionId())
                 .gender(employee.getGender())
-                .departmentId(employee.getDepartmentId())
+                .departmentId(employee.getDepartment().getId())
                 .phone(employee.getPhone())
                 .email(employee.getEmail())
                 .workScheduleId(employee.getWorkScheduleId())

@@ -1,4 +1,4 @@
-package com.anybank.bankemployeessalaries.api_admin.service;
+package com.anybank.bankemployeessalaries.service;
 
 import com.anybank.bankemployeessalaries.dto.EmployeeDto;
 import com.anybank.bankemployeessalaries.model.Employee;
