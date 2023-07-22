@@ -36,27 +36,27 @@ public class Salary {
     Double salary;
 
     public void setId(Long id) {
-        this.id = id;
+        if (id != null) this.id = id;
     }
 
     public void setDepartmentId(Integer departmentId) {
-        this.departmentId = departmentId;
+        if (departmentId != null) this.departmentId = departmentId;
     }
 
     public void setEmployeeId(Integer employeeId) {
-        this.employeeId = employeeId;
+        if (employeeId != null) this.employeeId = employeeId;
     }
 
     public void setMonth(String month) {
-        this.month = month;
+        if (month != null) this.month = month;
     }
 
     public void setYear(String year) {
-        this.year = year;
+        if (year != null) this.year = year;
     }
 
     public void setSalary(Double salary) {
-        this.salary = salary;
+        if (salary != null) this.salary = salary;
     }
 
     @Override

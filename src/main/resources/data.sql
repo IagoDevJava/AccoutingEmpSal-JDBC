@@ -1,4 +1,4 @@
-DROP TABLE attendance_dataies CASCADE;
+DROP TABLE attendance_data CASCADE;
 DROP TABLE departments CASCADE;
 DROP TABLE employees CASCADE;
 DROP TABLE grades CASCADE;
