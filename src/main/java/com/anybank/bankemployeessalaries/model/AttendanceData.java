@@ -20,32 +20,32 @@ import java.util.Objects;
 public class AttendanceData {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    long id;
+    Long id;
     @NotBlank
     @Column(name = "date_att")
     LocalDate dateAtt;
     @NotBlank
     @PositiveOrZero
     @Column(name = "employees_id")
-    int employeeId;
+    Integer employeeId;
     @NotBlank
     @Enumerated(EnumType.STRING)
     JobStatus jobStatus;
 
-    public void setId(long id) {
-        this.id = id;
+    public void setId(Long id) {
+        if (id != null) this.id = id;
     }
 
     public void setDateAtt(LocalDate dateAtt) {
-        this.dateAtt = dateAtt;
+        if (dateAtt != null) this.dateAtt = dateAtt;
     }
 
-    public void setEmployeeId(int employeeId) {
-        this.employeeId = employeeId;
+    public void setEmployeeId(Integer employeeId) {
+        if (employeeId != null) this.employeeId = employeeId;
     }
 
     public void setJobStatus(JobStatus jobStatus) {
-        this.jobStatus = jobStatus;
+        if (jobStatus != null) this.jobStatus = jobStatus;
     }
 
     @Override
@@ -53,7 +53,7 @@ public class AttendanceData {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         AttendanceData that = (AttendanceData) o;
-        return id == that.id && employeeId == that.employeeId && Objects.equals(dateAtt, that.dateAtt) && jobStatus == that.jobStatus;
+        return Objects.equals(id, that.id) && Objects.equals(dateAtt, that.dateAtt) && Objects.equals(employeeId, that.employeeId) && jobStatus == that.jobStatus;
     }
 
     @Override
