@@ -6,6 +6,7 @@ import com.anybank.bankemployeessalaries.service.DepartmentService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
@@ -14,7 +15,7 @@ import javax.validation.constraints.PositiveOrZero;
 import java.util.List;
 
 @RestController
-@Transactional(readOnly = true)
+@Transactional(isolation = Isolation.READ_COMMITTED)
 @AllArgsConstructor
 @RequestMapping("/departments")
 public class DepartmentController {
@@ -62,7 +63,7 @@ public class DepartmentController {
     /**
      * Получение списка департаментов из БД
      */
-    @Transactional
+    @Transactional(readOnly = true)
     @GetMapping
     public ResponseEntity<List<DepartmentDto>> getDepartment() {
         return ResponseEntity.ok(departmentService.getDepartment());
@@ -71,7 +72,7 @@ public class DepartmentController {
     /**
      * Получение департамента по id
      */
-    @Transactional
+    @Transactional(readOnly = true)
     @GetMapping("/{id}")
     public ResponseEntity<DepartmentDto> findDepartmentById(@PositiveOrZero @PathVariable Integer id) {
         return ResponseEntity.ok(departmentService.findDepartmentById(id));

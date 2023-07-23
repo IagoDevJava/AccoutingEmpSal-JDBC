@@ -7,6 +7,7 @@ import org.springframework.data.jpa.repository.Query;
 import javax.validation.constraints.NotBlank;
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 
 public interface AttendanceDataRepository extends JpaRepository<AttendanceData, Long> {
     void deleteAttendanceDataByDateAtt(LocalDate dateAtt);
@@ -19,4 +20,6 @@ public interface AttendanceDataRepository extends JpaRepository<AttendanceData, 
             "WHERE e.department_id = ?\n" +
             "  AND (date_att between ? AND ?)", nativeQuery = true)
     List<AttendanceData> findAttendanceDataByDepIdToPeriod(Integer depId, LocalDate start, LocalDate end);
+    Optional<AttendanceData> findAttendanceDataByDateAtt(LocalDate date);
+    List<AttendanceData> findAttendanceDataByEmployeeId(Integer id);
 }

@@ -1,17 +1,22 @@
 package com.anybank.bankemployeessalaries.controller;
 
 import com.anybank.bankemployeessalaries.dto.SalaryDto;
+import com.anybank.bankemployeessalaries.model.Salary;
 import com.anybank.bankemployeessalaries.service.SalaryService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import javax.validation.constraints.PositiveOrZero;
+import java.time.LocalDate;
 import java.util.List;
+import java.util.Objects;
 
 @Slf4j
 @Transactional(isolation = Isolation.READ_COMMITTED)
@@ -22,31 +27,69 @@ public class SalaryController {
     private final SalaryService salaryService;
 
     /**
-     * Сохранить данные о зарплате по сотруднику за месяц
+     * Сохранить данные о зарплате
      */
     @Transactional
-    @PostMapping("/{employeeId}")
-    public ResponseEntity<SalaryDto> addSalaryByPeriodForEmployee(
-            @PathVariable @PositiveOrZero Integer employeeId,
-            @RequestParam String month,
-            @RequestParam String year
-    ) {
-        return ResponseEntity.ok(salaryService.addSalaryByPeriodForEmployee(employeeId, month, year));
+    @PostMapping()
+    public ResponseEntity<SalaryDto> addSalary(@RequestBody @Valid Salary salary) {
+        return ResponseEntity.ok(salaryService.addSalary(salary));
     }
 
-//    /**
-//     * Рассчитать данные о зарплате по сотруднику за месяц
-//     */
-//    @Transactional
-//    @PostMapping("/calculate/{employeeId}")
-//    public ResponseEntity<SalaryDto> calculateSalaryByPeriodForEmployee(
-//            @PathVariable @PositiveOrZero Integer employeeId,
-//            @RequestParam Integer countWorkDays,
-//            @RequestParam String year
-//    ) {
-//        return ResponseEntity.ok(salaryService.calculateSalaryByPeriodForEmployee(employeeId, countWorkDays, year));
-//    }
+    /**
+     * Обновление данные о зарплате
+     */
+    @Transactional
+    @PatchMapping("/{id}")
+    public ResponseEntity<SalaryDto> updateSalary(@RequestBody Salary salary,
+                                                  @PathVariable @PositiveOrZero Long id) {
+        return ResponseEntity.ok(salaryService.updateSalary(salary, id));
+    }
 
+    /**
+     * Рассчитать данные о зарплате по сотруднику за месяц
+     */
+    @Transactional
+    @GetMapping("/calculate/{employeeId}")
+    public ResponseEntity<SalaryDto> calculateSalaryByMonthForEmployee(
+            @PathVariable @PositiveOrZero Integer employeeId,
+            @RequestParam @PositiveOrZero Integer countWorkDays,
+            @RequestParam(required = false) String year
+    ) {
+        return ResponseEntity.ok(salaryService.calculateSalaryByMonthForEmployee(
+                employeeId,
+                countWorkDays,
+                Objects.requireNonNullElse(year, String.valueOf(LocalDate.now().getYear())))
+        );
+    }
+
+    /**
+     * Удаление всех зарплат
+     */
+    @Transactional
+    @DeleteMapping
+    public ResponseEntity<Void> deleteSalary() {
+        salaryService.deleteSalary();
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
+
+    /**
+     * Удаление зарплат по id из БД
+     */
+    @Transactional
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteSalaryById(@PositiveOrZero @PathVariable Long id) {
+        salaryService.deleteSalaryById(id);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
+
+    /**
+     * получить данные о зарплате по id
+     */
+    @Transactional(readOnly = true)
+    @GetMapping("/{id}")
+    public ResponseEntity<SalaryDto> getSalaryById(@PositiveOrZero @PathVariable Long id) {
+        return ResponseEntity.ok(salaryService.getSalaryById(id));
+    }
 
     /**
      * получить данные о зарплате по сотруднику за месяц
@@ -54,9 +97,12 @@ public class SalaryController {
     @Transactional(readOnly = true)
     @GetMapping("/{employeeId}/month")
     public ResponseEntity<SalaryDto> getSalaryByMonthForEmployee(@PositiveOrZero @PathVariable Integer employeeId,
-                                                                 @RequestParam String month,
-                                                                 @RequestParam String year) {
-        return ResponseEntity.ok(salaryService.getSalaryByMonthForEmployee(employeeId, month, year));
+                                                                 @RequestParam(required = false) String month,
+                                                                 @RequestParam(required = false) String year) {
+        return ResponseEntity.ok(salaryService.getSalaryByMonthForEmployee(
+                employeeId,
+                Objects.requireNonNullElse(month, String.valueOf(LocalDate.now().getMonth())),
+                Objects.requireNonNullElse(year, String.valueOf(LocalDate.now().getYear()))));
     }
 
     /**
@@ -65,8 +111,11 @@ public class SalaryController {
     @Transactional(readOnly = true)
     @GetMapping("/{employeeId}/year")
     public ResponseEntity<List<SalaryDto>> getSalaryByYearForEmployee(@PositiveOrZero @PathVariable Integer employeeId,
-                                                                      @RequestParam String year) {
-        return ResponseEntity.ok(salaryService.getSalaryByYearForEmployee(employeeId, year));
+                                                                      @RequestParam(required = false) String year) {
+        return ResponseEntity.ok(salaryService.getSalaryByYearForEmployee(
+                employeeId,
+                Objects.requireNonNullElse(year, String.valueOf(LocalDate.now().getYear())))
+        );
     }
 
     /**
@@ -76,9 +125,12 @@ public class SalaryController {
     @GetMapping("/{departmentId}/month")
     public ResponseEntity<List<SalaryDto>> getSalaryByMonthForDepartment(
             @PositiveOrZero @PathVariable Integer departmentId,
-            @RequestParam String month,
-            @RequestParam String year) {
-        return ResponseEntity.ok(salaryService.getSalaryByMonthForDepartment(departmentId, month, year));
+            @RequestParam(required = false) String month,
+            @RequestParam(required = false) String year) {
+        return ResponseEntity.ok(salaryService.getSalaryByMonthForDepartment(
+                departmentId,
+                Objects.requireNonNullElse(month, String.valueOf(LocalDate.now().getMonth())),
+                Objects.requireNonNullElse(year, String.valueOf(LocalDate.now().getYear()))));
     }
 
     /**
@@ -86,9 +138,12 @@ public class SalaryController {
      */
     @Transactional(readOnly = true)
     @GetMapping("/{departmentId}/year")
-    public ResponseEntity<List<SalaryDto>> getSalaryByYearForDepartment(@PositiveOrZero @PathVariable Integer departmentId,
-                                                                        @RequestParam @DateTimeFormat String year) {
-        return ResponseEntity.ok(salaryService.getSalaryByYearForDepartment(departmentId, year));
+    public ResponseEntity<List<SalaryDto>> getSalaryByYearForDepartment(
+            @PositiveOrZero @PathVariable Integer departmentId,
+            @RequestParam(required = false) String year) {
+        return ResponseEntity.ok(salaryService.getSalaryByYearForDepartment(departmentId,
+                Objects.requireNonNullElse(year, String.valueOf(LocalDate.now().getYear())))
+        );
     }
 
     /**
@@ -96,9 +151,12 @@ public class SalaryController {
      */
     @Transactional(readOnly = true)
     @GetMapping("/month")
-    public ResponseEntity<List<SalaryDto>> getSalaryByMonth(@RequestParam String month,
-                                                            @RequestParam String year) {
-        return ResponseEntity.ok(salaryService.getSalaryByMonth(month, year));
+    public ResponseEntity<List<SalaryDto>> getSalaryByMonth(@RequestParam(required = false) String month,
+                                                            @RequestParam(required = false) String year) {
+        return ResponseEntity.ok(salaryService.getSalaryByMonth(
+                Objects.requireNonNullElse(month, String.valueOf(LocalDate.now().getMonth())),
+                Objects.requireNonNullElse(year, String.valueOf(LocalDate.now().getYear())))
+        );
     }
 
     /**
@@ -106,7 +164,11 @@ public class SalaryController {
      */
     @Transactional(readOnly = true)
     @GetMapping("/year")
-    public ResponseEntity<List<SalaryDto>> getSalaryByYear(@RequestParam String year) {
-        return ResponseEntity.ok(salaryService.getSalaryByYear(year));
+    public ResponseEntity<List<SalaryDto>> getSalaryByYear(@RequestParam(required = false) String year) {
+        return ResponseEntity.ok(
+                salaryService.getSalaryByYear(Objects.requireNonNullElse(
+                        year, String.valueOf(LocalDate.now().getYear()))
+                )
+        );
     }
 }

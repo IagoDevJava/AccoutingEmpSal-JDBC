@@ -42,4 +42,16 @@ public class ErrorHandler {
     public ErrorResponse handleSalariesDataNotFoundException(final SalariesDataNotFoundException e) {
         return new ErrorResponse(e.getMessage());
     }
+
+    @ExceptionHandler
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    public ErrorResponse handleEmployeeIsFiredException(final EmployeeIsFiredException e) {
+        return new ErrorResponse(e.getMessage());
+    }
+
+    @ExceptionHandler
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    public ErrorResponse handleKpiNotFoundException(final KpiNotFoundException e) {
+        return new ErrorResponse(e.getMessage());
+    }
 }
