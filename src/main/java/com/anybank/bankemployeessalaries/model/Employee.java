@@ -17,6 +17,7 @@ import java.util.Objects;
 @Entity
 @Table(name = "employees")
 @FieldDefaults(level = AccessLevel.PRIVATE)
+@Builder
 public class Employee {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -32,9 +33,8 @@ public class Employee {
     @NotBlank
     @Column(length = 30)
     String gender;
-    @OneToOne(optional = false, cascade = CascadeType.ALL)
     @JoinColumn(name = "department_id")
-    Department department;
+    Integer departmentId;
     @Column
     @Pattern(regexp = "^[1-9]-\\d\\d\\d$")
     String phone;
@@ -79,8 +79,8 @@ public class Employee {
         if (gender != null) this.gender = gender;
     }
 
-    public void setDepartment(Department department) {
-        if (department != null) this.department = department;
+    public void setDepartment(Integer departmentId) {
+        if (departmentId != null) this.departmentId = departmentId;
     }
 
     public void setPhone(String phone) {
@@ -121,7 +121,7 @@ public class Employee {
                 && Objects.equals(firstname, employee.firstname)
                 && Objects.equals(lastname, employee.lastname)
                 && Objects.equals(gender, employee.gender)
-                && Objects.equals(department, employee.department)
+                && Objects.equals(departmentId, employee.departmentId)
                 && Objects.equals(phone, employee.phone)
                 && Objects.equals(email, employee.email)
                 && Objects.equals(positionId, employee.positionId)
@@ -133,7 +133,7 @@ public class Employee {
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, surname, firstname, lastname, gender, department, phone,
-                email, positionId, workScheduleId, dateOfAdmission, dateOfDismissal, jobStatus);
+        return Objects.hash(id, surname, firstname, lastname, gender, departmentId,
+                phone, email, positionId, workScheduleId, dateOfAdmission, dateOfDismissal, jobStatus);
     }
 }

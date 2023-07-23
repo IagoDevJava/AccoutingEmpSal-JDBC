@@ -4,7 +4,6 @@ import com.anybank.bankemployeessalaries.dto.AttendanceDataDto;
 import com.anybank.bankemployeessalaries.model.AttendanceData;
 import com.anybank.bankemployeessalaries.service.AttendanceDataService;
 import lombok.AllArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -79,7 +78,7 @@ public class AttendanceDataController {
      */
     @Transactional(readOnly = true)
     @GetMapping("/{id}")
-    public ResponseEntity <AttendanceDataDto> getAttendanceDataById(@PathVariable Long id) {
+    public ResponseEntity<AttendanceDataDto> getAttendanceDataById(@PathVariable Long id) {
         return ResponseEntity.ok(attendanceDataService.getAttendanceDataById(id));
     }
 

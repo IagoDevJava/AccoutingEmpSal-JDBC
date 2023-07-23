@@ -1,5 +1,6 @@
 package com.anybank.bankemployeessalaries.model;
 
+import com.anybank.bankemployeessalaries.enum_model.AttendanceStatus;
 import com.anybank.bankemployeessalaries.enum_model.JobStatus;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
@@ -30,7 +31,7 @@ public class AttendanceData {
     Integer employeeId;
     @NotBlank
     @Enumerated(EnumType.STRING)
-    JobStatus jobStatus;
+    AttendanceStatus status;
 
     public void setId(Long id) {
         if (id != null) this.id = id;
@@ -44,8 +45,8 @@ public class AttendanceData {
         if (employeeId != null) this.employeeId = employeeId;
     }
 
-    public void setJobStatus(JobStatus jobStatus) {
-        if (jobStatus != null) this.jobStatus = jobStatus;
+    public void setStatus(AttendanceStatus status) {
+        if (status != null) this.status = status;
     }
 
     @Override
@@ -53,11 +54,11 @@ public class AttendanceData {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         AttendanceData that = (AttendanceData) o;
-        return Objects.equals(id, that.id) && Objects.equals(dateAtt, that.dateAtt) && Objects.equals(employeeId, that.employeeId) && jobStatus == that.jobStatus;
+        return Objects.equals(id, that.id) && Objects.equals(dateAtt, that.dateAtt) && Objects.equals(employeeId, that.employeeId) && status == that.status;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, dateAtt, employeeId, jobStatus);
+        return Objects.hash(id, dateAtt, employeeId, status);
     }
 }

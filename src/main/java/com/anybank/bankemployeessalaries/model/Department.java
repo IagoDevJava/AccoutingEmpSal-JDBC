@@ -36,7 +36,7 @@ public class Department {
     @Column
     String email;
     @JoinColumn(name = "head")
-    @OneToOne(optional = false, mappedBy = "department")
+    @OneToOne(optional = false, mappedBy = "departmentId")
     Employee head;
 
     public void setId(Integer id) {

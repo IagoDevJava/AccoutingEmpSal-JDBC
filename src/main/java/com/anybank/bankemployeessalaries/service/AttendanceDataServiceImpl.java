@@ -5,6 +5,8 @@ import com.anybank.bankemployeessalaries.exception.AttendanceDataNotFoundExcepti
 import com.anybank.bankemployeessalaries.mapper.AttendanceDataMapper;
 import com.anybank.bankemployeessalaries.model.AttendanceData;
 import com.anybank.bankemployeessalaries.repository.AttendanceDataRepository;
+import com.anybank.bankemployeessalaries.repository.DepartmentRepository;
+import com.anybank.bankemployeessalaries.repository.EmployeeRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -15,6 +17,8 @@ import java.util.List;
 @AllArgsConstructor
 public class AttendanceDataServiceImpl implements AttendanceDataService {
     private final AttendanceDataRepository attendanceDataRepository;
+    private final EmployeeRepository employeeRepository;
+    private final DepartmentRepository departmentRepository;
 
     /**
      * Ввести данные за день
@@ -35,7 +39,7 @@ public class AttendanceDataServiceImpl implements AttendanceDataService {
         attendanceById.setId(id);
         attendanceById.setDateAtt(attendanceData.getDateAtt());
         attendanceById.setEmployeeId(attendanceData.getEmployeeId());
-        attendanceById.setJobStatus(attendanceData.getJobStatus());
+        attendanceById.setStatus(attendanceData.getStatus());
 
         return AttendanceDataMapper.toAttendanceDataDto(attendanceDataRepository.save(attendanceById));
     }
@@ -45,6 +49,8 @@ public class AttendanceDataServiceImpl implements AttendanceDataService {
      */
     @Override
     public void deleteAttendanceDataByDay(String date) {
+        attendanceDataRepository.findAttendanceDataByDateAtt(LocalDate.parse(date))
+                .orElseThrow(() -> new AttendanceDataNotFoundException("Attendance with date not found"));
         attendanceDataRepository.deleteAttendanceDataByDateAtt(LocalDate.parse(date));
     }
 
@@ -61,6 +67,8 @@ public class AttendanceDataServiceImpl implements AttendanceDataService {
      */
     @Override
     public void deleteAttendanceDataByEmployee(Integer employeeId) {
+        employeeRepository.findById(employeeId)
+                .orElseThrow(() -> new AttendanceDataNotFoundException("Employee not found"));
         attendanceDataRepository.deleteAttendanceDataByEmployeeId(employeeId);
     }
 
@@ -79,6 +87,9 @@ public class AttendanceDataServiceImpl implements AttendanceDataService {
      */
     @Override
     public List<AttendanceDataDto> getAttendanceDataByPeriodByEmployee(Integer employeeId, String start, String end) {
+        employeeRepository.findById(employeeId)
+                .orElseThrow(() -> new AttendanceDataNotFoundException("Employee not found"));
+
         return AttendanceDataMapper.toAttendanceDataDtoList(
                 attendanceDataRepository.findAttendanceDataByEmployeeIdAndDateAttBetween(
                         employeeId, LocalDate.parse(start), LocalDate.parse(end))
@@ -91,6 +102,9 @@ public class AttendanceDataServiceImpl implements AttendanceDataService {
     @Override
     public List<AttendanceDataDto> getAttendanceDataByPeriodByDepartment(
             Integer departmentId, String start, String end) {
+        departmentRepository.findById(departmentId)
+                .orElseThrow(() -> new AttendanceDataNotFoundException("Department not found"));
+
         return AttendanceDataMapper.toAttendanceDataDtoList(
                 attendanceDataRepository.findAttendanceDataByDepIdToPeriod(
                         departmentId, LocalDate.parse(start), LocalDate.parse(end))

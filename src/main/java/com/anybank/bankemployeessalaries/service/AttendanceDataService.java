@@ -3,7 +3,6 @@ package com.anybank.bankemployeessalaries.service;
 import com.anybank.bankemployeessalaries.dto.AttendanceDataDto;
 import com.anybank.bankemployeessalaries.model.AttendanceData;
 
-import javax.persistence.criteria.CriteriaBuilder;
 import java.util.List;
 
 public interface AttendanceDataService {
