@@ -13,7 +13,7 @@ public class AttendanceDataMapper {
                 .id(attendanceData.getId())
                 .dateAtt(attendanceData.getDateAtt())
                 .employeeId(attendanceData.getEmployeeId())
-                .jobStatus(attendanceData.getStatus())
+                .attendanceStatus(attendanceData.getStatus())
                 .build();
     }
 

@@ -33,8 +33,6 @@ public class Employee {
     @NotBlank
     @Column(length = 30)
     String gender;
-    @JoinColumn(name = "department_id")
-    Integer departmentId;
     @Column
     @Pattern(regexp = "^[1-9]-\\d\\d\\d$")
     String phone;
@@ -42,6 +40,8 @@ public class Employee {
     @Column
     @Email
     String email;
+    @JoinColumn(name = "department_id")
+    Integer departmentId;
     @Column(name = "position_id")
     Integer positionId;
     @Column(name = "work_schedule_id")

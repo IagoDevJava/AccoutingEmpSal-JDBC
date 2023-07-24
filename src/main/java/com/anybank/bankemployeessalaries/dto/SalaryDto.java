@@ -12,27 +12,22 @@ import java.util.Objects;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class SalaryDto {
     Long id;
-    Integer departmentId;
     Integer employeeId;
+    Integer departmentId;
     String month;
     String year;
-    Double salary;
+    Double payment;
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        SalaryDto salary1 = (SalaryDto) o;
-        return Objects.equals(id, salary1.id)
-                && Objects.equals(departmentId, salary1.departmentId)
-                && Objects.equals(employeeId, salary1.employeeId)
-                && Objects.equals(month, salary1.month)
-                && Objects.equals(year, salary1.year)
-                && Objects.equals(salary, salary1.salary);
+        SalaryDto salaryDto = (SalaryDto) o;
+        return Objects.equals(id, salaryDto.id) && Objects.equals(employeeId, salaryDto.employeeId) && Objects.equals(departmentId, salaryDto.departmentId) && Objects.equals(month, salaryDto.month) && Objects.equals(year, salaryDto.year) && Objects.equals(payment, salaryDto.payment);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, departmentId, employeeId, month, year, salary);
+        return Objects.hash(id, employeeId, departmentId, month, year, payment);
     }
 }

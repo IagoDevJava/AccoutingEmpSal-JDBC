@@ -35,9 +35,8 @@ public class Department {
     @NotBlank
     @Column
     String email;
-    @JoinColumn(name = "head")
-    @OneToOne(optional = false, mappedBy = "departmentId")
-    Employee head;
+    @Column(name = "head")
+    Integer headEmpId;
 
     public void setId(Integer id) {
         if (id != null) this.id = id;
@@ -59,8 +58,8 @@ public class Department {
         if (email != null) this.email = email;
     }
 
-    public void setHead(Employee head) {
-        if (head != null) this.head = head;
+    public void setHeadEmpId(Integer headEmpId) {
+        if (headEmpId != null) this.headEmpId = headEmpId;
     }
 
     @Override
@@ -73,11 +72,11 @@ public class Department {
                 && Objects.equals(address, that.address)
                 && Objects.equals(phone, that.phone)
                 && Objects.equals(email, that.email)
-                && Objects.equals(head, that.head);
+                && Objects.equals(headEmpId, that.headEmpId);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, name, address, phone, email, head);
+        return Objects.hash(id, name, address, phone, email, headEmpId);
     }
 }

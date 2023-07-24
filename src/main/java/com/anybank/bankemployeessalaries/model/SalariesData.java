@@ -19,47 +19,29 @@ public class SalariesData {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Integer id;
     @NotNull
-    @Column(name = "grade_id")
-    Integer gradeId;
+    @Column
+    Double wage;
     @NotNull
     @Column
-    Integer wage;
+    Double bonus;
     @NotNull
-    @Column
-    Integer bonus;
-    @Column(name = "personal_kpi")
-    Double personalKpi;
-    @Column(name = "teaml_kpi")
-    Double teamKpi;
-    @Column(name = "common_kpi")
-    Double commonKpi;
+    @Column(name = "position_id")
+    Integer positionId;
 
     public void setId(Integer id) {
         if (id != null) this.id = id;
     }
 
-    public void setGradeId(Integer gradeId) {
-        if (gradeId != null) this.gradeId = gradeId;
-    }
-
-    public void setWage(Integer wage) {
+    public void setWage(Double wage) {
         if (wage != null) this.wage = wage;
     }
 
-    public void setBonus(Integer bonus) {
+    public void setBonus(Double bonus) {
         if (bonus != null) this.bonus = bonus;
     }
 
-    public void setPersonalKpi(Double personalKpi) {
-        if (personalKpi != null) this.personalKpi = personalKpi;
-    }
-
-    public void setTeamKpi(Double teamKpi) {
-        if (teamKpi != null) this.teamKpi = teamKpi;
-    }
-
-    public void setCommonKpi(Double commonKpi) {
-        if (commonKpi != null) this.commonKpi = commonKpi;
+    public void setPositionId(Integer positionId) {
+        if (positionId != null) this.positionId = positionId;
     }
 
     @Override
@@ -67,11 +49,14 @@ public class SalariesData {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         SalariesData that = (SalariesData) o;
-        return Objects.equals(id, that.id) && Objects.equals(gradeId, that.gradeId) && Objects.equals(wage, that.wage) && Objects.equals(bonus, that.bonus) && Objects.equals(personalKpi, that.personalKpi) && Objects.equals(teamKpi, that.teamKpi) && Objects.equals(commonKpi, that.commonKpi);
+        return Objects.equals(id, that.id)
+                && Objects.equals(wage, that.wage)
+                && Objects.equals(bonus, that.bonus)
+                && Objects.equals(positionId, that.positionId);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, gradeId, wage, bonus, personalKpi, teamKpi, commonKpi);
+        return Objects.hash(id, wage, bonus, positionId);
     }
 }

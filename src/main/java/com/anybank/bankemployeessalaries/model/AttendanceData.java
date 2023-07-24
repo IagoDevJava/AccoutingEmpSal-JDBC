@@ -1,7 +1,6 @@
 package com.anybank.bankemployeessalaries.model;
 
 import com.anybank.bankemployeessalaries.enum_model.AttendanceStatus;
-import com.anybank.bankemployeessalaries.enum_model.JobStatus;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 

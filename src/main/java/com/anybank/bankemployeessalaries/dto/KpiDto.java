@@ -2,31 +2,31 @@ package com.anybank.bankemployeessalaries.dto;
 
 import lombok.*;
 
+import javax.persistence.Column;
+import javax.validation.constraints.NotBlank;
 import java.util.Objects;
 
 @Data
 @Builder
 public class KpiDto {
     Long id;
-    Integer salaryId;
     Double personalKpi;
     Double teamKpi;
     Double commonKpi;
+    Integer employeeId;
+    String month;
+    String year;
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        KpiDto kpi = (KpiDto) o;
-        return Objects.equals(id, kpi.id)
-                && Objects.equals(salaryId, kpi.salaryId)
-                && Objects.equals(personalKpi, kpi.personalKpi)
-                && Objects.equals(teamKpi, kpi.teamKpi)
-                && Objects.equals(commonKpi, kpi.commonKpi);
+        KpiDto kpiDto = (KpiDto) o;
+        return Objects.equals(id, kpiDto.id) && Objects.equals(personalKpi, kpiDto.personalKpi) && Objects.equals(teamKpi, kpiDto.teamKpi) && Objects.equals(commonKpi, kpiDto.commonKpi) && Objects.equals(employeeId, kpiDto.employeeId) && Objects.equals(month, kpiDto.month) && Objects.equals(year, kpiDto.year);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, salaryId, personalKpi, teamKpi, commonKpi);
+        return Objects.hash(id, personalKpi, teamKpi, commonKpi, employeeId, month, year);
     }
 }

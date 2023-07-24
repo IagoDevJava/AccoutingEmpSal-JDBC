@@ -8,7 +8,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 public class AccountingEmployeesSalariesApplication {
 
     public static void main(String[] args) {
-        CheckDataOfEmployees.checkData();
+//        CheckDataOfEmployees.checkData();
         SpringApplication.run(AccountingEmployeesSalariesApplication.class, args);
     }
 

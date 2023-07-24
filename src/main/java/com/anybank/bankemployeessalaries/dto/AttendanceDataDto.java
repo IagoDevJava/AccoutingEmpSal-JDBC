@@ -1,6 +1,6 @@
 package com.anybank.bankemployeessalaries.dto;
 
-import com.anybank.bankemployeessalaries.enum_model.JobStatus;
+import com.anybank.bankemployeessalaries.enum_model.AttendanceStatus;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Data;
@@ -16,18 +16,21 @@ public class AttendanceDataDto {
     Long id;
     LocalDate dateAtt;
     Integer employeeId;
-    JobStatus jobStatus;
+    AttendanceStatus attendanceStatus;
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         AttendanceDataDto that = (AttendanceDataDto) o;
-        return Objects.equals(id, that.id) && Objects.equals(dateAtt, that.dateAtt) && Objects.equals(employeeId, that.employeeId) && jobStatus == that.jobStatus;
+        return Objects.equals(id, that.id)
+                && Objects.equals(dateAtt, that.dateAtt)
+                && Objects.equals(employeeId, that.employeeId)
+                && attendanceStatus == that.attendanceStatus;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, dateAtt, employeeId, jobStatus);
+        return Objects.hash(id, dateAtt, employeeId, attendanceStatus);
     }
 }

@@ -14,7 +14,7 @@ import java.util.Objects;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class PositionDto {
     Integer id;
-    String post;
+    String name;
     Integer departmentId;
     Integer gradeId;
 
@@ -23,11 +23,14 @@ public class PositionDto {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         PositionDto that = (PositionDto) o;
-        return Objects.equals(id, that.id) && Objects.equals(post, that.post) && Objects.equals(departmentId, that.departmentId) && Objects.equals(gradeId, that.gradeId);
+        return Objects.equals(id, that.id)
+                && Objects.equals(name, that.name)
+                && Objects.equals(departmentId, that.departmentId)
+                && Objects.equals(gradeId, that.gradeId);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, post, departmentId, gradeId);
+        return Objects.hash(id, name, departmentId, gradeId);
     }
 }

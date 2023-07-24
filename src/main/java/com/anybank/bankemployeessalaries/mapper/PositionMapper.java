@@ -1,8 +1,6 @@
 package com.anybank.bankemployeessalaries.mapper;
 
-import com.anybank.bankemployeessalaries.dto.GradeDto;
 import com.anybank.bankemployeessalaries.dto.PositionDto;
-import com.anybank.bankemployeessalaries.model.Grade;
 import com.anybank.bankemployeessalaries.model.Position;
 
 import java.util.ArrayList;
@@ -13,7 +11,7 @@ public class PositionMapper {
     public static PositionDto toPositionDto(Position position) {
         return PositionDto.builder()
                 .id(position.getId())
-                .post(position.getPost())
+                .name(position.getName())
                 .departmentId(position.getDepartmentId())
                 .gradeId(position.getGradeId())
                 .build();

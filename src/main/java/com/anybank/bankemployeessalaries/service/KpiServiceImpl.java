@@ -31,10 +31,12 @@ public class KpiServiceImpl implements KpiService {
         Kpi kpiById = kpiRepository.findById(id).orElseThrow(() -> new KpiNotFoundException("Kpi not found"));
 
         kpiById.setId(id);
-        kpiById.setSalaryId(kpi.getSalaryId());
+        kpiById.setEmployeeId(kpi.getEmployeeId());
         kpiById.setPersonalKpi(kpi.getPersonalKpi());
         kpiById.setTeamKpi(kpi.getTeamKpi());
         kpiById.setCommonKpi(kpi.getCommonKpi());
+        kpiById.setMonth(kpi.getMonth());
+        kpiById.setYear(kpi.getYear());
 
         return KpiMapper.toKpiDto(kpiRepository.save(kpiById));
     }

@@ -11,11 +11,11 @@ public class SalaryMapper {
     public static SalaryDto toSalaryDto(Salary salary) {
         return SalaryDto.builder()
                 .id(salary.getId())
-                .departmentId(salary.getDepartmentId())
                 .employeeId(salary.getEmployeeId())
+                .departmentId(salary.getDepartmentId())
                 .month(salary.getMonth())
                 .year(salary.getYear())
-                .salary(salary.getSalary())
+                .payment(salary.getPayment())
                 .build();
     }
 

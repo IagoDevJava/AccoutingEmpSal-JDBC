@@ -32,7 +32,7 @@ public class PositionServiceImpl implements PositionService {
                 .orElseThrow(() -> new PositionNotFoundException("Position not found"));
 
         positionById.setId(id);
-        positionById.setPost(position.getPost());
+        positionById.setName(position.getName());
         positionById.setDepartmentId(position.getDepartmentId());
         positionById.setGradeId(position.getGradeId());
 

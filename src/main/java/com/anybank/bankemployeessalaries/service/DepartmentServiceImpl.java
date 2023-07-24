@@ -40,7 +40,7 @@ public class DepartmentServiceImpl implements DepartmentService {
         departmentById.setAddress(department.getAddress());
         departmentById.setPhone(department.getPhone());
         departmentById.setEmail(department.getEmail());
-        departmentById.setHead(department.getHead());
+        departmentById.setHeadEmpId(department.getHeadEmpId());
 
         return DepartmentMapper.toDepartmentDto(departmentRepository.save(departmentById));
     }
