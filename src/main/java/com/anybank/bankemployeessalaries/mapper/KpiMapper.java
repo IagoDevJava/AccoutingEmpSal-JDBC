@@ -11,10 +11,12 @@ public class KpiMapper {
     public static KpiDto toKpiDto(Kpi kpi) {
         return KpiDto.builder()
                 .id(kpi.getId())
-                .salaryId(kpi.getSalaryId())
                 .personalKpi(kpi.getPersonalKpi())
                 .teamKpi(kpi.getTeamKpi())
                 .commonKpi(kpi.getCommonKpi())
+                .employeeId(kpi.getEmployeeId())
+                .month(kpi.getMonth())
+                .year(kpi.getYear())
                 .build();
     }
 

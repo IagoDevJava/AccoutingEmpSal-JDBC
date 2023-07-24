@@ -64,5 +64,9 @@ public interface SalaryService {
     /**
      * Рассчитать данные о зарплате по сотруднику за месяц
      */
-    SalaryDto calculateSalaryByMonthForEmployee(Integer employeeId, Integer countWorkDays, String requireNonNullElse);
+    public Salary calculateSalaryByMonthForEmployee(Integer employeeId,
+                                                    String month,
+                                                    String year,
+                                                    Integer countWorkDays,
+                                                    Integer countMedDays);
 }

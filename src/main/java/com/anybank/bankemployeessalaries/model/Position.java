@@ -20,7 +20,7 @@ public class Position {
     Integer id;
     @NotBlank
     @Column
-    String post;
+    String name;
     @NotBlank
     @Column(name = "department_id")
     Integer departmentId;
@@ -32,8 +32,8 @@ public class Position {
         if (id != null) this.id = id;
     }
 
-    public void setPost(String post) {
-        if (post != null) this.post = post;
+    public void setName(String name) {
+        if (name != null) this.name = name;
     }
 
     public void setDepartmentId(Integer departmentId) {
@@ -49,11 +49,14 @@ public class Position {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Position position = (Position) o;
-        return Objects.equals(id, position.id) && Objects.equals(post, position.post) && Objects.equals(departmentId, position.departmentId) && Objects.equals(gradeId, position.gradeId);
+        return Objects.equals(id, position.id)
+                && Objects.equals(name, position.name)
+                && Objects.equals(departmentId, position.departmentId)
+                && Objects.equals(gradeId, position.gradeId);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, post, departmentId, gradeId);
+        return Objects.hash(id, name, departmentId, gradeId);
     }
 }

@@ -20,11 +20,13 @@ public class CheckDataOfEmployees {
     }
 
     private static void checkStatusEmployee() {
-        for (EmployeeDto employeeDto : employeeService.getEmployees()) {
-            if (employeeDto.getDateOfAdmission().equals(LocalDateTime.now())) {
-                Employee employee = EmployeeMapper.toEmployee(employeeDto);
-                employee.setJobStatus(JobStatus.WORKING);
-                employeeService.updateEmployee(employee, employee.getId());
+        if (!employeeService.getEmployees().isEmpty()) {
+            for (EmployeeDto employeeDto : employeeService.getEmployees()) {
+                if (employeeDto.getDateOfAdmission().equals(LocalDateTime.now())) {
+                    Employee employee = EmployeeMapper.toEmployee(employeeDto);
+                    employee.setJobStatus(JobStatus.WORKING);
+                    employeeService.updateEmployee(employee, employee.getId());
+                }
             }
         }
     }

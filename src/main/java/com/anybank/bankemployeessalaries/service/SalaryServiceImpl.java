@@ -1,29 +1,34 @@
 package com.anybank.bankemployeessalaries.service;
 
 import com.anybank.bankemployeessalaries.dto.SalaryDto;
-import com.anybank.bankemployeessalaries.exception.AttendanceDataNotFoundException;
-import com.anybank.bankemployeessalaries.exception.EmployeeIsFiredException;
+import com.anybank.bankemployeessalaries.enum_model.JobStatus;
 import com.anybank.bankemployeessalaries.exception.EmployeeNotFoundException;
+import com.anybank.bankemployeessalaries.exception.KpiNotFoundException;
+import com.anybank.bankemployeessalaries.exception.PositionNotFoundException;
 import com.anybank.bankemployeessalaries.exception.SalaryNotFoundException;
 import com.anybank.bankemployeessalaries.mapper.SalaryMapper;
-import com.anybank.bankemployeessalaries.model.AttendanceData;
+import com.anybank.bankemployeessalaries.model.Employee;
+import com.anybank.bankemployeessalaries.model.Kpi;
+import com.anybank.bankemployeessalaries.model.SalariesData;
 import com.anybank.bankemployeessalaries.model.Salary;
-import com.anybank.bankemployeessalaries.repository.AttendanceDataRepository;
 import com.anybank.bankemployeessalaries.repository.EmployeeRepository;
+import com.anybank.bankemployeessalaries.repository.KpiRepository;
 import com.anybank.bankemployeessalaries.repository.SalariesDateRepository;
 import com.anybank.bankemployeessalaries.repository.SalaryRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
 @AllArgsConstructor
 public class SalaryServiceImpl implements SalaryService {
     private final SalaryRepository salaryRepository;
-    private final AttendanceDataRepository attendanceDataRepository;
     private final EmployeeRepository employeeRepository;
     private final SalariesDateRepository salariesDateRepository;
+    private final KpiRepository kpiRepository;
 
     /**
      * Сохранить данные о зарплате
@@ -46,7 +51,7 @@ public class SalaryServiceImpl implements SalaryService {
         salaryById.setDepartmentId(salary.getDepartmentId());
         salaryById.setMonth(salary.getMonth());
         salaryById.setYear(salary.getYear());
-        salaryById.setSalary(salary.getSalary());
+        salaryById.setPayment(salary.getPayment());
 
         return SalaryMapper.toSalaryDto(salaryRepository.save(salaryById));
     }
@@ -99,6 +104,7 @@ public class SalaryServiceImpl implements SalaryService {
      */
     @Override
     public List<SalaryDto> getSalaryByMonthForDepartment(Integer departmentId, String month, String year) {
+
         return SalaryMapper.toSalaryDtoList(
                 salaryRepository.findByDepartmentIdAndMonthAndYear(departmentId, month, year)
         );
@@ -132,34 +138,81 @@ public class SalaryServiceImpl implements SalaryService {
      * Рассчитать данные о зарплате по сотруднику за месяц
      */
     @Override
-    public SalaryDto calculateSalaryByMonthForEmployee(Integer employeeId,
-                                                       Integer countWorkDays,
-                                                       String requireNonNullElse) {
-        employeeRepository.findById(employeeId).orElseThrow(() -> new EmployeeNotFoundException("employee not found"));
+    public Salary calculateSalaryByMonthForEmployee(Integer employeeId,
+                                                    String month,
+                                                    String year,
+                                                    Integer countWorkDays,
+                                                    Integer countMedDays) {
+        Employee employee = employeeRepository.findById(employeeId)
+                .orElseThrow(() -> new EmployeeNotFoundException("Employee not found"));
 
-        List<AttendanceData> attendanceDataByEmployeeId
-                = attendanceDataRepository.findAttendanceDataByEmployeeId(employeeId);
-        if (attendanceDataByEmployeeId.isEmpty()) {
-            throw new AttendanceDataNotFoundException("Attendance for this department not found");
-        }
+        Double wageForEmpForPeriod = getWageForEmployeePeriod(employee, countWorkDays, countMedDays);
+        Double bonusForEmpForPeriod = getBonusForEmployeePeriod(employee, month, year);
 
-        int workDaysCount = 0;
-        int medicalDaysCount = 0;
-        for (AttendanceData attendanceData : attendanceDataByEmployeeId) {
-            switch (attendanceData.getStatus()) {
-                case MEDICAL:
-                    medicalDaysCount++;
-                case WORKING:
-                    workDaysCount++;
-            }
-        }
-
-        salariesDateRepository.fi
-
-        return null;
+        return Salary.builder()
+                .employeeId(employeeId)
+                .month(month)
+                .year(year)
+                .payment(wageForEmpForPeriod + bonusForEmpForPeriod)
+                .build();
     }
 
     /**
-     * Определить количество дней по статусам*/
-    private
+     * Рассчитать окладную часть
+     */
+    private Double getWageForEmployeePeriod(Employee employee, Integer countWorkDays, Integer countMedicalDays) {
+        //Получить оклад из БД
+        Integer positionId = employee.getPositionId();
+        SalariesData salariesData = salariesDateRepository
+                .findByPositionId(positionId).orElseThrow(() -> new PositionNotFoundException("Position not found"));
+        Double wage = salariesData.getWage();
+
+        //Получить оклад по отработанным дням
+        double paymentForWorkDays = wage / LocalDate.now().lengthOfMonth() * countWorkDays;
+        //Получить оклад по больничным дням
+        double paymentForMedicalDays
+                = wage / LocalDate.now().lengthOfMonth() * countMedicalDays * getRatioForMedDaysEmployeePeriod(employee);
+
+        return paymentForWorkDays + paymentForMedicalDays;
+    }
+
+    /**
+     * Рассчитать бонусную часть
+     */
+    private Double getBonusForEmployeePeriod(Employee employee, String month, String year) {
+        //найти бонусную часть
+        Integer positionId = employee.getPositionId();
+        SalariesData salariesData = salariesDateRepository
+                .findByPositionId(positionId).orElseThrow(() -> new PositionNotFoundException("Position not found"));
+        Double bonus = salariesData.getBonus();
+
+        //найти kpi сотрудника за месяц
+        Kpi kpiById = kpiRepository.findByEmployeeIdAndMonthAndYear(
+                employee.getId(), month, year).orElseThrow(() -> new KpiNotFoundException("Position not found"));
+
+        return bonus -
+                (bonus * kpiById.getPersonalKpi()
+                        + bonus * kpiById.getTeamKpi()
+                        + bonus * kpiById.getCommonKpi());
+    }
+
+    /**
+     * Рассчитать коэффициент больничной выплаты TODO Уточнить данные у отдела кадров
+     */
+    private Double getRatioForMedDaysEmployeePeriod(Employee employee) {
+        double ratio = 0.0;
+        if (employee.getJobStatus().equals(JobStatus.WORKING)) {
+            LocalDateTime dateOfAdmission = employee.getDateOfAdmission();
+            if (LocalDateTime.now().isAfter(dateOfAdmission.plusYears(2L))) {
+                ratio = 1.0;
+            } else if (LocalDateTime.now().isAfter(dateOfAdmission.plusYears(1L).plusMonths(6L))) {
+                ratio = 0.8;
+            } else if (LocalDateTime.now().isAfter(dateOfAdmission.plusYears(1L))) {
+                ratio = 0.6;
+            } else if (LocalDateTime.now().isAfter(dateOfAdmission.plusMonths(6L))) {
+                ratio = 0.4;
+            }
+        }
+        return ratio;
+    }
 }

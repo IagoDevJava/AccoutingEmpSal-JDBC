@@ -4,8 +4,6 @@ import com.anybank.bankemployeessalaries.dto.SalaryDto;
 import com.anybank.bankemployeessalaries.model.Salary;
 import com.anybank.bankemployeessalaries.service.SalaryService;
 import lombok.AllArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Isolation;
@@ -13,12 +11,12 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.PositiveOrZero;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Objects;
 
-@Slf4j
 @Transactional(isolation = Isolation.READ_COMMITTED)
 @RestController
 @AllArgsConstructor
@@ -50,15 +48,18 @@ public class SalaryController {
      */
     @Transactional
     @GetMapping("/calculate/{employeeId}")
-    public ResponseEntity<SalaryDto> calculateSalaryByMonthForEmployee(
+    public ResponseEntity<Salary> calculateSalaryByMonthForEmployee(
             @PathVariable @PositiveOrZero Integer employeeId,
-            @RequestParam @PositiveOrZero Integer countWorkDays,
-            @RequestParam(required = false) String year
-    ) {
+            @RequestParam(required = false) String month,
+            @RequestParam(required = false) String year,
+            @RequestParam @PositiveOrZero @NotNull Integer countWorkDays,
+            @RequestParam @PositiveOrZero @NotNull Integer countMedDays) {
         return ResponseEntity.ok(salaryService.calculateSalaryByMonthForEmployee(
                 employeeId,
+                Objects.requireNonNullElse(month, String.valueOf(LocalDate.now().getMonth())),
+                Objects.requireNonNullElse(year, String.valueOf(LocalDate.now().getYear())),
                 countWorkDays,
-                Objects.requireNonNullElse(year, String.valueOf(LocalDate.now().getYear())))
+                countMedDays)
         );
     }
 

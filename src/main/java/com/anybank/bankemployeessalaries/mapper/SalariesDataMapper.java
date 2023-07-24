@@ -13,10 +13,7 @@ public class SalariesDataMapper {
                 .id(salariesData.getId())
                 .wage(salariesData.getWage())
                 .bonus(salariesData.getBonus())
-                .gradeId(salariesData.getGradeId())
-                .personalKpi(salariesData.getPersonalKpi())
-                .teamKpi(salariesData.getTeamKpi())
-                .commonKpi(salariesData.getCommonKpi())
+                .positionId(salariesData.getPositionId())
                 .build();
     }
 
