@@ -8,6 +8,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -17,8 +18,7 @@ import javax.validation.Valid;
 import javax.validation.constraints.PositiveOrZero;
 import java.util.List;
 
-@Slf4j
-@Transactional(readOnly = true)
+@Transactional(isolation = Isolation.READ_COMMITTED)
 @RestController
 @AllArgsConstructor
 @RequestMapping("/salaries-dates")
@@ -31,7 +31,6 @@ public class SalariesDataController {
     @Transactional
     @PostMapping()
     public ResponseEntity<SalariesDataDto> addSalariesData(@Valid @RequestBody SalariesData salariesData) {
-        log.info("Добавляем данные о зарплате № {}", salariesData.getId());
         return ResponseEntity.ok(salariesDataService.addSalariesData(salariesData));
     }
 
@@ -42,16 +41,15 @@ public class SalariesDataController {
     @PatchMapping("/{id}")
     public ResponseEntity<SalariesDataDto> updateSalariesData(@RequestBody SalariesData salariesData,
                                                               @PathVariable @PositiveOrZero Integer id) {
-        log.info("Заменяем данные о зарплате № {}", salariesData.getId());
         return ResponseEntity.ok(salariesDataService.updateSalariesData(salariesData, id));
     }
 
     /**
      * Удалить все данные зарплат из БД
      */
+    @Transactional
     @DeleteMapping
     public ResponseEntity<Void> deleteSalariesData() {
-        log.info("Удаляем все данные зарплат из БД");
         salariesDataService.deleteSalariesData();
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
@@ -59,9 +57,9 @@ public class SalariesDataController {
     /**
      * Удалить данные зарплаты в БД по id
      */
+    @Transactional
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteSalariesDataById(@PositiveOrZero @PathVariable Integer id) {
-        log.info("Удаляем данные зарплаты с № {}", id);
         salariesDataService.deleteSalariesDataById(id);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
@@ -69,18 +67,18 @@ public class SalariesDataController {
     /**
      * Получить все данные зарплат в БД
      */
+    @Transactional(readOnly = true)
     @GetMapping
     public ResponseEntity<List<SalariesDataDto>> getSalariesData() {
-        log.info("Запросили все данные зарплат из БД");
         return ResponseEntity.ok(salariesDataService.getSalariesData());
     }
 
     /**
      * Получить данные зарплаты в БД по id
      */
+    @Transactional(readOnly = true)
     @GetMapping("/{id}")
     public ResponseEntity<SalariesDataDto> getSalariesDataById(@PositiveOrZero @PathVariable Integer id) {
-        log.info("Запросили данные зарплаты с № {}", id);
         return ResponseEntity.ok(salariesDataService.getSalariesDataById(id));
     }
 }

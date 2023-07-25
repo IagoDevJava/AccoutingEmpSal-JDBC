@@ -6,6 +6,7 @@ import com.anybank.bankemployeessalaries.service.WorkScheduleService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
@@ -14,7 +15,7 @@ import javax.validation.constraints.PositiveOrZero;
 import java.util.List;
 
 @RestController
-@Transactional(readOnly = true)
+@Transactional(isolation = Isolation.READ_COMMITTED)
 @AllArgsConstructor
 @RequestMapping("/work-schedules")
 public class WorkScheduleController {
@@ -62,7 +63,7 @@ public class WorkScheduleController {
     /**
      * Получить все графики в БД
      */
-    @Transactional
+    @Transactional(readOnly = true)
     @GetMapping
     public ResponseEntity<List<WorkScheduleDto>> getSchedules() {
         return ResponseEntity.ok(workScheduleService.getSchedules());
@@ -71,7 +72,7 @@ public class WorkScheduleController {
     /**
      * Получить график в БД по id
      */
-    @Transactional
+    @Transactional(readOnly = true)
     @GetMapping("/{scheduleId}")
     public ResponseEntity<WorkScheduleDto> getScheduleById(@PositiveOrZero @PathVariable Integer scheduleId) {
         return ResponseEntity.ok(workScheduleService.getScheduleById(scheduleId));
