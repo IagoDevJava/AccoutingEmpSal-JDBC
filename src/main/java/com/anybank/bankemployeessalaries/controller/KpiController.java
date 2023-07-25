@@ -63,7 +63,7 @@ public class KpiController {
     /**
      * Получение списка kpi из БД
      */
-    @Transactional
+    @Transactional(readOnly = true)
     @GetMapping
     public ResponseEntity<List<KpiDto>> getKpis() {
         return ResponseEntity.ok(kpiService.getKpis());
@@ -72,7 +72,7 @@ public class KpiController {
     /**
      * Получение kpi по id
      */
-    @Transactional
+    @Transactional(readOnly = true)
     @GetMapping("/{id}")
     public ResponseEntity<KpiDto> getKpiById(@PositiveOrZero @PathVariable Long id) {
         return ResponseEntity.ok(kpiService.getKpiById(id));

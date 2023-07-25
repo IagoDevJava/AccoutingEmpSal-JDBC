@@ -6,6 +6,7 @@ import com.anybank.bankemployeessalaries.model.Employee;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
@@ -14,7 +15,7 @@ import javax.validation.constraints.PositiveOrZero;
 import java.util.List;
 
 @RestController
-@Transactional(readOnly = true)
+@Transactional(isolation = Isolation.READ_COMMITTED)
 @AllArgsConstructor
 @RequestMapping("/employees")
 public class EmployeeController {
@@ -62,7 +63,7 @@ public class EmployeeController {
     /**
      * Получение списка сотрудников из БД
      */
-    @Transactional
+    @Transactional(readOnly = true)
     @GetMapping
     public ResponseEntity<List<EmployeeDto>> getEmployees() {
         return ResponseEntity.ok(employeeService.getEmployees());
@@ -71,7 +72,7 @@ public class EmployeeController {
     /**
      * Получение сотрудника по id
      */
-    @Transactional
+    @Transactional(readOnly = true)
     @GetMapping("/{employeeId}")
     public ResponseEntity<EmployeeDto> getEmployeeById(@PositiveOrZero @PathVariable Integer employeeId) {
         return ResponseEntity.ok(employeeService.getEmployeeById(employeeId));
