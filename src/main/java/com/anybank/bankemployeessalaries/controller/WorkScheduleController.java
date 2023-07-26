@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import javax.validation.constraints.PositiveOrZero;
+import java.sql.SQLException;
 import java.util.List;
 
 @RestController

@@ -5,12 +5,14 @@ import lombok.experimental.FieldDefaults;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.PositiveOrZero;
 import java.util.Objects;
 
 @Getter
 @ToString
 @AllArgsConstructor
 @NoArgsConstructor
+@Builder
 @Entity
 @Table(name = "work_schedules")
 @FieldDefaults(level = AccessLevel.PRIVATE)
@@ -20,12 +22,15 @@ public class WorkSchedule {
     Integer id;
 
     @NotNull
+    @PositiveOrZero
     @Column(name = "work_days")
     Integer workDay;
     @NotNull
+    @PositiveOrZero
     @Column(name = "Week_days")
     Integer weekDay;
     @NotNull
+    @PositiveOrZero
     @Column(name = "hours")
     Integer workHour;
 
