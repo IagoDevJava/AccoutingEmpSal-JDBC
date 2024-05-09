@@ -38,7 +38,7 @@ public class AttendanceDataServiceImpl implements AttendanceDataService {
 
         attendanceById.setId(id);
         attendanceById.setDateAtt(attendanceData.getDateAtt());
-        attendanceById.setEmployeeId(attendanceData.getEmployeeId());
+        attendanceById.setEmployeeId(attendanceData.getEmployee());
         attendanceById.setStatus(attendanceData.getStatus());
 
         return AttendanceDataMapper.toAttendanceDataDto(attendanceDataRepository.save(attendanceById));
@@ -69,7 +69,7 @@ public class AttendanceDataServiceImpl implements AttendanceDataService {
     public void deleteAttendanceDataByEmployee(Integer employeeId) {
         employeeRepository.findById(employeeId)
                 .orElseThrow(() -> new AttendanceDataNotFoundException("Employee not found"));
-        attendanceDataRepository.deleteAttendanceDataByEmployeeId(employeeId);
+        attendanceDataRepository.deleteAttendanceDataByEmployee(employeeId);
     }
 
     /**
@@ -91,7 +91,7 @@ public class AttendanceDataServiceImpl implements AttendanceDataService {
                 .orElseThrow(() -> new AttendanceDataNotFoundException("Employee not found"));
 
         return AttendanceDataMapper.toAttendanceDataDtoList(
-                attendanceDataRepository.findAttendanceDataByEmployeeIdAndDateAttBetween(
+                attendanceDataRepository.findAttendanceDataByEmployeeAndDateAttBetween(
                         employeeId, LocalDate.parse(start), LocalDate.parse(end))
         );
     }

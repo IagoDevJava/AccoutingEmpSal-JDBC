@@ -20,14 +20,13 @@ public class WorkSchedule {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Integer id;
-
     @NotNull
     @PositiveOrZero
     @Column(name = "work_days")
     Integer workDay;
     @NotNull
     @PositiveOrZero
-    @Column(name = "Week_days")
+    @Column(name = "week_days")
     Integer weekDay;
     @NotNull
     @PositiveOrZero

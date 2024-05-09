@@ -12,8 +12,8 @@ public class PositionMapper {
         return PositionDto.builder()
                 .id(position.getId())
                 .name(position.getName())
-                .departmentId(position.getDepartmentId())
-                .gradeId(position.getGradeId())
+                .departmentId(position.getDepartment().getId())
+                .gradeId(position.getGrade().getId())
                 .build();
     }
 

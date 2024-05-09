@@ -11,8 +11,8 @@ public class SalaryMapper {
     public static SalaryDto toSalaryDto(Salary salary) {
         return SalaryDto.builder()
                 .id(salary.getId())
-                .employeeId(salary.getEmployeeId())
-                .departmentId(salary.getDepartmentId())
+                .employeeId(salary.getEmployee().getId())
+                .departmentId(salary.getDepartment().getId())
                 .month(salary.getMonth())
                 .year(salary.getYear())
                 .payment(salary.getPayment())

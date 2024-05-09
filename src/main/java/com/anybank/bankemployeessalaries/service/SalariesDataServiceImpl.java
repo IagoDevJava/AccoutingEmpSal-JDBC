@@ -34,7 +34,7 @@ public class SalariesDataServiceImpl implements SalariesDataService {
         salariesDataById.setId(id);
         salariesDataById.setWage(salariesData.getWage());
         salariesDataById.setBonus(salariesData.getBonus());
-        salariesDataById.setPositionId(salariesData.getPositionId());
+        salariesDataById.setPosition(salariesData.getPosition());
 
         return SalariesDataMapper.toSalariesDataDto(salariesDateRepository.save(salariesDataById));
     }

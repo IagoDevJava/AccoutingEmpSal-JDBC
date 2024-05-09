@@ -7,10 +7,7 @@ import com.anybank.bankemployeessalaries.exception.KpiNotFoundException;
 import com.anybank.bankemployeessalaries.exception.PositionNotFoundException;
 import com.anybank.bankemployeessalaries.exception.SalaryNotFoundException;
 import com.anybank.bankemployeessalaries.mapper.SalaryMapper;
-import com.anybank.bankemployeessalaries.model.Employee;
-import com.anybank.bankemployeessalaries.model.Kpi;
-import com.anybank.bankemployeessalaries.model.SalariesData;
-import com.anybank.bankemployeessalaries.model.Salary;
+import com.anybank.bankemployeessalaries.model.*;
 import com.anybank.bankemployeessalaries.repository.EmployeeRepository;
 import com.anybank.bankemployeessalaries.repository.KpiRepository;
 import com.anybank.bankemployeessalaries.repository.SalariesDateRepository;
@@ -47,8 +44,8 @@ public class SalaryServiceImpl implements SalaryService {
                 .orElseThrow(() -> new SalaryNotFoundException("salary not found"));
 
         salaryById.setId(id);
-        salaryById.setEmployeeId(salary.getEmployeeId());
-        salaryById.setDepartmentId(salary.getDepartmentId());
+        salaryById.setEmployeeId(salary.getEmployee());
+        salaryById.setDepartmentId(salary.getDepartment());
         salaryById.setMonth(salary.getMonth());
         salaryById.setYear(salary.getYear());
         salaryById.setPayment(salary.getPayment());
@@ -87,7 +84,7 @@ public class SalaryServiceImpl implements SalaryService {
      */
     @Override
     public SalaryDto getSalaryByMonthForEmployee(Integer employeeId, String month, String year) {
-        return SalaryMapper.toSalaryDto(salaryRepository.findByEmployeeIdAndMonthAndYear(employeeId, month, year)
+        return SalaryMapper.toSalaryDto(salaryRepository.findByEmployeeAndMonthAndYear(employeeId, month, year)
                 .orElseThrow(() -> new SalaryNotFoundException("salary not found")));
     }
 
@@ -96,7 +93,7 @@ public class SalaryServiceImpl implements SalaryService {
      */
     @Override
     public List<SalaryDto> getSalaryByYearForEmployee(Integer employeeId, String year) {
-        return SalaryMapper.toSalaryDtoList(salaryRepository.findByEmployeeIdAndYear(employeeId, year));
+        return SalaryMapper.toSalaryDtoList(salaryRepository.findByEmployeeAndYear(employeeId, year));
     }
 
     /**
@@ -106,7 +103,7 @@ public class SalaryServiceImpl implements SalaryService {
     public List<SalaryDto> getSalaryByMonthForDepartment(Integer departmentId, String month, String year) {
 
         return SalaryMapper.toSalaryDtoList(
-                salaryRepository.findByDepartmentIdAndMonthAndYear(departmentId, month, year)
+                salaryRepository.findByDepartmentAndMonthAndYear(departmentId, month, year)
         );
     }
 
@@ -115,7 +112,7 @@ public class SalaryServiceImpl implements SalaryService {
      */
     @Override
     public List<SalaryDto> getSalaryByYearForDepartment(Integer departmentId, String year) {
-        return SalaryMapper.toSalaryDtoList(salaryRepository.findByDepartmentIdAndYear(departmentId, year));
+        return SalaryMapper.toSalaryDtoList(salaryRepository.findByDepartmentAndYear(departmentId, year));
     }
 
     /**
@@ -150,7 +147,7 @@ public class SalaryServiceImpl implements SalaryService {
         Double bonusForEmpForPeriod = getBonusForEmployeePeriod(employee, month, year);
 
         return Salary.builder()
-                .employeeId(employeeId)
+                .employee(employee)
                 .month(month)
                 .year(year)
                 .payment(wageForEmpForPeriod + bonusForEmpForPeriod)
@@ -162,9 +159,9 @@ public class SalaryServiceImpl implements SalaryService {
      */
     private Double getWageForEmployeePeriod(Employee employee, Integer countWorkDays, Integer countMedicalDays) {
         //Получить оклад из БД
-        Integer positionId = employee.getPositionId();
+        Position position = employee.getPosition();
         SalariesData salariesData = salariesDateRepository
-                .findByPositionId(positionId).orElseThrow(() -> new PositionNotFoundException("Position not found"));
+                .findByPosition(position.getId()).orElseThrow(() -> new PositionNotFoundException("Position not found"));
         Double wage = salariesData.getWage();
 
         //Получить оклад по отработанным дням
@@ -181,13 +178,13 @@ public class SalaryServiceImpl implements SalaryService {
      */
     private Double getBonusForEmployeePeriod(Employee employee, String month, String year) {
         //найти бонусную часть
-        Integer positionId = employee.getPositionId();
+        Position position = employee.getPosition();
         SalariesData salariesData = salariesDateRepository
-                .findByPositionId(positionId).orElseThrow(() -> new PositionNotFoundException("Position not found"));
+                .findByPosition(position.getId()).orElseThrow(() -> new PositionNotFoundException("Position not found"));
         Double bonus = salariesData.getBonus();
 
         //найти kpi сотрудника за месяц
-        Kpi kpiById = kpiRepository.findByEmployeeIdAndMonthAndYear(
+        Kpi kpiById = kpiRepository.findByEmployeeAndMonthAndYear(
                 employee.getId(), month, year).orElseThrow(() -> new KpiNotFoundException("Position not found"));
 
         return bonus -

@@ -6,7 +6,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.experimental.FieldDefaults;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Objects;
 
 @Data
@@ -14,7 +14,7 @@ import java.util.Objects;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class AttendanceDataDto {
     Long id;
-    LocalDate dateAtt;
+    LocalDateTime dateAtt;
     Integer employeeId;
     AttendanceStatus attendanceStatus;
 

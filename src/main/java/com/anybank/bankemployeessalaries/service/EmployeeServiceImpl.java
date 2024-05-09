@@ -39,11 +39,11 @@ public class EmployeeServiceImpl implements EmployeeService {
         employeeById.setFirstname(employee.getFirstname());
         employeeById.setLastname(employee.getLastname());
         employeeById.setGender(employee.getGender());
-        employeeById.setDepartment(employee.getDepartmentId());
+        employeeById.setDepartment(employee.getDepartment());
         employeeById.setPhone(employee.getPhone());
         employeeById.setEmail(employee.getEmail());
-        employeeById.setPositionId(employee.getPositionId());
-        employeeById.setWorkScheduleId(employee.getWorkScheduleId());
+        employeeById.setPositionId(employee.getPosition());
+        employeeById.setWorkScheduleId(employee.getWorkSchedule());
         employeeById.setDateOfAdmission(employee.getDateOfAdmission());
         employeeById.setDateOfDismissal(employee.getDateOfDismissal());
         employeeById.setJobStatus(employee.getJobStatus());

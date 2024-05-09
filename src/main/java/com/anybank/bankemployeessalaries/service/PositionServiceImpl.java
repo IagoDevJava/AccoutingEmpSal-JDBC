@@ -33,8 +33,8 @@ public class PositionServiceImpl implements PositionService {
 
         positionById.setId(id);
         positionById.setName(position.getName());
-        positionById.setDepartmentId(position.getDepartmentId());
-        positionById.setGradeId(position.getGradeId());
+        positionById.setDepartment(position.getDepartment());
+        positionById.setGrade(position.getGrade());
 
         return PositionMapper.toPositionDto(positionRepository.save(positionById));
     }

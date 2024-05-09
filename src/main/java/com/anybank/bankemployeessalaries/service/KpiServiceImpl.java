@@ -31,7 +31,7 @@ public class KpiServiceImpl implements KpiService {
         Kpi kpiById = kpiRepository.findById(id).orElseThrow(() -> new KpiNotFoundException("Kpi not found"));
 
         kpiById.setId(id);
-        kpiById.setEmployeeId(kpi.getEmployeeId());
+        kpiById.setEmployeeId(kpi.getEmployee());
         kpiById.setPersonalKpi(kpi.getPersonalKpi());
         kpiById.setTeamKpi(kpi.getTeamKpi());
         kpiById.setCommonKpi(kpi.getCommonKpi());
