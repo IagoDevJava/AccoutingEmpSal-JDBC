@@ -13,7 +13,7 @@ public class SalariesDataMapper {
                 .id(salariesData.getId())
                 .wage(salariesData.getWage())
                 .bonus(salariesData.getBonus())
-                .positionId(salariesData.getPositionId())
+                .positionId(salariesData.getPosition().getId())
                 .build();
     }
 

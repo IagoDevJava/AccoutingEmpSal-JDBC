@@ -14,7 +14,7 @@ public class KpiMapper {
                 .personalKpi(kpi.getPersonalKpi())
                 .teamKpi(kpi.getTeamKpi())
                 .commonKpi(kpi.getCommonKpi())
-                .employeeId(kpi.getEmployeeId())
+                .employeeId(kpi.getEmployee().getId())
                 .month(kpi.getMonth())
                 .year(kpi.getYear())
                 .build();

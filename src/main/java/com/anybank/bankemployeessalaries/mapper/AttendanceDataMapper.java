@@ -12,7 +12,7 @@ public class AttendanceDataMapper {
         return AttendanceDataDto.builder()
                 .id(attendanceData.getId())
                 .dateAtt(attendanceData.getDateAtt())
-                .employeeId(attendanceData.getEmployeeId())
+                .employeeId(attendanceData.getEmployee().getId())
                 .attendanceStatus(attendanceData.getStatus())
                 .build();
     }

@@ -1,10 +1,11 @@
-package com.anybank.bankemployeessalaries.service;
+package com.anybank.bankemployeessalaries.service.impl;
 
 import com.anybank.bankemployeessalaries.dto.DepartmentDto;
 import com.anybank.bankemployeessalaries.exception.DepartmentNotFoundException;
 import com.anybank.bankemployeessalaries.mapper.DepartmentMapper;
 import com.anybank.bankemployeessalaries.model.Department;
 import com.anybank.bankemployeessalaries.repository.DepartmentRepository;
+import com.anybank.bankemployeessalaries.service.DepartmentService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -40,7 +41,7 @@ public class DepartmentServiceImpl implements DepartmentService {
         departmentById.setAddress(department.getAddress());
         departmentById.setPhone(department.getPhone());
         departmentById.setEmail(department.getEmail());
-        departmentById.setHeadEmpId(department.getHeadEmpId());
+        departmentById.setHead(department.getHead());
 
         return DepartmentMapper.toDepartmentDto(departmentRepository.save(departmentById));
     }

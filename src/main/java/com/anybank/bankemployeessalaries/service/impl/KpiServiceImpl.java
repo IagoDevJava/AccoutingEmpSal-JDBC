@@ -1,10 +1,11 @@
-package com.anybank.bankemployeessalaries.service;
+package com.anybank.bankemployeessalaries.service.impl;
 
 import com.anybank.bankemployeessalaries.dto.KpiDto;
 import com.anybank.bankemployeessalaries.exception.KpiNotFoundException;
 import com.anybank.bankemployeessalaries.mapper.KpiMapper;
 import com.anybank.bankemployeessalaries.model.Kpi;
 import com.anybank.bankemployeessalaries.repository.KpiRepository;
+import com.anybank.bankemployeessalaries.service.KpiService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -31,7 +32,7 @@ public class KpiServiceImpl implements KpiService {
         Kpi kpiById = kpiRepository.findById(id).orElseThrow(() -> new KpiNotFoundException("Kpi not found"));
 
         kpiById.setId(id);
-        kpiById.setEmployeeId(kpi.getEmployeeId());
+        kpiById.setEmployeeId(kpi.getEmployee());
         kpiById.setPersonalKpi(kpi.getPersonalKpi());
         kpiById.setTeamKpi(kpi.getTeamKpi());
         kpiById.setCommonKpi(kpi.getCommonKpi());

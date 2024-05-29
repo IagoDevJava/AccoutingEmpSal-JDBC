@@ -2,10 +2,10 @@ package com.anybank.bankemployeessalaries.model;
 
 import lombok.*;
 import lombok.experimental.FieldDefaults;
+import org.hibernate.validator.constraints.UniqueElements;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
-import java.util.Objects;
 
 @Getter
 @ToString
@@ -25,8 +25,10 @@ public class SalariesData {
     @Column
     Double bonus;
     @NotNull
-    @Column(name = "position_id")
-    Integer positionId;
+    @UniqueElements
+    @OneToOne
+    @JoinColumn(name = "position_id")
+    Position position;
 
     public void setId(Integer id) {
         if (id != null) this.id = id;
@@ -40,23 +42,8 @@ public class SalariesData {
         if (bonus != null) this.bonus = bonus;
     }
 
-    public void setPositionId(Integer positionId) {
-        if (positionId != null) this.positionId = positionId;
+    public void setPosition(Position position) {
+        if (position != null) this.position = position;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        SalariesData that = (SalariesData) o;
-        return Objects.equals(id, that.id)
-                && Objects.equals(wage, that.wage)
-                && Objects.equals(bonus, that.bonus)
-                && Objects.equals(positionId, that.positionId);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(id, wage, bonus, positionId);
-    }
 }

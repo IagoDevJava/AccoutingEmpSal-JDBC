@@ -1,4 +1,4 @@
-package com.anybank.bankemployeessalaries.service;
+package com.anybank.bankemployeessalaries.service.impl;
 
 import com.anybank.bankemployeessalaries.dto.EmployeeDto;
 import com.anybank.bankemployeessalaries.enum_model.JobStatus;
@@ -6,6 +6,7 @@ import com.anybank.bankemployeessalaries.exception.EmployeeNotFoundException;
 import com.anybank.bankemployeessalaries.mapper.EmployeeMapper;
 import com.anybank.bankemployeessalaries.model.Employee;
 import com.anybank.bankemployeessalaries.repository.EmployeeRepository;
+import com.anybank.bankemployeessalaries.service.EmployeeService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -14,8 +15,8 @@ import java.util.List;
 @Service
 @AllArgsConstructor
 public class EmployeeServiceImpl implements EmployeeService {
-    private final EmployeeRepository employeeRepository;
 
+    private final EmployeeRepository employeeRepository;
 
     /**
      * Добавление сотрудника в БД
@@ -39,11 +40,11 @@ public class EmployeeServiceImpl implements EmployeeService {
         employeeById.setFirstname(employee.getFirstname());
         employeeById.setLastname(employee.getLastname());
         employeeById.setGender(employee.getGender());
-        employeeById.setDepartment(employee.getDepartmentId());
+        employeeById.setDepartment(employee.getDepartment());
         employeeById.setPhone(employee.getPhone());
         employeeById.setEmail(employee.getEmail());
-        employeeById.setPositionId(employee.getPositionId());
-        employeeById.setWorkScheduleId(employee.getWorkScheduleId());
+        employeeById.setPositionId(employee.getPosition());
+        employeeById.setWorkScheduleId(employee.getWorkSchedule());
         employeeById.setDateOfAdmission(employee.getDateOfAdmission());
         employeeById.setDateOfDismissal(employee.getDateOfDismissal());
         employeeById.setJobStatus(employee.getJobStatus());

@@ -22,11 +22,12 @@ public class Position {
     @Column
     String name;
     @NotBlank
-    @Column(name = "department_id")
-    Integer departmentId;
-    @NotBlank
-    @Column(name = "grade_id")
-    Integer gradeId;
+    @OneToOne
+    @JoinColumn(name = "department_id")
+    Department department;
+    @OneToOne
+    @JoinColumn(name = "grade_id")
+    Grade grade;
 
     public void setId(Integer id) {
         if (id != null) this.id = id;
@@ -36,12 +37,12 @@ public class Position {
         if (name != null) this.name = name;
     }
 
-    public void setDepartmentId(Integer departmentId) {
-        if (departmentId != null) this.departmentId = departmentId;
+    public void setDepartment(Department department) {
+        if (department != null) this.department = department;
     }
 
-    public void setGradeId(Integer gradeId) {
-        if (gradeId != null) this.gradeId = gradeId;
+    public void setGrade(Grade grade) {
+        if (grade != null) this.grade = grade;
     }
 
     @Override
@@ -49,14 +50,11 @@ public class Position {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Position position = (Position) o;
-        return Objects.equals(id, position.id)
-                && Objects.equals(name, position.name)
-                && Objects.equals(departmentId, position.departmentId)
-                && Objects.equals(gradeId, position.gradeId);
+        return Objects.equals(id, position.id) && Objects.equals(name, position.name) && Objects.equals(department, position.department) && Objects.equals(grade, position.grade);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, name, departmentId, gradeId);
+        return Objects.hash(id, name, department, grade);
     }
 }

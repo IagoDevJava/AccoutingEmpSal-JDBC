@@ -1,10 +1,11 @@
-package com.anybank.bankemployeessalaries.service;
+package com.anybank.bankemployeessalaries.service.impl;
 
 import com.anybank.bankemployeessalaries.dto.GradeDto;
 import com.anybank.bankemployeessalaries.exception.GradeNotFoundException;
 import com.anybank.bankemployeessalaries.mapper.GradeMapper;
 import com.anybank.bankemployeessalaries.model.Grade;
 import com.anybank.bankemployeessalaries.repository.GradeRepository;
+import com.anybank.bankemployeessalaries.service.GradeService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 

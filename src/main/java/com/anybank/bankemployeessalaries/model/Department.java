@@ -3,6 +3,7 @@ package com.anybank.bankemployeessalaries.model;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
+import org.hibernate.validator.constraints.UniqueElements;
 
 import javax.persistence.*;
 import javax.validation.constraints.Email;
@@ -24,7 +25,7 @@ public class Department {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Integer id;
     @NotBlank
-    @Column(length = 90)
+    @Column(length = 90, unique = true)
     String name;
     @Column
     String address;
@@ -35,8 +36,9 @@ public class Department {
     @NotBlank
     @Column
     String email;
-    @Column(name = "head")
-    Integer headEmpId;
+    @OneToOne
+    @JoinColumn(name = "head_id")
+    Employee head;
 
     public void setId(Integer id) {
         if (id != null) this.id = id;
@@ -58,8 +60,8 @@ public class Department {
         if (email != null) this.email = email;
     }
 
-    public void setHeadEmpId(Integer headEmpId) {
-        if (headEmpId != null) this.headEmpId = headEmpId;
+    public void setHead(Employee head) {
+        if (head != null) this.head = head;
     }
 
     @Override
@@ -67,16 +69,11 @@ public class Department {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Department that = (Department) o;
-        return Objects.equals(id, that.id)
-                && Objects.equals(name, that.name)
-                && Objects.equals(address, that.address)
-                && Objects.equals(phone, that.phone)
-                && Objects.equals(email, that.email)
-                && Objects.equals(headEmpId, that.headEmpId);
+        return Objects.equals(id, that.id) && Objects.equals(name, that.name) && Objects.equals(address, that.address) && Objects.equals(phone, that.phone) && Objects.equals(email, that.email) && Objects.equals(head, that.head);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, name, address, phone, email, headEmpId);
+        return Objects.hash(id, name, address, phone, email, head);
     }
 }

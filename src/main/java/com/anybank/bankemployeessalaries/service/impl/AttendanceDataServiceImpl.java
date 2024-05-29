@@ -1,4 +1,4 @@
-package com.anybank.bankemployeessalaries.service;
+package com.anybank.bankemployeessalaries.service.impl;
 
 import com.anybank.bankemployeessalaries.dto.AttendanceDataDto;
 import com.anybank.bankemployeessalaries.exception.AttendanceDataNotFoundException;
@@ -7,6 +7,7 @@ import com.anybank.bankemployeessalaries.model.AttendanceData;
 import com.anybank.bankemployeessalaries.repository.AttendanceDataRepository;
 import com.anybank.bankemployeessalaries.repository.DepartmentRepository;
 import com.anybank.bankemployeessalaries.repository.EmployeeRepository;
+import com.anybank.bankemployeessalaries.service.AttendanceDataService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -38,7 +39,7 @@ public class AttendanceDataServiceImpl implements AttendanceDataService {
 
         attendanceById.setId(id);
         attendanceById.setDateAtt(attendanceData.getDateAtt());
-        attendanceById.setEmployeeId(attendanceData.getEmployeeId());
+        attendanceById.setEmployeeId(attendanceData.getEmployee());
         attendanceById.setStatus(attendanceData.getStatus());
 
         return AttendanceDataMapper.toAttendanceDataDto(attendanceDataRepository.save(attendanceById));
@@ -69,7 +70,7 @@ public class AttendanceDataServiceImpl implements AttendanceDataService {
     public void deleteAttendanceDataByEmployee(Integer employeeId) {
         employeeRepository.findById(employeeId)
                 .orElseThrow(() -> new AttendanceDataNotFoundException("Employee not found"));
-        attendanceDataRepository.deleteAttendanceDataByEmployeeId(employeeId);
+        attendanceDataRepository.deleteAttendanceDataByEmployee(employeeId);
     }
 
     /**
@@ -91,7 +92,7 @@ public class AttendanceDataServiceImpl implements AttendanceDataService {
                 .orElseThrow(() -> new AttendanceDataNotFoundException("Employee not found"));
 
         return AttendanceDataMapper.toAttendanceDataDtoList(
-                attendanceDataRepository.findAttendanceDataByEmployeeIdAndDateAttBetween(
+                attendanceDataRepository.findAttendanceDataByEmployeeAndDateAttBetween(
                         employeeId, LocalDate.parse(start), LocalDate.parse(end))
         );
     }

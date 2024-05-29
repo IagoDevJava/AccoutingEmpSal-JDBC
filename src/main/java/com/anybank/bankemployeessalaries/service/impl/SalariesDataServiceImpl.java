@@ -1,10 +1,11 @@
-package com.anybank.bankemployeessalaries.service;
+package com.anybank.bankemployeessalaries.service.impl;
 
 import com.anybank.bankemployeessalaries.dto.SalariesDataDto;
 import com.anybank.bankemployeessalaries.exception.SalariesDataNotFoundException;
 import com.anybank.bankemployeessalaries.mapper.SalariesDataMapper;
 import com.anybank.bankemployeessalaries.model.SalariesData;
 import com.anybank.bankemployeessalaries.repository.SalariesDateRepository;
+import com.anybank.bankemployeessalaries.service.SalariesDataService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -34,7 +35,7 @@ public class SalariesDataServiceImpl implements SalariesDataService {
         salariesDataById.setId(id);
         salariesDataById.setWage(salariesData.getWage());
         salariesDataById.setBonus(salariesData.getBonus());
-        salariesDataById.setPositionId(salariesData.getPositionId());
+        salariesDataById.setPosition(salariesData.getPosition());
 
         return SalariesDataMapper.toSalariesDataDto(salariesDateRepository.save(salariesDataById));
     }

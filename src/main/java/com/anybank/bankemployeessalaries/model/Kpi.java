@@ -30,8 +30,9 @@ public class Kpi {
     @Column(name = "common_kpi")
     Double commonKpi;
     @NotNull
-    @Column(name = "employee_id")
-    Integer employeeId;
+    @OneToOne
+    @JoinColumn(name = "employee_id")
+    Employee employee;
     @NotBlank
     @Column
     String month;
@@ -55,8 +56,8 @@ public class Kpi {
         if (commonKpi != null) this.commonKpi = commonKpi;
     }
 
-    public void setEmployeeId(Integer employeeId) {
-        if (employeeId != null) this.employeeId = employeeId;
+    public void setEmployeeId(Employee employee) {
+        if (employee != null) this.employee = employee;
     }
 
     public void setMonth(String month) {
@@ -72,11 +73,11 @@ public class Kpi {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Kpi kpi = (Kpi) o;
-        return Objects.equals(id, kpi.id) && Objects.equals(personalKpi, kpi.personalKpi) && Objects.equals(teamKpi, kpi.teamKpi) && Objects.equals(commonKpi, kpi.commonKpi) && Objects.equals(employeeId, kpi.employeeId) && Objects.equals(month, kpi.month) && Objects.equals(year, kpi.year);
+        return Objects.equals(id, kpi.id) && Objects.equals(personalKpi, kpi.personalKpi) && Objects.equals(teamKpi, kpi.teamKpi) && Objects.equals(commonKpi, kpi.commonKpi) && Objects.equals(employee, kpi.employee) && Objects.equals(month, kpi.month) && Objects.equals(year, kpi.year);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, personalKpi, teamKpi, commonKpi, employeeId, month, year);
+        return Objects.hash(id, personalKpi, teamKpi, commonKpi, employee, month, year);
     }
 }

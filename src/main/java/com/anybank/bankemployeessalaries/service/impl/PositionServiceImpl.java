@@ -1,10 +1,11 @@
-package com.anybank.bankemployeessalaries.service;
+package com.anybank.bankemployeessalaries.service.impl;
 
 import com.anybank.bankemployeessalaries.dto.PositionDto;
 import com.anybank.bankemployeessalaries.exception.PositionNotFoundException;
 import com.anybank.bankemployeessalaries.mapper.PositionMapper;
 import com.anybank.bankemployeessalaries.model.Position;
 import com.anybank.bankemployeessalaries.repository.PositionRepository;
+import com.anybank.bankemployeessalaries.service.PositionService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -33,8 +34,8 @@ public class PositionServiceImpl implements PositionService {
 
         positionById.setId(id);
         positionById.setName(position.getName());
-        positionById.setDepartmentId(position.getDepartmentId());
-        positionById.setGradeId(position.getGradeId());
+        positionById.setDepartment(position.getDepartment());
+        positionById.setGrade(position.getGrade());
 
         return PositionMapper.toPositionDto(positionRepository.save(positionById));
     }

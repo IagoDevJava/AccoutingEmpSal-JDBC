@@ -3,11 +3,11 @@ package com.anybank.bankemployeessalaries.model;
 import com.anybank.bankemployeessalaries.enum_model.AttendanceStatus;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.PositiveOrZero;
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Objects;
 
 @Getter
@@ -15,19 +15,20 @@ import java.util.Objects;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name = "attendance_dataies")
+@Table(name = "attendance_data")
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class AttendanceData {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id;
     @NotBlank
+    @DateTimeFormat
     @Column(name = "date_att")
-    LocalDate dateAtt;
+    LocalDateTime dateAtt;
     @NotBlank
-    @PositiveOrZero
-    @Column(name = "employees_id")
-    Integer employeeId;
+    @OneToOne
+    @JoinColumn(name = "employee_id")
+    Employee employee;
     @NotBlank
     @Enumerated(EnumType.STRING)
     AttendanceStatus status;
@@ -36,12 +37,12 @@ public class AttendanceData {
         if (id != null) this.id = id;
     }
 
-    public void setDateAtt(LocalDate dateAtt) {
+    public void setDateAtt(LocalDateTime dateAtt) {
         if (dateAtt != null) this.dateAtt = dateAtt;
     }
 
-    public void setEmployeeId(Integer employeeId) {
-        if (employeeId != null) this.employeeId = employeeId;
+    public void setEmployeeId(Employee employee) {
+        if (employee != null) this.employee = employee;
     }
 
     public void setStatus(AttendanceStatus status) {
@@ -53,11 +54,11 @@ public class AttendanceData {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         AttendanceData that = (AttendanceData) o;
-        return Objects.equals(id, that.id) && Objects.equals(dateAtt, that.dateAtt) && Objects.equals(employeeId, that.employeeId) && status == that.status;
+        return Objects.equals(id, that.id) && Objects.equals(dateAtt, that.dateAtt) && Objects.equals(employee, that.employee) && status == that.status;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, dateAtt, employeeId, status);
+        return Objects.hash(id, dateAtt, employee, status);
     }
 }

@@ -21,11 +21,13 @@ public class Salary {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id;
     @NotNull
-    @Column(name = "employee_id")
-    Integer employeeId;
+    @OneToOne
+    @JoinColumn(name = "employee_id")
+    Employee employee;
     @NotNull
-    @Column(name = "department_id")
-    Integer departmentId;
+    @OneToOne
+    @JoinColumn(name = "department_id")
+    Department department;
     @NotBlank
     @Column
     String month;
@@ -40,8 +42,8 @@ public class Salary {
         if (id != null) this.id = id;
     }
 
-    public void setEmployeeId(Integer employeeId) {
-        if (employeeId != null) this.employeeId = employeeId;
+    public void setEmployeeId(Employee employee) {
+        if (employee != null) this.employee = employee;
     }
 
     public void setMonth(String month) {
@@ -56,8 +58,8 @@ public class Salary {
         if (payment != null) this.payment = payment;
     }
 
-    public void setDepartmentId(Integer departmentId) {
-        if (departmentId != null) this.departmentId = departmentId;
+    public void setDepartmentId(Department department) {
+        if (department != null) this.department = department;
     }
 
     @Override
@@ -65,11 +67,11 @@ public class Salary {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Salary salary = (Salary) o;
-        return Objects.equals(id, salary.id) && Objects.equals(employeeId, salary.employeeId) && Objects.equals(departmentId, salary.departmentId) && Objects.equals(month, salary.month) && Objects.equals(year, salary.year) && Objects.equals(payment, salary.payment);
+        return Objects.equals(id, salary.id) && Objects.equals(employee, salary.employee) && Objects.equals(department, salary.department) && Objects.equals(month, salary.month) && Objects.equals(year, salary.year) && Objects.equals(payment, salary.payment);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, employeeId, departmentId, month, year, payment);
+        return Objects.hash(id, employee, department, month, year, payment);
     }
 }
