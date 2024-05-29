@@ -51,11 +51,9 @@ public class Employee {
     WorkSchedule workSchedule;
     @NotNull
     @Column(name = "date_of_admission")
-    @DateTimeFormat
     @FutureOrPresent
     LocalDateTime dateOfAdmission;
     @Column(name = "date_of_dismissal")
-    @DateTimeFormat
     @PastOrPresent
     LocalDateTime dateOfDismissal;
     @Column(name = "job_status")

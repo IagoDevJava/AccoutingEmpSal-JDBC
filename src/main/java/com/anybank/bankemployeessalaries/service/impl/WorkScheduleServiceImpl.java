@@ -1,10 +1,11 @@
-package com.anybank.bankemployeessalaries.service;
+package com.anybank.bankemployeessalaries.service.impl;
 
 import com.anybank.bankemployeessalaries.dto.WorkScheduleDto;
 import com.anybank.bankemployeessalaries.exception.ScheduleNotFoundException;
 import com.anybank.bankemployeessalaries.mapper.WorkScheduleMapper;
 import com.anybank.bankemployeessalaries.model.WorkSchedule;
 import com.anybank.bankemployeessalaries.repository.WorkScheduleRepository;
+import com.anybank.bankemployeessalaries.service.WorkScheduleService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

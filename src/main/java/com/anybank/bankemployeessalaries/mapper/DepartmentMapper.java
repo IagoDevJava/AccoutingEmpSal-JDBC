@@ -15,7 +15,7 @@ public class DepartmentMapper {
                 .phone(department.getPhone())
                 .email(department.getEmail())
                 .address(department.getAddress())
-                .headId(department.getHead().getId())
+                .headId(department.getHead() != null ? department.getHead().getId() : null)
                 .build();
     }
 

@@ -6,22 +6,22 @@ import com.anybank.bankemployeessalaries.exception.EmployeeNotFoundException;
 import com.anybank.bankemployeessalaries.model.Employee;
 import com.anybank.bankemployeessalaries.repository.EmployeeRepository;
 import com.anybank.bankemployeessalaries.service.EmployeeService;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 
 import java.time.LocalDateTime;
 
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class CheckDataOfEmployees {
-    private static EmployeeService employeeService;
-    private static EmployeeRepository employeeRepository;
+    private EmployeeService employeeService;
+    private EmployeeRepository employeeRepository;
 
-    public static void checkData() {
+    public void checkData() {
         checkStatusEmployee();
 
 
     }
 
-    private static void checkStatusEmployee() {
+    private void checkStatusEmployee() {
         if (!employeeService.getEmployees().isEmpty()) {
             for (EmployeeDto employeeDto : employeeService.getEmployees()) {
                 if (employeeDto.getDateOfAdmission().equals(LocalDateTime.now())) {

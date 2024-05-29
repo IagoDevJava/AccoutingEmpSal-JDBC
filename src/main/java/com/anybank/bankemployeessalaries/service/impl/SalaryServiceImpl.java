@@ -1,4 +1,4 @@
-package com.anybank.bankemployeessalaries.service;
+package com.anybank.bankemployeessalaries.service.impl;
 
 import com.anybank.bankemployeessalaries.dto.SalaryDto;
 import com.anybank.bankemployeessalaries.enum_model.JobStatus;
@@ -12,6 +12,7 @@ import com.anybank.bankemployeessalaries.repository.EmployeeRepository;
 import com.anybank.bankemployeessalaries.repository.KpiRepository;
 import com.anybank.bankemployeessalaries.repository.SalariesDateRepository;
 import com.anybank.bankemployeessalaries.repository.SalaryRepository;
+import com.anybank.bankemployeessalaries.service.SalaryService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 

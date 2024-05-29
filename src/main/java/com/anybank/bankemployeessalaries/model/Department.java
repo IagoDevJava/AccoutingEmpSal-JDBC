@@ -25,8 +25,7 @@ public class Department {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Integer id;
     @NotBlank
-    @UniqueElements
-    @Column(length = 90)
+    @Column(length = 90, unique = true)
     String name;
     @Column
     String address;

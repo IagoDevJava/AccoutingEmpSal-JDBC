@@ -17,7 +17,7 @@ import java.util.List;
 @RestController
 @Transactional(isolation = Isolation.READ_COMMITTED)
 @AllArgsConstructor
-@RequestMapping("/employees")
+@RequestMapping("/employee")
 public class EmployeeController {
     private final EmployeeService employeeService;
 

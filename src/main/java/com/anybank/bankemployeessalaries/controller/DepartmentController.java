@@ -17,7 +17,7 @@ import java.util.List;
 @RestController
 @Transactional(isolation = Isolation.READ_COMMITTED)
 @AllArgsConstructor
-@RequestMapping("/departments")
+@RequestMapping("/department")
 public class DepartmentController {
     private final DepartmentService departmentService;
 
