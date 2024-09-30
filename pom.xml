@@ -10,10 +10,17 @@
     </parent>
 
     <groupId>com.anybank</groupId>
-    <artifactId>BankEmployeesSalaries</artifactId>
+    <artifactId>bank-employees-salaries</artifactId>
     <version>0.0.1-SNAPSHOT</version>
+    <packaging>pom</packaging>
     <name>BankEmployeesSalaries</name>
     <description>BankEmployeesSalaries</description>
+
+    <modules>
+        <module>bank-employees-salaries-api</module>
+        <module>bank-employees-salaries-impl</module>
+        <module>bank-employees-salaries-db</module>
+    </modules>
 
     <properties>
         <java.version>17</java.version>
